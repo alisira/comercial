@@ -1,5 +1,7 @@
 package com.cordillera.rest;
 
+import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,13 @@ public class UserRestController {
 	  /*@Autowired
 	    UserService userService;  //Service which will do all data retrieval/manipulation work
 	    */
+	
+	@RequestMapping("/user")
+	public Principal user(Principal user) {
+		//System.out.println("user:" + user.getName());		
+		//System.out.println("user2:" + user.toString());
+		return user;
+	}
 	
 	
 	    //-------------------Create a User--------------------------------------------------------

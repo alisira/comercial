@@ -13,9 +13,10 @@
 	</head>
   	
 	<body id="app-layout" ng-app="myApp" class="ng-cloak">
+
 		
-		<nav class="navbar navbar-default">	
-	        <div class="container" ng-controller="UserController">
+		<nav class="navbar navbar-default" ng-controller="HomeController as hc">	
+	        <div class="container" >
 	            <div class="navbar-header">
 	                <!-- Collapsed Hamburger -->
 	                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#spark-navbar-collapse">
@@ -25,18 +26,17 @@
 	                    <span class="icon-bar"></span>
 	                </button>
 	            </div>
-				Token{{token}}
-	
+		
 	            <div class="collapse navbar-collapse" id="spark-navbar-collapse">
 	                <!-- Left Side Of Navbar -->
-					<ul ng-if="token" class="nav navbar-nav">
+					<ul ng-if="permission" class="nav navbar-nav">
 						<li ng-repeat="per in permission track by $index">
 							<a href="#!/{{per.url}}" />{{per.desc}}</a>
 						</li>	
 					</ul>
 
 					<!-- Right Side Of Navbar -->
-	                <ul ng-if="!token" class="nav navbar-nav navbar-right">
+	                <ul ng-if="!permission" class="nav navbar-nav navbar-right">
 	                    <!-- Authentication Links -->
                         <li><a href="/#!/login">Login</a></li>
                         <li><a href="/#!/register">Registro</a></li>
@@ -74,8 +74,9 @@
 		<script src="<c:url value='js/app.js' />"></script>
 		
 		<script src="<c:url value='js/service/user_service.js' />"></script>
-		
-		<script src="<c:url value='js/controller/user_controller.js' />"></script>
+				
+		<script src="<c:url value='js/controller/login_controller.js' />"></script>
+		<script src="<c:url value='js/controller/home_controller.js' />"></script>
 		
 
   	</body>

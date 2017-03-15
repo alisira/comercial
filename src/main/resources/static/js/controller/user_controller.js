@@ -32,7 +32,7 @@ App.controller('UserController', ['$scope', 'UserService', function($scope, User
           };  
               
           
-          $scope.getToken();
-          self.fetchUserPermission();
+          //$scope.getToken();
+          //self.fetchUserPermission();
 
       }]);

@@ -35,16 +35,7 @@ public class UiApplication {
 	 private UserDetailsService userDetailsService;
 	
 	 
-	 
-	 
 
-	
-	@RequestMapping("/user")
-	public Principal user(Principal user) {		
-		//System.out.println("user:" + user.getName());		
-		//System.out.println("user2:" + user.toString());
-		return user;
-	}
 
 	@RequestMapping("/resource")
 	public Map<String, Object> home() {
@@ -70,7 +61,7 @@ public class UiApplication {
 			http
 				.httpBasic().and()
 				.authorizeRequests()
-					.antMatchers("/index.html", "/home.html", "/login.html", "/").permitAll()
+					.antMatchers("/", "/user", "/index.html", "/html/home.html", "/html/login.html", "/bootstrap/*/*", "/token"  ).permitAll()
 					.anyRequest().authenticated()
 					.and()
 				.csrf()
@@ -82,14 +73,11 @@ public class UiApplication {
 	
 	@RequestMapping("/token")
 	public Map<String,String> token(HttpSession session, Principal user) {
-		//System.out.println("token:" + session.getId());
+		System.out.println("token:" + session.getId());
 		//System.out.println(session.getAttributeNames());
 		
 		
-		System.out.println("user en token:" + user.toString());
-		
-		
-		
+		//System.out.println("user en token:" + user.toString());
 		System.out.println(Collections.singletonMap("token", session.getId()));
 		
 		return Collections.singletonMap("token", session.getId());

@@ -5,7 +5,7 @@ var App = angular.module('myApp',['ngRoute']);
 
 App.config(function($routeProvider, $httpProvider){
 	
-	//console.log($routeProvider);	
+	//console.log($httpProvider);	
 	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 	
 	var aryProvider = ['admin_product',
@@ -51,11 +51,17 @@ App.config(function($routeProvider, $httpProvider){
 	
 	$routeProvider
     .when("/", {
-        controller: "home",	            
-        templateUrl: "html/home.html"
+    	controller : 'HomeController',    
+		templateUrl : 'html/home.html',
+		controllerAs: "controller"
+    }).when("/home", {
+    	controller : 'HomeController',    
+		templateUrl : 'html/home.html',
+		controllerAs: "controller"
     }).when('/login', {
+    	controller : 'LoginController',    
 		templateUrl : 'html/login.html',
-		controller : 'login'
+		controllerAs: "controller"
     });
 	
 	

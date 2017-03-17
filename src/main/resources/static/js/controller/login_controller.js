@@ -17,7 +17,7 @@ App.controller('LoginController', ['$http', '$location', '$route', '$scope', 'Us
 			
 			UserService.isAuthenticated().then(
 					function(response){
-						console.log("Login succeeded:"+response);
+						//console.log("Login succeeded:"+response);
 						$location.path("/home");
 						self.error = false;				
 						//UserService.getPermission(self.setPermission);
@@ -28,10 +28,6 @@ App.controller('LoginController', ['$http', '$location', '$route', '$scope', 'Us
 						self.error = true;
 					}
 				);
-			
-			
-			
-			
 			
 			
 			/*if (UserService.isAuthenticated()) {
@@ -48,25 +44,8 @@ App.controller('LoginController', ['$http', '$location', '$route', '$scope', 'Us
 			}*/
 			
 			
-			
-			
-			
-			
-			
 		})
 	};
-	
-	
-	
-
-	self.logout = function() {
-		$http.post('logout', {}).finally(function() {
-			$rootScope.authenticated = false;
-			$location.path("/");
-		});
-	}
-	
-	
 	
 
       	/*

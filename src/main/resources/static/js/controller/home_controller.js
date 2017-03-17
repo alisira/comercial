@@ -2,7 +2,7 @@
 
 App.controller('HomeController', ['$http', '$location', '$route', '$scope', '$rootScope', 'UserService', function($http, $location, $route, $scope, $rootScope, UserService) {
 	var self = this;
-	self.appTitle = "Acceso Principal"
+	self.appTitle = "Acceso Principal";
 	
 	self.authenticate = function() {
 
@@ -10,7 +10,9 @@ App.controller('HomeController', ['$http', '$location', '$route', '$scope', '$ro
 				function(response){										
 					if (response) {
 						UserService.getPermission(self.setPermission);
-						self.error = false;	
+						self.error = false;						
+						self.getUserName();						
+						
 					}else{
 						$location.path("/login");
 						self.error = true;
@@ -25,24 +27,44 @@ App.controller('HomeController', ['$http', '$location', '$route', '$scope', '$ro
 	};
 	
 	self.setPermission = function(respuesta) {
-
 		$rootScope.permission = respuesta.permisos;
+		//console.log($rootScope.permission);
+	}
+
+	self.getUserName = function() {
+		UserService.getUserName(function(resp) {
+			$rootScope.userName = resp;
+		});
+	}
+	
+
+	self.logout = function() {
+
+		UserService.logout().then(
+				function(response){										
+
+					$rootScope.permission = null;
+					$rootScope.userName =  null;
+					$rootScope.authenticated = false;
+					self.error = false;
+					$location.path("/");
+
+				}, 
+				function(errResponse){
+					$location.path("/");
+					self.error = true;
+				}
+		);
 		
-		console.log($rootScope.permission);
 		
 	}
+	
 	
 	self.authenticate();
 	
 	
 	
       	/*
-      	$http.get('/resource/').then(function(response) {
-      		//console.log(response);
-      		self.greeting = response.data;
-      	})
-      	
-      	
       	$http.get('/token').then(function(response) {
       		
       		//console.log(response);

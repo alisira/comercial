@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
+<!doctype html>
 <html>
   	<head>  
-    	<title>{{Title}}</title>
+    	<title>Sistema Comercial</title>
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">     	
      	<link href="<c:url value='bootstrap/css/font-awesome.min.css' />" rel="stylesheet"></link>     	
@@ -13,7 +13,6 @@
 	</head>
   	
 	<body id="app-layout" ng-app="myApp" class="ng-cloak">
-
 		
 		<nav class="navbar navbar-default" ng-controller="HomeController as hc">	
 	        <div class="container" >
@@ -26,12 +25,12 @@
 	                    <span class="icon-bar"></span>
 	                </button>
 	            </div>
-		
+
 	            <div class="collapse navbar-collapse" id="spark-navbar-collapse">
 	                <!-- Left Side Of Navbar -->
 					<ul ng-if="permission" class="nav navbar-nav">
 						<li ng-repeat="per in permission track by $index">
-							<a href="#!/{{per.url}}" />{{per.desc}}</a>
+							<a href="#!/{{per.url}}/list" /> <span ng-bind="per.desc"></span></a>
 						</li>	
 					</ul>
 
@@ -39,30 +38,27 @@
 	                <ul ng-if="!permission" class="nav navbar-nav navbar-right">
 	                    <!-- Authentication Links -->
                         <li><a href="/#!/login">Login</a></li>
-                        <li><a href="/#!/register">Registro</a></li>
-	                    
-	                </ul>
+                        <li><a href="/#!/register">Registro</a></li>	                    
+	                </ul>   
 	                
-	                <ul ng-if="token" class="nav navbar-nav navbar-right">
+	                <ul ng-if="permission" class="nav navbar-nav navbar-right">
 	                    <!-- Authentication Links -->
                         <li class="dropdown">
+                        	                        	 
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ getUserName() }} <span class="caret"></span>
+                                Bienvenido: <span ng-bind="userName"></span> <span class="caret"></span>
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="/logout"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
-                            </ul>
+                                <li><a href="#" ng-click="hc.logout()" role="button"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                            </ul>                            
                         </li>	                    
 	                </ul>
 	            </div>
 	        </div>
 	    </nav>
-	
-	
-		Inicio Vista
+		
 		<div ng-view></div>
-		Fin Vista
 
 		<br><br>
       
@@ -74,7 +70,9 @@
 		<script src="<c:url value='js/app.js' />"></script>
 		
 		<script src="<c:url value='js/service/user_service.js' />"></script>
-				
+		<script src="<c:url value='js/service/product_service.js' />"></script>
+		
+		<script src="<c:url value='js/controller/admin_product_controller.js' />"></script>		
 		<script src="<c:url value='js/controller/login_controller.js' />"></script>
 		<script src="<c:url value='js/controller/home_controller.js' />"></script>
 		

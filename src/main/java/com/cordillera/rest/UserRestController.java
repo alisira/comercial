@@ -32,6 +32,14 @@ public class UserRestController {
 	public Principal user(Principal user) {
 		//System.out.println("user:" + user.getName());		
 		//System.out.println("user2:" + user.toString());
+		
+		
+		/*Por motivos de seguridad No devolver el objeto user y armar un objeto personalizado solo con los datos del usuario que se requieren  
+		
+		String a = "{\"resp\":\"ok\"}";		
+		return new ResponseEntity<String>(a, HttpStatus.OK);
+		*/
+		
 		return user;
 	}
 	

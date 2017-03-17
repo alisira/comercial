@@ -1,0 +1,123 @@
+<div class="container spark-screen admin-product">
+    <br/>
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="{ url('')}}">Home</a></li>
+                <li class="active">Listar</li>
+            </ol>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-baby"></i>{{ appTitle }}
+                    <div class="pull-right">
+                        <a class="btn btn-primary" href="{ $url }}/create"  role="button">Nuevo</a>
+                    </div>
+                </div>
+                <!-- <div class="panel-body">
+                    <div class="pull-right">
+                        <a class="btn btn-primary" href="{ $url }}/create"  role="button">Nuevo</a>
+                    </div>
+                </div> -->
+                <div class="form-inline">
+                    <div class="col-md-6">
+                        Mostrar
+                        <select class="form-control" id="perPage" >
+
+                        	<option @if ($perPage==5) selected="selected" @endif value="5">5</option>
+                        	<option @if ($perPage==10) selected="selected" @endif value="10">10</option>
+                        	<option @if ($perPage==25) selected="selected" @endif value="25">25</option>
+                        	<option @if ($perPage==50) selected="selected" @endif value="50">50</option>
+                        	<option @if ($perPage==75) selected="selected" @endif value="75">75</option>
+                        	<option @if ($perPage==100) selected="selected" @endif value="100">100</option>
+
+                        </select>
+                        registros por página de <strong>{$products->total()}}</strong>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-default prev hidden">
+                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            </button>
+                            <button type="button" class="btn btn-default next hidden">
+                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <table id="detailTable" class="table table-hover">
+                    <thead>
+                        <tr class="margin-10">
+                            <th>
+                                <span class="field-ref_profile.full_name caret-up-down dropdown">
+                                    Código
+                                    <span class="caret"></span>
+                                </span>
+                                <br />
+                                <input id="code" type="text" class="form-control" />
+                            </th>
+                            <th>
+                                <span class="field-name caret-up-down dropdown" >
+                                    Nombre
+                                    <span class="caret"></span>
+                                </span>
+                                <br />
+                                <input id="name" type="text" class="form-control" />
+                            </th>
+
+                            <th>
+                                <span class="field-name caret-up-down dropdown" >
+                                    Descripcion
+                                    <span class="caret"></span>
+                                </span>
+                                <br />
+                                <input id="description" type="text" class="form-control" />
+                            </th>
+
+                            <th>
+                            	<span class="field-ref_profile.full_name caret-up-down dropdown">
+                                    Categoria
+                                    <span class="caret"></span>
+                                </span>
+                                <br />
+                                <select class="form-control" name="id_category2" id="id_category2">
+								  	<option selected="selected" value="">Seleccionar</option>
+                                	@foreach($categories as $category)
+										<option value="{$category->id_category}}">{$category->denomination}}</option>
+									@endforeach
+								</select>
+								<input id="id_category" name="id_category" type="text" style="display:none" />
+                            </th> 
+
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyDetail">
+
+                        @foreach ($products as $product)
+
+                        <tr>
+                            <td>{$product->code}}</td>
+                            <td>{$product->name}}</td>
+                            <td>{$product->description}}</td>
+                            <td>{$product->category->denomination}}</td>
+
+                            <td>
+                            	<div style="text-align: right;">
+	                            	<a href="{ $url }}/{$product->idProduct}}/" class="btn btn-sm btn-info" title="Ver">
+	                                	<span class="glyphicon glyphicon-file"></span>
+	                            	</a>
+	
+	                                <a href="{ $url }}/{$product->idProduct}}/edit" class="btn btn-sm btn-info" title="Editar">
+	                                    <span class="glyphicon glyphicon-pencil"></span>
+	                                </a>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                {$products->appends(['perPage' => $perPage])->render() }}
+
+            </div>
+        </div>
+    </div>
+</div>

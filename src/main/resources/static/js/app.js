@@ -37,13 +37,13 @@ App.config(function($routeProvider, $httpProvider){
 			var method = aryMethod[x];
 			
 			$routeProvider
-	        .when("/" +providerTemp, {
-	            controller: ctr,	            
+	        .when("/" +providerTemp + '/' + method, {
+	            controller: ctr+'Controller'+method.charAt(0).toUpperCase()+ method.slice(1),
 	            templateUrl: "html/"+providerTemp+ '/' + method+ ".html"
 	        });
 			
 			//console.log(providerTemp + ":" + ctr + ":" + "html/"+providerTemp+ '/' + method+ ".html");
-			
+			//console.log(ctr+'Controller'+method.charAt(0).toUpperCase()+ method.slice(1));
 		}
 		
 	}

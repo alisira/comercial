@@ -1,4 +1,4 @@
-package com.cordillera.security;
+package com.comercial.security;
 
 import java.util.Collection;
 import java.util.List;
@@ -8,9 +8,9 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 
-import com.cordillera.domain.User;
+import com.comercial.domain.User;
 
-public class CustomUserDetails extends com.cordillera.domain.User implements UserDetails {	
+public class CustomUserDetails extends com.comercial.domain.User implements UserDetails {	
 	
 	private static final long serialVersionUID = 1L;
 	private List<String> userRoles;

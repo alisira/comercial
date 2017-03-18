@@ -1,4 +1,4 @@
-package com.cordillera.domain;
+package com.comercial.domain;
 
 import javax.persistence.*;
 
@@ -11,7 +11,7 @@ public class UserRole {
     @Column(name="user_role_id")
 	private Long userroleid;
 	
-	@Column(name="userid")
+	@Column(name="user_id")
 	private Long userid;
 	
 	@Column(name="role")

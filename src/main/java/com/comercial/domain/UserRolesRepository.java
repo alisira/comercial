@@ -1,4 +1,4 @@
-package com.cordillera.domain;
+package com.comercial.domain;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;

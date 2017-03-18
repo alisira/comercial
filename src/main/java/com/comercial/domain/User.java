@@ -1,4 +1,4 @@
-package com.cordillera.domain;
+package com.comercial.domain;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -15,10 +15,10 @@ public class User implements Serializable {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)    
-    @Column(name="userid")
+    @Column(name="user_id")
     private Long userId;
 
-	@Column(name = "username")
+	@Column(name = "user_name")
     private String userName;   
 
 	@Column(name = "password")

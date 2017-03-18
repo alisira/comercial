@@ -1,4 +1,4 @@
-package com.cordillera.rest;
+package com.comercial.rest;
 
 import java.security.Principal;
 

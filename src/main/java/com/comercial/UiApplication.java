@@ -1,4 +1,4 @@
-package com.cordillera;
+package com.comercial;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -62,6 +64,9 @@ public class UiApplication {
 	}
 
 	public static void main(String[] args) {
+		
+		//EntityManagerFactory emf = Persistence.createEntityManagerFactory("FL_PU");
+		
 		SpringApplication.run(UiApplication.class, args);
 	}
 

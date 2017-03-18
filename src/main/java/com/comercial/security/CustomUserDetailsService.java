@@ -1,4 +1,4 @@
-package com.cordillera.security;
+package com.comercial.security;
 
 import java.util.List;
 
@@ -8,9 +8,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import com.cordillera.domain.User;
-import com.cordillera.domain.UserRepository;
-import com.cordillera.domain.UserRolesRepository;
+import com.comercial.domain.User;
+import com.comercial.domain.UserRepository;
+import com.comercial.domain.UserRolesRepository;
 
 @Service("customUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService{

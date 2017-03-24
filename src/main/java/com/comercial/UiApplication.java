@@ -79,7 +79,7 @@ public class UiApplication {
 			http
 				.httpBasic().and()
 				.authorizeRequests()
-					.antMatchers("/", "/user", "/index.html", "/html/home.html", "/html/login.html", "/bootstrap/*/*", "/token"  ).permitAll()
+					.antMatchers("/", "/user", "/error", "/index.html", "/html/home.html", "/html/login.html", "/bootstrap/*/*", "/token"  ).permitAll()
 					.anyRequest().authenticated()
 					.and()
 				.csrf()

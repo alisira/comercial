@@ -39,7 +39,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Entity
 @Table(name = "products", catalog = "comercial", schema = "public")
 @NamedQueries({
-    @NamedQuery(name = "Products.findAll", query = "SELECT p FROM Products p")
+    @NamedQuery(name = "Products.findAll", query = "SELECT p FROM Products p order by p.idProduct")
     , @NamedQuery(name = "Products.findByName", query = "SELECT p FROM Products p WHERE p.name = :name")
     , @NamedQuery(name = "Products.findByDescription", query = "SELECT p FROM Products p WHERE p.description = :description")
     , @NamedQuery(name = "Products.findByCode", query = "SELECT p FROM Products p WHERE p.code = :code")
@@ -173,6 +173,24 @@ public class Products implements Serializable {
         this.kgMeter = kgMeter;
         this.priceSample = priceSample;
     }
+    
+    public Products(Products pro) {
+        this.idProduct = pro.idProduct;
+        this.name = pro.name;
+        this.description = pro.description;
+        this.code = pro.code;
+        this.price = pro.price;
+        this.stock = pro.stock;
+        this.measure = pro.measure;
+        this.status = pro.status;
+        this.material = pro.material;
+        this.finish = pro.finish;
+        this.size = pro.size;
+        this.itemBox = pro.itemBox;
+        this.kgMeter = pro.kgMeter;
+        this.priceSample = pro.priceSample;
+    }
+    
 
     public String getName() {
         return name;

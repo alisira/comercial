@@ -7,23 +7,24 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.comercial.dao.CategoryDao;
 import com.comercial.dao.ProductDao;
+import com.comercial.model.Category;
 import com.comercial.model.Products;
 
 @Service
-public class ProductService {
+public class CategoryService {
 	
 	@Autowired
-	ProductDao product;
+	CategoryDao category;
 
 	@Transactional
-	public List<Products> getList(long limit, long skip) {
+	public List<Category> getList (){
 		
-		List<Products> lista= product.getList(limit, skip);
+		List<Category> lista= category.getList();
 		
 		return lista;
 
 	}
-
 	
 }

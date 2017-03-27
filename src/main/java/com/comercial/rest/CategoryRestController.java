@@ -5,17 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.comercial.model.Products;
-import com.comercial.service.ProductService;
+import com.comercial.model.Category;
+import com.comercial.service.CategoryService;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,16 +21,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @RestController
-public class ProductRestController {
+public class CategoryRestController {
 
 
 	@Autowired
-	ProductService productService;	
+	CategoryService categoryService;	
 	
-	@RequestMapping(value = "/product/count/", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody  String count(){
-
-		List<Products> lista = productService.getList(0, 0);
+	@RequestMapping(value = "/category/count/", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody  String count() {
+		
+		List<Category> lista = categoryService.getList();
 	    
 	    Map toParse = new HashMap();
 	    toParse.put("count", lista.size());
@@ -45,30 +41,13 @@ public class ProductRestController {
 	}	
 	
 	
-    @RequestMapping(value = "/product/", method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody String product(@RequestBody String param){
+    @RequestMapping(value = "/category/", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody String getCategory(){
 
-    	long limit = 0;
-		long skip = 0;
-
-		JSONParser parser = new JSONParser();
-		try {
-			JSONObject json = (JSONObject) parser.parse(param);
-			
-			limit =  (long) json.get("limit");
-			skip =  (long) json.get("skip");
-			
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		
-    	System.out.println(skip + "-" + limit);
-    	
-    	List<Products> lista = productService.getList(limit, skip);
+    	List<Category> lista = categoryService.getList();
         
     	ObjectMapper mapper = new ObjectMapper();
-
-
+    	
     	String jsonInString = null;
 		try {
 

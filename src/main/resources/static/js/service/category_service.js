@@ -1,18 +1,20 @@
 'use strict';
 
-App.factory('ProductService', ['$http', '$q', function($http, $q){
+App.factory('CategoryService', ['$http', '$q', function($http, $q){
 
-	var model = 'product';
-	var productService = {};
+	var model = 'category';
+	var categoryService = {};
 	
-	//Constructor de ProductService
-	function ProductService(){
-        var model = 'product';
+	//Constructor de CategoryService
+	function CategoryService(){
+        var model = 'category';
         console.log(model);
     }
 	
-	productService.count = function(){
-		
+	categoryService.count = function(){		
+
+		//console.log(model);
+
 		return $http.get(model+'/count/').then(
 				function(response){					
 					return response.data;
@@ -23,15 +25,11 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
 		);
 	};
 	
-	productService.findAll = function(limit, skip){
-		
+	categoryService.findAll = function(){
+
 		//console.log(model);
-		
-		var param =  {};
-		param.skip =skip;
-		param.limit =limit;
-		
-		return $http.post(model+'/', param).then(
+
+		return $http.get(model+'/').then(
 				function(response){					
 					return response.data;
 				},
@@ -39,8 +37,7 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
 					return $q.reject(errResponse);
 				}
 		);
-	};
-	
+	};	
 	
 	/*userService.logout = function() {
 		return $http.post('logout', {}).then(
@@ -157,7 +154,7 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
 
 	}*/
 
-    return productService;
+    return categoryService;
 
 }]);
 

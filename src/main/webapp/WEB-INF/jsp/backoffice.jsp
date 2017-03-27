@@ -3,6 +3,7 @@
 <!doctype html>
 <html>
   	<head>  
+  	
     	<title>Sistema Comercial</title>
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">     	
@@ -30,7 +31,7 @@
 	                <!-- Left Side Of Navbar -->
 					<ul ng-if="permission" class="nav navbar-nav">
 						<li ng-repeat="per in permission track by $index">
-							<a href="#!/{{per.url}}/list" /> <span ng-bind="per.desc"></span></a>
+							<a href="#!/{{per.url}}/list" > <span ng-bind="per.desc"></span></a>
 						</li>	
 					</ul>
 

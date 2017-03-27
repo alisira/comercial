@@ -1,19 +1,77 @@
 'use strict';
 
-App.controller('AdminProductControllerList', ['$scope', 'ProductService', function($scope,ProductService) {
+App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductService', 'CategoryService', function($scope, $location, ProductService, CategoryService) {
 	var self = this;
 	$scope.appTitle = "Administrador de Productos";
+	$scope.products = {"perPage" : "25" , "count": 0, "list":null, "skip": 0};
+	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];
+	$scope.model = 'products';
 	
 	
+		
 	$scope.actionCount = function() {
-
-        var adminNewborn = new Newborn();
-        adminNewborn.params = {
+		
+        var productService = ProductService;
+        
+        productService.count()	
+	        .then(
+	        		function(response) {
+	        			//console.log(response);
+	        			$scope.products.count = parseInt(response.count);
+	        			//$scope.count = permission.permisos;
+	        		},
+	        		function(errResponse){
+	        			console.error('Error counting products');
+	        		}
+	        );
+        	
+        /*adminNewborn.params = {
             count: true
         };
         adminNewborn.ready = $scope.actionCountReady;
         adminNewborn.findAll();
+        */
     }
+	
+	$scope.findCategories = function() {
+		
+        var categoryService = CategoryService;
+        
+        categoryService.findAll()	
+	        .then(
+	        		function(response) {
+	        			//console.log(response);
+	        			$scope.categories = response;
+	        			//$scope.count = permission.permisos;
+	        		},
+	        		function(errResponse){
+	        			console.error('Error counting products');
+	        		}
+	        );
+       
+    }
+	
+	$scope.findProducts = function() {
+		
+		
+		console.log("Dentro de findproducts :" + parseInt($scope.products.perPage) + '-' +  $scope.products.skip);
+		
+		
+		var productService = ProductService;
+        
+		productService.findAll(parseInt($scope.products.perPage), $scope.products.skip)
+	        .then(
+	        		function(response) {
+	        			//console.log(response);
+	        			$scope.products.list = response;
+	        			//$scope.count = permission.permisos;
+	        		},
+	        		function(errResponse){
+	        			console.error('Error counting products');
+	        		}
+	        );
+       
+	}
 	
 	
 	/*$scope.actionCount = function() {
@@ -31,7 +89,7 @@ App.controller('AdminProductControllerList', ['$scope', 'ProductService', functi
         $scope.actionFind();
     };
 
-    $scope.actionFind = function() {
+    $scope.actionFind = function() {	
 
         var adminNewborn = new Newborn();
 
@@ -81,10 +139,18 @@ App.controller('AdminProductControllerList', ['$scope', 'ProductService', functi
     };*/
 
     $scope.init = function() {
+    	
+    	    	
+    	//console.log(relativePath);
         $scope.actionCount();
+        $scope.findProducts();
+        //$scope.findCategories();
+
+        
     };
     $scope.init();
 	
           
 
 }]);
+

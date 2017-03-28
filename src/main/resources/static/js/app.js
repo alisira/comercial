@@ -36,10 +36,55 @@ App.config(function($routeProvider, $httpProvider){
 		for (var x in aryMethod) {
 			var method = aryMethod[x];
 			
+			var url='';
+			var templateUrl ='';
+			
+			switch (method) {
+	        
+		        case 'index':
+		          //url = '/' + provider + '?search';
+		          //url = '/' + provider + '/' + method;
+		          url = '/' + providerTemp + '/' + method
+		          templateUrl = 'html/' + providerTemp+ '/list.html';
+		          break;
+		        case 'menu':
+		          //url = '/' + provider + '/' + method;
+		          break;
+		        case 'search':
+		          //url = '/' + provider + '/' + method + '?item';
+		          break;
+		        case 'member':
+		          //url = '/' + provider + '/' + method;
+		          break;
+		        case 'list':
+		          url = '/' + providerTemp + '/' + method;
+		          templateUrl = 'html/' + providerTemp+ '/' + method + '.html'
+		          break;
+		        case 'view':
+		          url = '/' + providerTemp + '/view/:id';
+		          templateUrl = 'html/' + providerTemp+ '/' + method + '.html'
+		          break;
+		        case 'new':
+		          //url = '/' + provider + '/' + method;
+		        	url = '/' + providerTemp + '/new';
+			        templateUrl = 'html/' + providerTemp+ '/' + method + '.html';
+		          break;
+		        case 'edit':
+		          //url = '/' + provider + '/' + method + '/:id';
+		          break;
+		        case 'delete':
+		          //url = '/' + provider + '/' + method + '/:id';
+		          break;
+	      }
+			
+			//console.log(providerTemp + '->' +  'url:' + url + '- templateUrl:' + templateUrl);
+			
+			
+			
 			$routeProvider
-	        .when("/" +providerTemp + '/' + method, {
+	        .when(url, {
 	            controller: ctr+'Controller'+method.charAt(0).toUpperCase()+ method.slice(1),
-	            templateUrl: "html/"+providerTemp+ '/' + method+ ".html"
+	            templateUrl: templateUrl
 	        });
 			
 			//console.log(providerTemp + ":" + ctr + ":" + "html/"+providerTemp+ '/' + method+ ".html");
@@ -71,4 +116,32 @@ App.config(function($routeProvider, $httpProvider){
         template: "<h1>En el Otherwise</h1>"
     });
 	
+}).config(function($httpProvider) {
+    $httpProvider.interceptors.push('httpResponseInterceptor');
 });
+
+
+
+//http interceptor to handle redirection to login on 401 response from API
+App.factory('httpResponseInterceptor', ['$q', '$rootScope', '$location', function($q, $rootScope, $location) {
+    return {
+    	
+    	response: function(resp) {
+    		//console.log(rejection);
+    		
+            /*if (resp.status === 401) {
+                // Something like below:
+            	console.log('111');
+                $location.path('/login');
+            }*/
+            return resp;
+        },    	
+    
+        responseError: function(rejection) {
+            if (rejection.status === 401) {                
+                $location.path('/login');
+            }
+            return rejection;
+        }
+    };
+}]);

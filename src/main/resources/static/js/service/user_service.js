@@ -128,35 +128,68 @@ App.factory('UserService', ['$http', '$q', function($http, $q){
 		);
 	}
 
-	userService.authenticate = function(credentials, callback) {
+	
+	
+	userService.authenticate = function (){
+		
+		var self = this;
+		
+		var y = new userService.authenticate2();
+		
+		return y;
+		
+	}
+	
+	userService.authenticate2 = function (){
 
-		var headers = credentials ? {
-			authorization : "Basic "
-					+ btoa(credentials.username + ":"
-							+ credentials.password)
-		} : {};
+	    var self = this;
+	    var thenCallback = null;
 
-		$http.get('user', {
-			headers : headers
-		}).then(function(response) {
+	    self.then = function(callback){
+	    	//console.log(3);
+	        thenCallback = callback;
+	  
+	    };
+
+	    self.complete = function(credentials){
+	    	//Debe ser una funcion asincrona obligatoriamente con un callback
 			
-			//console.log(response);
-			user = {};
-			if (response.data) {
-				user =  response.data.principal;
-				user.authenticated = true;
-				//console.log(user);
-			} else {
+			var headers = credentials ? {
+				authorization : "Basic "
+						+ btoa(credentials.username + ":"
+								+ credentials.password)
+			} : {};
+
+			$http.get('user', {
+				headers : headers
+			}).then(function(response) {
+				
 				user = {};
+				if (response.data) {
+					user =  response.data.principal;
+					user.authenticated = true; 
+				} else {
+					user = {};
+					user.authenticated = false;
+				}
+				
+				if (thenCallback && typeof thenCallback === 'function'){
+		            //console.log(response.data);
+					thenCallback(response.data);
+		        }				
+
+			}, function() {
 				user.authenticated = false;
-			}
-			callback();
-		}, function() {
-			user.authenticated = false;
-			login(false);
-		});
+				login(false);
+			});
+
+	        return this;
+	    };
 
 	}
+	
+	
+
 
     return userService;
 

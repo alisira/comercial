@@ -11,49 +11,35 @@ App.controller('LoginController', ['$http', '$location', '$route', '$scope', 'Us
 	self.credentials = {};
 	self.login = function() {
 		//console.log(self.credentials);
-		
-		UserService.authenticate(self.credentials, function() {
-			
-			
-			UserService.isAuthenticated().then(
-					function(response){
-						//console.log("Login succeeded:"+response);
+		var autentication = UserService.authenticate();
+		//console.log(autentication);
+		autentication.complete(self.credentials).then(
+				function(response){
+					//console.log(response);					
+					if (response){
 						$location.path("/home");
-						self.error = false;				
-						//UserService.getPermission(self.setPermission);
-					}, 
-					function(errResponse){
-						console.log("Login failed:"+errResponse)
+						self.error = false;	
+					}else{
+						//console.log("Usuario no Autorizado:"+response)
 						$location.path("/login");
-						self.error = true;
+						$scope.userNoAuth = true
+						self.error = true;	
 					}
-				);
-			
-			
-			/*if (UserService.isAuthenticated()) {
-				console.log("Login succeeded")
-				$location.path("/home");
-				self.error = false;				
-				//UserService.getPermission(self.setPermission);
-				
-				
-			} else {
-				console.log("Login failed")
-				$location.path("/login");
-				self.error = true;				
-			}*/
-			
-			
-		})
+					
+					//UserService.getPermission(self.setPermission);
+				}, 
+				function(errResponse){
+					console.log("Login failed:"+errResponse)
+					$location.path("/login");
+					self.error = true;
+				}
+			);
+		//console.log(445566);
+		
 	};
 	
 
       	/*
-      	$http.get('/resource/').then(function(response) {
-      		//console.log(response);
-      		self.greeting = response.data;
-      	})
-      	
       	
       	$http.get('/token').then(function(response) {
       		

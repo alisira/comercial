@@ -1,6 +1,6 @@
 'use strict';
 
-var App = angular.module('myApp',['ngRoute']);
+var App = angular.module('myApp',['ngRoute','ngAnimate']);
 
 
 App.config(function($routeProvider, $httpProvider){

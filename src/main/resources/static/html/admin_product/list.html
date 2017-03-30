@@ -96,7 +96,7 @@
 
                             <td>
                             	<div style="text-align: right;">
-	                            	<a href="{ $url }}/{$product->idProduct}}/" class="btn btn-sm btn-info" title="Ver">
+	                            	<a href="{{relativePath}}/view/{{pro.idProduct}}/" class="btn btn-sm btn-info" title="Ver">
 	                                	<span class="glyphicon glyphicon-file"></span>
 	                            	</a>
 	
@@ -108,9 +108,8 @@
                         </tr>
                         
                     </tbody>
-                </table>
+                </table>				
 				
-				{{products.perPage}}
 				<paging-object></paging-object>
 				
             </div>

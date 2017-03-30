@@ -62,7 +62,7 @@ public class ProductRestController {
 			e.printStackTrace();
 		}
 		
-    	System.out.println(skip + "-" + limit);
+    	//System.out.println(skip + "-" + limit);
     	
     	List<Products> lista = productService.getList(limit, skip);
         

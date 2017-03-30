@@ -60,7 +60,7 @@ public class OrderDetail implements Serializable {
     private double price;
     @JoinColumn(name = "id_order", referencedColumnName = "id_order")
     @ManyToOne(optional = false)
-    private Order1 idOrder;
+    private Order idOrder;
     @JoinColumn(name = "id_product", referencedColumnName = "id_product")
     @ManyToOne(optional = false)
     private Products idProduct;
@@ -127,11 +127,11 @@ public class OrderDetail implements Serializable {
         this.price = price;
     }
 
-    public Order1 getIdOrder() {
+    public Order getIdOrder() {
         return idOrder;
     }
 
-    public void setIdOrder(Order1 idOrder) {
+    public void setIdOrder(Order idOrder) {
         this.idOrder = idOrder;
     }
 

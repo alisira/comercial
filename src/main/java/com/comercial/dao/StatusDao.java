@@ -3,17 +3,17 @@ package com.comercial.dao;
 import java.util.List;
 
 import javax.persistence.TypedQuery;
-
 import org.springframework.stereotype.Repository;
 
-import com.comercial.model.Products;
+import com.comercial.model.Status;
+
 
 @Repository
-public class ProductDao  extends PrincipalDao {
+public class StatusDao extends PrincipalDao {
 	
-	public List<Products> getList (long limit, long skip){
+	public List<Status> getList (long limit, long skip){
 
-		TypedQuery<Products> consulta= em.createNamedQuery("Products.findAll", Products.class);
+		TypedQuery<Status> consulta= em.createNamedQuery("Status.findAll", Status.class);
 		
 		if (limit> 0) {
 			consulta.setMaxResults((int) limit);
@@ -23,7 +23,7 @@ public class ProductDao  extends PrincipalDao {
 			consulta.setFirstResult((int) skip);
 		}		
 		
-		List<Products> lista= consulta.getResultList();
+		List<Status> lista= consulta.getResultList();
 
 		return lista;
 

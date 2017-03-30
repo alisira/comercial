@@ -32,15 +32,15 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "order", catalog = "comercial", schema = "public")
 @NamedQueries({
-    @NamedQuery(name = "Order1.findAll", query = "SELECT o FROM Order1 o")
-    , @NamedQuery(name = "Order1.findByIdOrder", query = "SELECT o FROM Order1 o WHERE o.idOrder = :idOrder")
-    , @NamedQuery(name = "Order1.findByDate", query = "SELECT o FROM Order1 o WHERE o.date = :date")
-    , @NamedQuery(name = "Order1.findByIdUser", query = "SELECT o FROM Order1 o WHERE o.idUser = :idUser")
-    , @NamedQuery(name = "Order1.findByCreatedAt", query = "SELECT o FROM Order1 o WHERE o.createdAt = :createdAt")
-    , @NamedQuery(name = "Order1.findByUpdatedAt", query = "SELECT o FROM Order1 o WHERE o.updatedAt = :updatedAt")
-    , @NamedQuery(name = "Order1.findByDiscount", query = "SELECT o FROM Order1 o WHERE o.discount = :discount")
-    , @NamedQuery(name = "Order1.findByIdShipInfo", query = "SELECT o FROM Order1 o WHERE o.idShipInfo = :idShipInfo")})
-public class Order1 implements Serializable {
+    @NamedQuery(name = "Order.findAll", query = "SELECT o FROM Order o")
+    , @NamedQuery(name = "Order.findByIdOrder", query = "SELECT o FROM Order o WHERE o.idOrder = :idOrder")
+    , @NamedQuery(name = "Order.findByDate", query = "SELECT o FROM Order o WHERE o.date = :date")
+    , @NamedQuery(name = "Order.findByIdUser", query = "SELECT o FROM Order o WHERE o.idUser = :idUser")
+    , @NamedQuery(name = "Order.findByCreatedAt", query = "SELECT o FROM Order o WHERE o.createdAt = :createdAt")
+    , @NamedQuery(name = "Order.findByUpdatedAt", query = "SELECT o FROM Order o WHERE o.updatedAt = :updatedAt")
+    , @NamedQuery(name = "Order.findByDiscount", query = "SELECT o FROM Order o WHERE o.discount = :discount")
+    , @NamedQuery(name = "Order.findByIdShipInfo", query = "SELECT o FROM Order o WHERE o.idShipInfo = :idShipInfo")})
+public class Order implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -74,14 +74,14 @@ public class Order1 implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idOrder")
     private Collection<Purchase> purchaseCollection;
 
-    public Order1() {
+    public Order() {
     }
 
-    public Order1(Integer idOrder) {
+    public Order(Integer idOrder) {
         this.idOrder = idOrder;
     }
 
-    public Order1(Integer idOrder, int idUser) {
+    public Order(Integer idOrder, int idUser) {
         this.idOrder = idOrder;
         this.idUser = idUser;
     }
@@ -184,10 +184,10 @@ public class Order1 implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Order1)) {
+        if (!(object instanceof Order)) {
             return false;
         }
-        Order1 other = (Order1) object;
+        Order other = (Order) object;
         if ((this.idOrder == null && other.idOrder != null) || (this.idOrder != null && !this.idOrder.equals(other.idOrder))) {
             return false;
         }
@@ -196,7 +196,7 @@ public class Order1 implements Serializable {
 
     @Override
     public String toString() {
-        return "com.comercial.model.Order1[ idOrder=" + idOrder + " ]";
+        return "com.comercial.model.Order[ idOrder=" + idOrder + " ]";
     }
     
 }

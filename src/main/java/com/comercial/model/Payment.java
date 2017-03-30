@@ -106,7 +106,7 @@ public class Payment implements Serializable {
     private String merchantOrderId;
     @JoinColumn(name = "id_order", referencedColumnName = "id_order")
     @ManyToOne(optional = false)
-    private Order1 idOrder;
+    private Order idOrder;
 
     public Payment() {
     }
@@ -274,11 +274,11 @@ public class Payment implements Serializable {
         this.merchantOrderId = merchantOrderId;
     }
 
-    public Order1 getIdOrder() {
+    public Order getIdOrder() {
         return idOrder;
     }
 
-    public void setIdOrder(Order1 idOrder) {
+    public void setIdOrder(Order idOrder) {
         this.idOrder = idOrder;
     }
 

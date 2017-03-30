@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +19,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  *
@@ -47,8 +53,12 @@ public class Status implements Serializable {
     private String table;
     @Column(name = "shortcut")
     private String shortcut;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "status")
-    private Collection<Order1> order1Collection;
+   
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "status")
+    //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnore
+    //@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idOrder")
+    private Collection<Order> orderCollection;
 
     public Status() {
     }
@@ -95,12 +105,12 @@ public class Status implements Serializable {
         this.shortcut = shortcut;
     }
 
-    public Collection<Order1> getOrder1Collection() {
-        return order1Collection;
+    public Collection<Order> getOrderCollection() {
+        return orderCollection;
     }
 
-    public void setOrder1Collection(Collection<Order1> order1Collection) {
-        this.order1Collection = order1Collection;
+    public void setOrderCollection(Collection<Order> orderCollection) {
+        this.orderCollection = orderCollection;
     }
 
     @Override

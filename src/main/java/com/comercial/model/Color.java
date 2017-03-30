@@ -22,6 +22,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 /**
  *
  * @author asira
@@ -67,6 +71,9 @@ public class Color implements Serializable {
     private String d;
     @Column(name = "class_m")
     private String classM;
+    
+    //@JsonIgnore
+    @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idTaskAction")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idColor")
     private Collection<Products> productsCollection;
 

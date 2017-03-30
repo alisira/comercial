@@ -22,6 +22,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * @author asira
@@ -55,6 +57,8 @@ public class Category implements Serializable {
     @Basic(optional = false)
     @Column(name = "status")
     private short status;
+    
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCategory")
     private Collection<Products> productsCollection;
 

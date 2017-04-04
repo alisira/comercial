@@ -2,7 +2,7 @@
 
 App.factory('PurposeService', ['$http', '$q', function($http, $q){
 
-	var model = 'enviroment';
+	var model = 'purpose';
 	var enviromentService = {};
 	
 	//Constructor de PurposeService

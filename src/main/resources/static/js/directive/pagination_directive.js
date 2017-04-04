@@ -66,14 +66,14 @@ App.directive('pagingObject', function(){
     		
             //Evento que observa el cambio en la variable pero q la primera vez tiene el mismo valor averiguar por que
     		scope.$watch('model.perPage', function(perPage, perPageOld) {
-            	console.log(perPage + '-' + perPageOld + '-' + scope.model.count);
+            	//console.log(perPage + '-' + perPageOld + '-' + scope.model.count);
                 /*if (perPage!= perPageOld) {
                 	//console.log('diferete');
                     //scope.pagination();
                 }*/
             	
             	if (perPage > 0 && scope.model.count > 0) {
-            		console.log('paginacion1');
+            		//console.log('paginacion1');
             		//console.log(perPage + '-' + perPageOld + '-' + scope.products.count);            		
             		scope.pagination();
             	}
@@ -84,7 +84,7 @@ App.directive('pagingObject', function(){
             });
     		
     		scope.$watch('model.count', function(modelCount, modelCountOld) {
-            	console.log(modelCount + '-' + modelCountOld + '-' + scope.model.perPage);
+            	//console.log(modelCount + '-' + modelCountOld + '-' + scope.model.perPage);
                 /*if (perPage!= perPageOld) {
                 	//console.log('diferete');
                     //scope.pagination();

@@ -116,7 +116,7 @@ public class Products implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Basic(optional = false)
     @Column(name = "id_product")
-    private Integer idProduct;    
+    private Long idProduct;    
     
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idProduct")
     @Column(nullable=false)
@@ -161,11 +161,11 @@ public class Products implements Serializable {
     public Products() {
     }
 
-    public Products(Integer idProduct) {
+    public Products(Long idProduct) {
         this.idProduct = idProduct;
     }
 
-    public Products(Integer idProduct, String name, String description, String code, double price, double stock, double measure, short status, String material, String finish, String size, int itemBox, double kgMeter, double priceSample) {
+    public Products(Long idProduct, String name, String description, String code, double price, double stock, double measure, short status, String material, String finish, String size, int itemBox, double kgMeter, double priceSample) {
         this.idProduct = idProduct;
         this.name = name;
         this.description = description;
@@ -336,11 +336,11 @@ public class Products implements Serializable {
         this.rank = rank;
     }
 
-    public Integer getIdProduct() {
+    public Long getIdProduct() {
         return idProduct;
     }
 
-    public void setIdProduct(Integer idProduct) {
+    public void setIdProduct(long idProduct) {
         this.idProduct = idProduct;
     }
 

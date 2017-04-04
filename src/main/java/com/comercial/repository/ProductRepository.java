@@ -14,5 +14,6 @@ public interface ProductRepository extends CrudRepository<Products, Long> {
 	Iterable<Products> findAll(Sort sort);
 	Page<Products> findAll(Pageable pageable);
 	Long countByName(String name);
+	Products save(Products products);
 	
 }

@@ -10,7 +10,7 @@ import com.comercial.repository.ProductRepository;
 
 public interface ProductService {
 	
-	Products findById(long id);
+	Products findById(Long aa);
 	
 	long count();
 	
@@ -18,7 +18,7 @@ public interface ProductService {
 	
 	Products saveProducts(Products products);
 	
-	void updateProducts(Products products);
+	Products updateProducts(Products products);
 	
 	void deleteProductsById(long id);
 

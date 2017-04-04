@@ -24,7 +24,6 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
 	};
 	
 	productService.findAll = function(page, limit){
-		
 		//console.log(model);
 		
 		var param =  {};
@@ -48,7 +47,7 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
 		return $http.post('http://localhost:8080/product/', product)
 		.then(
 				function(response){
-					console.log(response.data);
+					//console.log(response.data);
 					return response.data;
 				}, 
 				function(errResponse){
@@ -57,6 +56,35 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
 				}
 		);
 	}
+	
+	productService.findProduct = function(id) {
+		return $http.get('http://localhost:8080/product/'+ id )
+			.then(
+					function(response){
+						//console.log(response);
+						return response.data;
+					}, 
+					function(errResponse){
+						console.error('Error while creating product');
+						return $q.reject(errResponse);
+					}
+			);
+    }
+	
+	productService.updateProduct = function(product){
+		return $http.put('http://localhost:8080/product/', product)
+		.then(
+				function(response){
+					//console.log(response.data);
+					return response.data;
+				}, 
+				function(errResponse){
+					console.error('Error while creating product');
+					return $q.reject(errResponse);
+				}
+		);
+	}
+	
 	
 	/*userService.getUserName = function(callback){
 		//console.log(user);

@@ -57,7 +57,7 @@ public class ProductRestController {
     @RequestMapping(value = "/product/{page}/{per_page}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody String product(@PathVariable("page") long page, @PathVariable("per_page") long perPage){
 
-		System.out.println(page + "-" +  perPage);
+		//System.out.println(page + "-" +  perPage);
 		
 		Pageable pageable = new PageRequest((int)page-1, (int)perPage,new Sort(Sort.Direction.ASC, "idProduct").and(new Sort(Sort.Direction.DESC, "name")));
 		//Page list = productService.pagination(pageable).getContent();
@@ -92,66 +92,55 @@ public class ProductRestController {
     }   
 	
     @RequestMapping(value = "/product/", method = RequestMethod.POST)
-    public ResponseEntity<Void> createUser(@RequestBody Products product, UriComponentsBuilder ucBuilder) {
-        
-    	
-    	long limit = 0;
-		long skip = 0;
-
-		JSONParser parser = new JSONParser();
-		JSONObject json = null;
-		
-		
-		
-		
-		/*try {
-			//json = (JSONObject) parser.parse(product);
-			
-			//limit =  (long) json.get("limit");
-			//skip =  (long) json.get("skip");
-			
-			
-			
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-    	
-    	System.out.println(json);
-    	*/
- 
-        /*if (productService.saveProduct(product)) {
-            System.out.println("A product with name " + product.getDescription() + " already exist");
-            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-        }
- 
-        boolean resp = productService.saveProduct(product);
-        
-        System.out.println(resp);
-        */
-		/*System.out.println(product);
-		System.out.println(product.getCode());
-		System.out.println(product.getDescription());
-		System.out.println(product.getFinish());
-		System.out.println(product.getItemBox());*/
-		System.out.println(product.getIdColor().getIdColor());
-		System.out.println(product.getIdEnviroment().getIdEnviroment());
-		System.out.println(product.getIdPurpose());
-		System.out.println(product.getIdCategory());
-		
+    public String createUser(@RequestBody Products product, UriComponentsBuilder ucBuilder) {
 		
 		Products proTemp = productService.saveProducts(product);
 		
-		System.out.println(proTemp);
+		Map toParse = new HashMap();
+	    toParse.put("id", proTemp.getIdProduct());
+		JSONObject jsonObject = new JSONObject(toParse);
+
+		return jsonObject.toJSONString();       
+    }
+    
+    @RequestMapping(value = "/product/", method = RequestMethod.PUT)
+    public String updateProduct(@RequestBody Products product, UriComponentsBuilder ucBuilder) {
 		
+		Products proTemp = productService.updateProducts(product);
 		
- 
-        HttpHeaders headers = new HttpHeaders();
-        //headers.setLocation(ucBuilder.path("/product/{id}").buildAndExpand(product.getIdProduct()).toUri());
-        headers.setLocation(ucBuilder.path("/product/{id}").buildAndExpand(1).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-    }    
+		Map toParse = new HashMap();
+	    toParse.put("id", proTemp.getIdProduct());
+
+		JSONObject jsonObject = new JSONObject(toParse);
+
+		return jsonObject.toJSONString();       
+    }  
 
 
+    @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
+    //public ResponseEntity<Void> findProduct(@RequestBody String product, @PathVariable("id") long id, UriComponentsBuilder ucBuilder) {
+    public String findProduct(@PathVariable("id") String id, UriComponentsBuilder ucBuilder) {
+		
+		Long aa =  Long.parseLong(id);
+		Products proTemp = productService.findById(aa);		
+
+		ObjectMapper mapper = new ObjectMapper();
+    	String jsonInString = null;
+		try {			
+			jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(proTemp);
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}    	
+
+		return jsonInString ;
+        
+    }
+    
+    
     
  /*
     

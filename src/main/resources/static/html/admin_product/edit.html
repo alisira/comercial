@@ -5,7 +5,7 @@
             <ol class="breadcrumb">
                 <li><a href="/#!">Home</a></li>
                 <li><a href="{{relativePath}}/list">Listar</a></li>
-                <li class="active">Nuevo {{ appTitle }}</li>
+                <li class="active">Editar {{ appTitle }}</li>
             </ol>
 
             <div class="row">
@@ -14,13 +14,8 @@
 
                         <div class="panel-heading">
                         	<div class="form-group">
-                        		{{ appTitle }}
-                        	</div>
-
-                        	<div class="form-group">
                         		<a class="btn btn-primary" href="{{relativePath}}/new"  role="button">Nuevo</a>
                         	</div>
-
                         </div>
                         
                         <div class="panel-body">
@@ -28,13 +23,10 @@
 	                            <div class="col-md-4">
 	                                <div class="form-group">
 	                                    <label>Código</label>
-	                                    
-	                                    <input type="text" validate-name="Código" placeholder="Ingrese un código alfanumérico" class="form-control" ng-model="product.code" required/>
-	                                    
+	                                    <input type="text" validate-name="Código" placeholder="Ingrese un código alfanumérico" class="form-control" ng-model="product.code" required/>	                                    
 	                                    <span style="color:red" ng-show="form.code.$dirty && form.code.$invalid">
 											<span ng-show="form.code.$error.required">Username is required.</span>
-										</span>
-	                                    
+										</span>	                                    
 	                                </div>
 	                            </div>
 	
@@ -55,11 +47,11 @@
 	                            <div class="col-md-4">
 	                                <div class="form-group">
 	                                   <label>Código de Color</label>
-	                                    <select class="form-control" ng-model="color" ng-options="x.denomination for x in colors" validate-name="Código de Color">
-											<option selected="selected" value="" ng-model="product.idColor" >Seleccionar</option>
+	                                    <select class="form-control" ng-model="product.idColor" validate-name="Código de Color">
+											<option selected="selected" value=""  >Seleccionar</option>
+											<option selected="selected" ng-repeat="color in colors" value="{{color.idColor}}"  >{{color.denomination}}</option>
 										</select>
-									</div>
-									<span ng-hide="1<2">{{product.idColor = color.idColor}}</span>
+									</div>									
 	                            </div>
 	
 	                            <div class="col-md-4">
@@ -90,7 +82,7 @@
 	                                </div>
 	                            </div>
 	                            
-	                            <div class="col-md-4">
+	                             <div class="col-md-4">
 	                                <div class="form-group">
 	                                    <label>Palmetas por Caja </label>
 	                                    <input type="number" name="item_box" min="0" placeholder="Ingrese las palmetas por caja"  class="form-control" ng-model="product.itemBox" />
@@ -107,10 +99,10 @@
 	                            <div class="col-md-4">
 	                                <div class="form-group">
 	                                    <label>Ambiente:</label>
-	                                    <select class="form-control" ng-model="enviroment" ng-options="x.denomination for x in enviroments">
-											<option selected="selected" value="">Seleccionar</option>
-										</select>
-										<span ng-hide="1<2">{{product.idEnviroment = enviroment.idEnviroment}}</span>
+										<select class="form-control" ng-model="product.idEnviroment" validate-message="Código de Ambiente">
+											<option selected="selected" value="" >Seleccionar</option>
+											<option selected="selected" ng-repeat="enviroment in enviroments" value="{{enviroment.idEnviroment}}"  >{{enviroment.denomination}}</option>
+										</select>										
 	                                </div>
 	                            </div>
 	                            
@@ -140,10 +132,10 @@
 	                            <div class="col-md-4">
 	                                <div class="form-group">
 	                                    <label>Purpose</label>
-	                                    <select class="form-control" ng-model="purpose" ng-options="x.denomination for x in purposes">
+	                                    <select class="form-control" ng-model="product.idPurpose" validate-message="Propósito">
+											<option selected="selected" ng-repeat="purpose in purposes" value="{{purpose.idPurpose}}"  >{{purpose.denomination}}</option>
 											<option selected="selected" value="">Seleccionar</option>
 										</select>
-										<span ng-hide="1<2">{{product.idPurpose = purpose.idPurpose}}</span>
 	                                </div>
 	                            </div>
 	                            
@@ -157,20 +149,21 @@
 	                            <div class="col-md-4">
 	                                <div class="form-group">
 	                                    <label>Categoría:</label>
-	                                    <select class="form-control" ng-model="category" ng-options="x.denomination for x in categories">
-										  	<option selected="selected" value="">Seleccionar</option>
+										<select class="form-control" ng-model="product.idCategory" validate-message="Propósito">
+											<option selected="selected" ng-repeat="category in categories" value="{{category.idCategory}}"  >{{category.denomination}}</option>
+											<option selected="selected" value="">Seleccionar</option>
 										</select>
-										<span ng-hide="1<2">{{product.idCategory = category.idCategory}}</span>
+										
 	                                </div>
 	                            </div>
 	
 	                            <div class="col-md-4">
 	                                <div class="form-group">
 	                                    <label>Estatus</label>
-	                                    <select class="form-control" ng-model="status" ng-options="x.denomination for x in statuses">
-										  	<option selected="selected" value="">Seleccionar</option>
+										<select class="form-control" ng-model="product.idStatus" validate-message="Estatus">
+											<option selected="selected" ng-repeat="status in statuses" value="{{status.idStatus}}"  >{{status.denomination}}</option>
+											<option selected="selected" value="">Seleccionar</option>
 										</select>
-										<span ng-hide="1<2">{{product.status = status.idStatus}}</span>
 	                                </div>
 	                            </div>
 	

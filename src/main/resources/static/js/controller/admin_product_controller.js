@@ -5,65 +5,34 @@ App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductSer
 	$scope.appTitle = "Administrador de Productos";
 	$scope.products = {"list":null};
 	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];
-	$scope.model = 'products';
 	$scope.model =	{"name" : "products" , "perPage" : "10", "page": 1, "count": 0};
-	
-	
-	//console.log('AdminProductControllerList');
 		
 	$scope.actionCount = function() {
-		
-        var productService = ProductService;
-        
-        productService.count()	
-	        .then(
-	        		function(response) {
-	        			//console.log(response);
-	        			$scope.model.count = parseInt(response.count);
-	        			//$scope.count = permission.permisos;
-	        		},
-	        		function(errResponse){
-	        			console.error('Error counting products');
-	        		}
-	        );
-        	
-        /*adminNewborn.params = {
-            count: true
-        };
-        adminNewborn.ready = $scope.actionCountReady;
-        adminNewborn.findAll();
-        */
+        var productService = ProductService;        
+        productService.count().then($scope.actionReadyCount, $scope.error);
     }
 	
-	$scope.findCategories = function() {
-		
-        var categoryService = CategoryService;
-        
+	$scope.actionReadyCount = function(response) {
+		$scope.model.count = parseInt(response.count);
+	}
+	
+	$scope.error = function(errResponse){
+		console.error(errResponse);
+	}
+	
+	$scope.findCategories = function() {		
+        var categoryService = CategoryService;        
         categoryService.findAll()	
 	        .then(
 	        		function(response) {
-	        			//console.log(response);
 	        			$scope.categories = response;
-	        			//$scope.count = permission.permisos;
 	        		},
-	        		function(errResponse){
-	        			console.error('Error counting products');
-	        		}
+	        		$scope.error
 	        );
-       
     }
 	
-
-	
-	
 	$scope.findModel = function() {
-		
-		
-		console.log("Dentro de findproducts :"  + $scope.model.page + '-' +  parseInt($scope.model.perPage)   );
-		
-		
-		var productService = ProductService;
-        
+		var productService = ProductService;        
 		productService.findAll(parseInt($scope.model.page), parseInt($scope.model.perPage))
 	        .then(
 	        		function(response) {
@@ -71,97 +40,22 @@ App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductSer
 	        			$scope.model.list = response;
 	        			//$scope.count = permission.permisos;
 	        		},
-	        		function(errResponse){
-	        			console.error('Error counting products');
-	        		}
+	        		$scope.error
 	        );
-       
 	}
-	
-	
-	/*$scope.actionCount = function() {
-
-        var adminNewborn = new Newborn();
-        adminNewborn.params = {
-            count: true
-        };
-        adminNewborn.ready = $scope.actionCountReady;
-        adminNewborn.findAll();
-    };
-    $scope.actionCountReady = function(count) {
-
-        $scope.count = parseInt(count);
-        $scope.actionFind();
-    };
-
-    $scope.actionFind = function() {	
-
-        var adminNewborn = new Newborn();
-
-        if (typeof $scope.search.name == 'undefined') {
-            name = '';
-        } else {
-            name = $scope.search.name;
-        }
-
-        if (typeof $scope.search.full_name == 'undefined') {
-            full_name = '';
-        } else {
-            full_name = $scope.search.full_name;
-        }
-
-        adminNewborn.params = {
-            'fields': '_id, name, ref_image, ref_profile, sex, birthdate',
-            'ref[image][fields]': 'image_original, image_name, image_small',
-            'ref[profile][fields]': 'full_name',
-            'ref[profile][search][match][full_name]': '*' + full_name + '*',
-            'search[and][name]': '*' + name + '*',
-            'sort': '-birthdate',
-            'limit': false,
-            'cache': true
-        };
-
-        adminNewborn.ready = $scope.actionFindReady;
-        adminNewborn.findAll();
-    };
-
-    $scope.actionFindReady = function(aryAdminNewborn) {
-        if (Array.isArray(aryAdminNewborn)) {
-            $scope.aryAdminNewborn = aryAdminNewborn;
-        } else {
-            $scope.aryAdminNewborn = new Array(aryAdminNewborn);
-        }
-    };
-    $scope.actionDelete = function() {
-        var adminNewborn = new Newborn();
-        adminNewborn.id = $scope.deleteId;
-        adminNewborn.ready = $scope.actionDeleteReady;
-        adminNewborn.delete();
-    };
-    $scope.actionDeleteReady = function(adminNewborn) {
-        $scope.deleteId = '';
-        $scope.init();
-    };*/
 
     $scope.init = function() {
-    	
-    	    	
-    	//console.log($scope.relativePath);
         $scope.actionCount();
-        //$scope.findProducts();
         $scope.findCategories();
-        //console.log('fin');
-
-        
     };
+    
     $scope.init();
-	
-          
 
 }]);
 
 
 App.controller('AdminProductControllerNew', function($scope, $location, ProductService, ColorService, EnviromentService, PurposeService, CategoryService, StatusService, $rootScope, $timeout) {
+	$scope.submitTitle = 'Guardar';
 	$scope.appTitle = "Producto";
 	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];	
 	
@@ -177,14 +71,12 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
     
     
     $scope.init = function() {
-        $scope.submitTitle = 'guardar';
+        
         $scope.findColors();
         $scope.findEnviroments();
         $scope.findPurposes();
         $scope.findCategories();
         $scope.findStatus();
-        //$scope.findProfileBusy = false;
-        //if the datepicker is not seted, it resets the date to 01/01/1970 for default
         //$scope.adminNewborn.birthdate = moment(new Date()).format('YYYY-MM-DD');
     };
     
@@ -195,9 +87,7 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
         colorService.findAll(0,0)	
 	        .then(
 	        		function(response) {
-	        			//console.log(response);
 	        			$scope.colors = response;
-	        			//$scope.count = permission.permisos;
 	        		},
 	        		function(errResponse){
 	        			console.error('Error getting colors');
@@ -278,13 +168,13 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
        
     }
 	
-	
-	$scope.deleteErrors = function() {		        
+
+
+	$scope.deleteErrors = function() {
 		$rootScope.errors = false;
 		//console.log('borro los errores: ' + $rootScope.errors);
     }
-	
-	
+
 	$scope.actionSubmit = function() {
 		
 		if ($rootScope.errors){
@@ -298,7 +188,9 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
     	console.log($scope.product);
     	ProductService.createProduct($scope.product).then(
         		function(response) {
-        			console.log(response);
+        			//console.log(response);        			
+        			//console.log($scope.relativePath + '/edit/'+ response.id);
+        			$location.path($location.path().split('/').slice(1,2)[0] + '/edit/'+ response.id);
         			//$scope.statuses = response;
         			//$scope.count = permission.permisos;
         		},
@@ -465,6 +357,224 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
             };
         }
     }*/
+
+    $scope.init();
+});
+
+/**
+ * Controller AdminProductControllerEdit
+ * @param {scope} $scope DOM manipulation
+ * @param {stateParams} $stateParams
+ * @param {ProductService} ProductService factory
+ */
+App.controller('AdminProductControllerEdit', function($scope, $location, $stateParams, ProductService, ColorService, EnviromentService, PurposeService, CategoryService, StatusService, $rootScope, $timeout) {
+	$scope.appTitle = "Administrador de Productos";
+	$scope.submitTitle = 'Guardar';
+	$scope.appTitle = "Producto";
+	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];
+	
+    $scope.model =	{"name" : "products"};
+    
+    
+    $scope.init = function() {
+        
+        $scope.findProfileBusy = false;        
+        $scope.findColors();
+        $scope.findEnviroments();
+        $scope.findPurposes();
+        $scope.findCategories();
+        $scope.findStatus();
+        $scope.findProduct($stateParams.id);        
+        
+    };
+    
+    
+	$scope.findProduct = function(id) {	    	
+
+    	ProductService.findProduct(id).then(
+        		function(response) {
+        			$scope.product = response;
+        			$scope.product.idColor = String(response.idColor.idColor);
+        			$scope.product.idEnviroment = String(response.idEnviroment.idEnviroment);
+        			$scope.product.idPurpose = String(response.idPurpose.idPurpose);
+        			$scope.product.idCategory = String(response.idCategory.idCategory);
+        			$scope.product.idStatus = String(response.status);        			
+        		},
+        		function(errResponse){
+        			console.error('Error saving product');
+        		}
+        );
+    }
+    
+    $scope.findColors = function() {    	
+    	
+        var colorService = ColorService;
+        
+        colorService.findAll(0,0)	
+	        .then(
+	        		function(response) {
+	        			//console.log(response);
+	        			$scope.colors = response;
+	        			//$scope.count = permission.permisos;
+	        		},
+	        		function(errResponse){
+	        			console.error('Error getting colors');
+	        		}
+	        );
+       
+    }
+    
+	$scope.findEnviroments = function() {
+		
+        var enviromentService = EnviromentService;
+        
+        enviromentService.findAll(0,0)	
+	        .then(
+	        		function(response) {
+	        			//console.log(response);
+	        			$scope.enviroments = response;
+	        			//$scope.count = permission.permisos;
+	        		},
+	        		function(errResponse){
+	        			console.error('Error counting Enviroment');
+	        		}
+	        );
+       
+    }
+	
+	$scope.findPurposes = function() {
+		
+        var purposeService = PurposeService;
+        
+        purposeService.findAll(0,0)	
+	        .then(
+	        		function(response) {
+	        			//console.log(response);
+	        			$scope.purposes = response;
+
+	        		},
+	        		function(errResponse){
+	        			console.error('Error counting Purpose');
+	        		}
+	        );
+       
+    }
+	
+	$scope.findCategories = function() {
+		
+        var categoryService = CategoryService;
+        
+        categoryService.findAll()	
+	        .then(
+	        		function(response) {
+	        			//console.log(response);
+	        			$scope.categories = response;
+	        			//$scope.count = permission.permisos;
+	        		},
+	        		function(errResponse){
+	        			console.error('Error counting products');
+	        		}
+	        );
+       
+    }
+	
+	$scope.findStatus = function() {
+		
+        var statusService = StatusService;
+        
+        statusService.findAll(0,0)	
+	        .then(
+        		function(response) {
+        			//console.log(response);
+        			$scope.statuses = response;
+        			//$scope.count = permission.permisos;
+        		},
+        		function(errResponse){
+        			console.error('Error counting products');
+        		}
+	        );
+    }
+	
+	
+	$scope.deleteErrors = function() {		        
+		$rootScope.errors = false;
+		//console.log('borro los errores: ' + $rootScope.errors);
+    }
+
+	$scope.actionSubmit = function() {
+		
+		if ($rootScope.errors){
+			$timeout($scope.deleteErrors, 4000);
+		}
+		
+    };
+    
+    $scope.actionSaveForm = function() {
+    	
+    	$scope.product.idCategory =  parseInt($scope.product.idCategory);
+    	$scope.product.idColor = parseInt($scope.product.idColor);
+		$scope.product.idEnviroment = parseInt($scope.product.idEnviroment);
+		$scope.product.idPurpose = parseInt($scope.product.idPurpose);		
+		$scope.product.idStatus = parseInt($scope.product.status);
+    	
+    	ProductService.updateProduct($scope.product).then(
+    		function(response) {
+    			//console.log(response);
+    			$scope.findProduct($stateParams.id);
+    		},
+    		function(errResponse){
+    			console.error('Error saving product');
+    		}
+        );
+    }
+	
+    
+
+    /*
+
+    $scope.actionSubmit = function() {
+        if ($scope.imageChanged) {
+            $scope.saveImage($scope.image);
+        } else {
+            $scope.actionSaveForm();
+        }
+    };
+
+    $scope.saveImage = function(fileImage) {
+        var image = new Image();
+        image.data = {
+            'image_original': fileImage.url,
+            'image_small': fileImage.smallUrl,
+            'image_medium': fileImage.mediumUrl,
+            'image_large': fileImage.largeUrl,
+            'image_name': fileImage.originalName
+        };
+        image.ready = $scope.saveImageReady;
+        image.add();
+    };
+
+    $scope.saveImageReady = function(image) {
+        $scope.imageChanged = false;
+        $scope.image._id = image._id;
+        $scope.actionSaveForm();
+    };
+
+    $scope.$on('uploader.add()', function(event, file) {
+
+    });
+
+    $scope.$on('uploader.progress()', function(event, file) {
+
+    });
+
+    $scope.$on('uploader.done()', function(event, file, isUploadingDone) {
+        if (isUploadingDone) {
+            $scope.imageChanged = true;
+            $scope.image = file;
+        }
+
+        $scope.$broadcast('croper.done()');
+    });*/
 
     $scope.init();
 });

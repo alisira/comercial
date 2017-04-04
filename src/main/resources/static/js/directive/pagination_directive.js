@@ -8,14 +8,12 @@ App.directive('pagingObject', function(){
     	templateUrl: 'html/pagination.html',
     	link: function(scope,  element, attrs){
     		
-    		scope.color = attrs.colorInicial;
-    		
     		scope.pagination = function() {
     			//console.log(attrs.color);
     			//scope.color = attrs.color;
     			scope.limitBorder = {"left":12, "right":12};
     			
-    			scope.numPage =  Math.ceil(scope.products.count / scope.products.perPage);
+    			scope.numPage =  Math.ceil(scope.model.count / scope.model.perPage);
     			
     			//console.log(scope.numPage);
     			
@@ -31,8 +29,9 @@ App.directive('pagingObject', function(){
     			
     			for (var i=1;i<=scope.numPage;i++) {
     				scope.aryPagination.push(i);
-    			}
-
+    			}    			
+    			
+    			scope.findModel();
 
     			/*if (skip > 0) {
                     element.find('.prev').removeClass('hidden');
@@ -66,16 +65,16 @@ App.directive('pagingObject', function(){
             };
     		
             //Evento que observa el cambio en la variable pero q la primera vez tiene el mismo valor averiguar por que
-    		scope.$watch('products.perPage', function(perPage, perPageOld) {
-            	//console.log(perPage + '-' + perPageOld + '-' + scope.products.count);
+    		scope.$watch('model.perPage', function(perPage, perPageOld) {
+            	console.log(perPage + '-' + perPageOld + '-' + scope.model.count);
                 /*if (perPage!= perPageOld) {
                 	//console.log('diferete');
                     //scope.pagination();
                 }*/
             	
-            	if (perPage > 0 && scope.products.count > 0) {
-            		//console.log('paginacion1');
-            		//console.log(perPage + '-' + perPageOld + '-' + scope.products.count);
+            	if (perPage > 0 && scope.model.count > 0) {
+            		console.log('paginacion1');
+            		//console.log(perPage + '-' + perPageOld + '-' + scope.products.count);            		
             		scope.pagination();
             	}
             	
@@ -84,8 +83,8 @@ App.directive('pagingObject', function(){
             	
             });
     		
-    		scope.$watch('products.count', function(productsCount, productsCountOld) {
-            	//console.log(productsCount + '-' + productsCountOld + '-' + scope.products.perPage  );
+    		scope.$watch('model.count', function(modelCount, modelCountOld) {
+            	console.log(modelCount + '-' + modelCountOld + '-' + scope.model.perPage);
                 /*if (perPage!= perPageOld) {
                 	//console.log('diferete');
                     //scope.pagination();
@@ -93,9 +92,9 @@ App.directive('pagingObject', function(){
             	
             	//scope.pagination();
             	
-            	if (scope.products.perPage > 0 && productsCount > 0) {
-            		//console.log('paginacion2');
-            		//console.log(productsCount + '-' + productsCountOld + '-' + scope.products.perPage  );
+            	if (scope.model.perPage > 0 && modelCount > 0) {
+            		console.log('paginacion2');
+            		//console.log(modelCount + '-' + modelCountOld + '-' + scope.model.perPage  );
             		scope.pagination();
             	}
             	

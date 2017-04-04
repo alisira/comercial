@@ -12,6 +12,7 @@ import com.comercial.model.Purpose;
 
 
 @Service
+@Transactional
 public class PurposeService {
 	
 	@Autowired

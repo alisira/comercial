@@ -53,8 +53,9 @@ public class Purpose implements Serializable {
     private short status;
     
     @OneToMany(fetch=FetchType.LAZY, mappedBy = "idPurpose")
+    @JsonIgnore
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idTaskAction")
+    //@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idTaskAction")
     private Collection<Products> productsCollection;
 
     public Purpose() {

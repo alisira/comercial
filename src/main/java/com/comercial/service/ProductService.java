@@ -2,28 +2,34 @@ package com.comercial.service;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.comercial.dao.ProductDao;
 import com.comercial.model.Products;
+import com.comercial.repository.ProductRepository;
 
-@Service
-public class ProductService {
+public interface ProductService {
 	
-	@Autowired
-	ProductDao product;
+	Products findById(long id);
+	
+	long count();
+	
+	Products findByName(String name);
+	
+	Products saveProducts(Products products);
+	
+	void updateProducts(Products products);
+	
+	void deleteProductsById(long id);
 
-	@Transactional
-	public List<Products> getList(long limit, long skip) {
-		
-		List<Products> lista= product.getList(limit, skip);
-		
-		return lista;
+	List<Products> findAllProducts(); 
+	
+	void deleteAllProducts();
+	
+	public boolean isProductsExist(Products products);
+	
+	public Page pagination(Pageable pageable);
 
-	}
-
+	public Long countByName(String string);
 	
 }

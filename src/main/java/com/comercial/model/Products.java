@@ -111,27 +111,34 @@ public class Products implements Serializable {
     private String palette;
     @Column(name = "rank")
     private String rank;
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Basic(optional = false)
     @Column(name = "id_product")
     private Integer idProduct;    
     
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idProduct")
+    @Column(nullable=false)
     @JsonIgnore
     private Collection<OrderDetail> orderDetailCollection;
     
-    @JoinColumn(name = "id_category", referencedColumnName = "id_category")    
+    @JoinColumn(name = "id_category", referencedColumnName = "id_category")
     @ManyToOne(optional = false)
+    @JsonProperty(access = Access.WRITE_ONLY)
     @JsonIgnore
     private Category idCategory;
     
     @JoinColumn(name = "id_color", referencedColumnName = "id_color")
+    @JsonProperty(access = Access.WRITE_ONLY)
+    //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    //@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idColor")
     @ManyToOne(optional = false)
     @JsonIgnore
     private Color idColor;
     
     @JoinColumn(name = "id_enviroment", referencedColumnName = "id_enviroment")
+    @JsonProperty(access = Access.WRITE_ONLY)
     @ManyToOne(optional = false)
     @JsonIgnore
     private Enviroment idEnviroment;
@@ -142,12 +149,13 @@ public class Products implements Serializable {
     private Image idImage;
     
     @JoinColumn(name = "id_purpose", referencedColumnName = "id_purpose")
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(optional = false)
+    @JsonProperty(access = Access.WRITE_ONLY)
     //@JsonIgnoreProperties(ignoreUnknown = true)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    //@JsonIgnore
+    //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnore
     //@JsonProperty(access = Access.READ_ONLY)
-    @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idTaskAction")
+    //@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idTaskAction")
     private Purpose idPurpose;
 
     public Products() {

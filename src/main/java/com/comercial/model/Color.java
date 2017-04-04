@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -72,8 +73,8 @@ public class Color implements Serializable {
     @Column(name = "class_m")
     private String classM;
     
-    //@JsonIgnore
-    @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idTaskAction")
+    @JsonIgnore
+    //@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idTaskColor")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idColor")
     private Collection<Products> productsCollection;
 

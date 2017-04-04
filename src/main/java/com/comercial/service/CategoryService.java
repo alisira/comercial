@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.comercial.dao.CategoryDao;
-import com.comercial.dao.ProductDao;
 import com.comercial.model.Category;
-import com.comercial.model.Products;
 
 @Service
 public class CategoryService {

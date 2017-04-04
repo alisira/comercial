@@ -1,6 +1,7 @@
 package com.comercial.rest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,12 +9,21 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import com.comercial.model.Products;
 import com.comercial.service.ProductService;
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -27,17 +37,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 public class ProductRestController {
 
-
 	@Autowired
-	ProductService productService;	
+	ProductService productService;
 	
 	@RequestMapping(value = "/product/count/", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody  String count(){
+	public @ResponseBody String count(){
 
-		List<Products> lista = productService.getList(0, 0);
+		long total =  productService.count();
 	    
 	    Map toParse = new HashMap();
-	    toParse.put("count", lista.size());
+	    toParse.put("count", total);	    
 		JSONObject jsonObject = new JSONObject(toParse);
 
 	    return jsonObject.toJSONString();
@@ -45,41 +54,30 @@ public class ProductRestController {
 	}	
 	
 	
-    @RequestMapping(value = "/product/", method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody String product(@RequestBody String param){
+    @RequestMapping(value = "/product/{page}/{per_page}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody String product(@PathVariable("page") long page, @PathVariable("per_page") long perPage){
 
-    	long limit = 0;
-		long skip = 0;
-
-		JSONParser parser = new JSONParser();
-		try {
-			JSONObject json = (JSONObject) parser.parse(param);
-			
-			limit =  (long) json.get("limit");
-			skip =  (long) json.get("skip");
-			
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		System.out.println(page + "-" +  perPage);
 		
-    	//System.out.println(skip + "-" + limit);
-    	
-    	List<Products> lista = productService.getList(limit, skip);
+		Pageable pageable = new PageRequest((int)page-1, (int)perPage,new Sort(Sort.Direction.ASC, "idProduct").and(new Sort(Sort.Direction.DESC, "name")));
+		//Page list = productService.pagination(pageable).getContent();
+		
+		//List list2 = list.getContent();
+		
+		
+		
+		//*Asi Creo los productos que puedo mandar sin los id foraneos
+		/*List<Products> proTemp = new ArrayList<Products>();
+		for(int i=0; i< a.getContent().size();i++){
+			Products aa = new  Products ((Products) a.getContent().get(i));			
+			proTemp.add(aa);
+		}*/
         
     	ObjectMapper mapper = new ObjectMapper();
-
-
     	String jsonInString = null;
 		try {
-
-			//Convert object to JSON string
-			jsonInString = mapper.writeValueAsString(lista);
-			//System.out.println(jsonInString);
-
-			//Convert object to JSON string and pretty print
-			jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(lista);
-			//System.out.println(jsonInString);
-
+			
+			jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(productService.pagination(pageable).getContent());
 
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
@@ -91,9 +89,67 @@ public class ProductRestController {
     	
 		return jsonInString ;
 
-}   
+    }   
 	
-    
+    @RequestMapping(value = "/product/", method = RequestMethod.POST)
+    public ResponseEntity<Void> createUser(@RequestBody Products product, UriComponentsBuilder ucBuilder) {
+        
+    	
+    	long limit = 0;
+		long skip = 0;
+
+		JSONParser parser = new JSONParser();
+		JSONObject json = null;
+		
+		
+		
+		
+		/*try {
+			//json = (JSONObject) parser.parse(product);
+			
+			//limit =  (long) json.get("limit");
+			//skip =  (long) json.get("skip");
+			
+			
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+    	
+    	System.out.println(json);
+    	*/
+ 
+        /*if (productService.saveProduct(product)) {
+            System.out.println("A product with name " + product.getDescription() + " already exist");
+            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+        }
+ 
+        boolean resp = productService.saveProduct(product);
+        
+        System.out.println(resp);
+        */
+		/*System.out.println(product);
+		System.out.println(product.getCode());
+		System.out.println(product.getDescription());
+		System.out.println(product.getFinish());
+		System.out.println(product.getItemBox());*/
+		System.out.println(product.getIdColor().getIdColor());
+		System.out.println(product.getIdEnviroment().getIdEnviroment());
+		System.out.println(product.getIdPurpose());
+		System.out.println(product.getIdCategory());
+		
+		
+		Products proTemp = productService.saveProducts(product);
+		
+		System.out.println(proTemp);
+		
+		
+ 
+        HttpHeaders headers = new HttpHeaders();
+        //headers.setLocation(ucBuilder.path("/product/{id}").buildAndExpand(product.getIdProduct()).toUri());
+        headers.setLocation(ucBuilder.path("/product/{id}").buildAndExpand(1).toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    }    
 
 
     

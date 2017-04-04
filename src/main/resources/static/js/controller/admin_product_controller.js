@@ -3,9 +3,11 @@
 App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductService', 'CategoryService', function($scope, $location, ProductService, CategoryService) {
 	var self = this;
 	$scope.appTitle = "Administrador de Productos";
-	$scope.products = {"perPage" : "10" , "count": 0, "list":null, "skip": 0};
+	$scope.products = {"list":null};
 	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];
 	$scope.model = 'products';
+	$scope.model =	{"name" : "products" , "perPage" : "10", "page": 1, "count": 0};
+	
 	
 	//console.log('AdminProductControllerList');
 		
@@ -17,7 +19,7 @@ App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductSer
 	        .then(
 	        		function(response) {
 	        			//console.log(response);
-	        			$scope.products.count = parseInt(response.count);
+	        			$scope.model.count = parseInt(response.count);
 	        			//$scope.count = permission.permisos;
 	        		},
 	        		function(errResponse){
@@ -54,19 +56,19 @@ App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductSer
 
 	
 	
-	$scope.findProducts = function() {
+	$scope.findModel = function() {
 		
 		
-		//console.log("Dentro de findproducts :" + parseInt($scope.products.perPage) + '-' +  $scope.products.skip);
+		console.log("Dentro de findproducts :"  + $scope.model.page + '-' +  parseInt($scope.model.perPage)   );
 		
 		
 		var productService = ProductService;
         
-		productService.findAll(parseInt($scope.products.perPage), $scope.products.skip)
+		productService.findAll(parseInt($scope.model.page), parseInt($scope.model.perPage))
 	        .then(
 	        		function(response) {
 	        			//console.log(response);
-	        			$scope.products.list = response;
+	        			$scope.model.list = response;
 	        			//$scope.count = permission.permisos;
 	        		},
 	        		function(errResponse){
@@ -146,7 +148,7 @@ App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductSer
     	    	
     	//console.log($scope.relativePath);
         $scope.actionCount();
-        $scope.findProducts();
+        //$scope.findProducts();
         $scope.findCategories();
         //console.log('fin');
 
@@ -161,8 +163,7 @@ App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductSer
 
 App.controller('AdminProductControllerNew', function($scope, $location, ProductService, ColorService, EnviromentService, PurposeService, CategoryService, StatusService, $rootScope, $timeout) {
 	$scope.appTitle = "Producto";
-	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];
-	
+	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];	
 	
 	$scope.friendSkip = 0;
     $scope.friendLimit = 10;
@@ -278,51 +279,35 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
     }
 	
 	
-	$scope.deleteErrors = function() {
-		        
+	$scope.deleteErrors = function() {		        
 		$rootScope.errors = false;
-		console.log('borro los errores: ' + $rootScope.errors);
+		//console.log('borro los errores: ' + $rootScope.errors);
     }
 	
 	
 	$scope.actionSubmit = function() {
 		
-		$timeout($scope.deleteErrors, 4000);
+		if ($rootScope.errors){
+			$timeout($scope.deleteErrors, 4000);
+		}
 		
-		/*if ($rootScope.errors){
-			$rootScope.errors = null;
-		}*/
-		
-		
-		//console.log($scope.form);    
-        //console.log($rootScope.errors);
-        //$rootScope.errors = null;
-        
-        
-		/*var isValid = true;
-
-        if ($.trim($scope.adminNewborn.ref_profile.full_name) == '') {
-            isValid = false;
-        }
-
-        if ($.trim($scope.adminNewborn.name) == '') {
-            isValid = false;
-        }
-
-        if (isValid) {
-            $scope.saveImage($scope.fileImage);
-        } else {
-            $.bootstrapGrowl('Por favor complete el formulario', {
-                type: 'danger',
-                allow_dismiss: false,
-                offset: {
-                    from: 'bottom',
-                    amount: 20
-                },
-                align: 'left'
-            });
-        }*/
     };
+    
+    $scope.actionSaveForm = function() {
+    	
+    	console.log($scope.product);
+    	ProductService.createProduct($scope.product).then(
+        		function(response) {
+        			console.log(response);
+        			//$scope.statuses = response;
+        			//$scope.count = permission.permisos;
+        		},
+        		function(errResponse){
+        			console.error('Error saving product');
+        		}
+        );
+    }
+    
 	
 
     /*$scope.isSaving = false;

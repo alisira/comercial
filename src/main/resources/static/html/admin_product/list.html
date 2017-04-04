@@ -22,7 +22,7 @@
                 
                     <div class="col-md-6">
                         Mostrar
-                        <select class="form-control" id="perPage" ng-model="products.perPage" ng-click="findProducts()">
+                        <select class="form-control" id="perPage" ng-model="model.perPage" ng-click="findProducts()">
                         	<option value="5">5</option>
                         	<option value="10">10</option>
                         	<option value="25" >25</option>
@@ -30,7 +30,7 @@
                         	<option value="75">75</option>
                         	<option value="100">100</option>
                         </select>
-                        Registros por página de <strong ng-bind="products.count"></strong>
+                        Registros por página de <strong ng-bind="model.count"></strong>
                     </div>
                     <div class="col-md-6">
                         <div class="pull-right">
@@ -88,7 +88,7 @@
                     
                     <tbody id="tbodyDetail">       
 
-                        <tr ng-repeat="pro in products.list">
+                        <tr ng-repeat="pro in model.list">
                             <td>{{pro.code}}</td>
                             <td>{{pro.name}}</td>
                             <td>{{pro.description}}</td>

@@ -23,51 +23,42 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
 		);
 	};
 	
-	productService.findAll = function(limit, skip){
+	productService.findAll = function(page, limit){
 		
 		//console.log(model);
 		
 		var param =  {};
-		param.skip =skip;
-		param.limit =limit;
+		param.page =page;
+		param.limit =limit;		
+		//console.log(param);
 		
-		return $http.post(model+'/', param).then(
-				function(response){					
+		
+		return $http.get(model+'/'+page+'/'+limit).then(
+				function(response){
+					//console.log(response);
 					return response.data;
 				},
 				function(errResponse){
 					return $q.reject(errResponse);
 				}
 		);
-	};
-	
-	
-	/*userService.logout = function() {
-		return $http.post('logout', {}).then(
-				function(response){					
-					user={};
-					return true;
-				},
+	};	
+
+	productService.createProduct = function(product){
+		return $http.post('http://localhost:8080/product/', product)
+		.then(
+				function(response){
+					console.log(response.data);
+					return response.data;
+				}, 
 				function(errResponse){
-					//console.error('Error Autenticando: ');
-					//console.error(errResponse);
-					//console.error(errResponse.status);
+					console.error('Error while creating product');
 					return $q.reject(errResponse);
-					//return false;
 				}
 		);
-		
 	}
 	
-	
-	userService.getToken = function(){
-		//console.log('Entro:'+token);		
-		token = response.data.token;
-		return token;
-	}
-	
-	
-	userService.getUserName = function(callback){
+	/*userService.getUserName = function(callback){
 		//console.log(user);
 		
 		 if (!user.userName){

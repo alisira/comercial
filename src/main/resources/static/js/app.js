@@ -1,9 +1,9 @@
 'use strict';
 
-var App = angular.module('myApp',['ngRoute','ngAnimate']);
+var App = angular.module('myApp',['ngRoute','ngAnimate', 'ui.router']);
 
 
-App.config(function($routeProvider, $httpProvider){
+App.config(function($routeProvider, $httpProvider, $stateProvider, $urlRouterProvider){
 	
 	//console.log($httpProvider);	
 	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -21,11 +21,13 @@ App.config(function($routeProvider, $httpProvider){
 		'admin_report'
 	];
 	
+	var c=0;
 	for (var i in aryProvider){
 		
 		var ctrTemp = aryProvider[i].split("_");
 		var ctr = "";
 		
+		//converts admin_color to AdminColor
 		for (var c in ctrTemp){
 			ctr += ctrTemp[c].charAt(0).toUpperCase()+ ctrTemp[c].slice(1);
 		}
@@ -41,7 +43,7 @@ App.config(function($routeProvider, $httpProvider){
 			
 			switch (method) {
 	        
-		        case 'index':
+				case 'index':
 		          //url = '/' + provider + '?search';
 		          //url = '/' + provider + '/' + method;
 		          url = '/' + providerTemp + '/' + method
@@ -70,51 +72,70 @@ App.config(function($routeProvider, $httpProvider){
 			        templateUrl = 'html/' + providerTemp+ '/' + method + '.html';
 		          break;
 		        case 'edit':
-		          //url = '/' + provider + '/' + method + '/:id';
+		        	url = '/' + providerTemp + '/edit/:id';
+		        	templateUrl = 'html/' + providerTemp+ '/' + method + '.html'
+		        	//url = '/' + provider + '/' + method + '/:id';
 		          break;
 		        case 'delete':
 		          //url = '/' + provider + '/' + method + '/:id';
 		          break;
-	      }
+			}
 			
-			//console.log(providerTemp + '->' +  'url:' + url + '- templateUrl:' + templateUrl);
+			//console.log(providerTemp + '->' +  'url:' + url + '- templateUrl:' + templateUrl + "- ctr:" + ctr+'Controller'+method.charAt(0).toUpperCase()+ method.slice(1));
+			
+			$stateProvider.state(ctr+'Controller'+method.charAt(0).toUpperCase()+ method.slice(1), {
+		        url: url,
+		        templateUrl: templateUrl,
+		        controller: ctr+'Controller'+method.charAt(0).toUpperCase()+ method.slice(1)
+		      });
 			
 			
-			
-			$routeProvider
-	        .when(url, {
-	            controller: ctr+'Controller'+method.charAt(0).toUpperCase()+ method.slice(1),
-	            templateUrl: templateUrl
-	        });
-			
-			//console.log(providerTemp + ":" + ctr + ":" + "html/"+providerTemp+ '/' + method+ ".html");
+			//console.log(url + ":" + ctr + ":" + "html/"+providerTemp+ '/' + method+ ".html");
 			//console.log(ctr+'Controller'+method.charAt(0).toUpperCase()+ method.slice(1));
 		}
-		
+		c++;
 	}
 	
+	$urlRouterProvider.otherwise('/home');
 	
-	$routeProvider
-    .when("/", {
-    	controller : 'HomeController',    
-		templateUrl : 'html/home.html',
-		controllerAs: "controller"
-    }).when("/home", {
-    	controller : 'HomeController',    
-		templateUrl : 'html/home.html',
-		controllerAs: "controller"
-    }).when('/login', {
-    	controller : 'LoginController',    
-		templateUrl : 'html/login.html',
-		controllerAs: "controller"
-    });
+	$stateProvider
+		.state('HomeController', {
+			url: "/",
+			templateUrl: 'html/home.html',
+			controller: 'HomeController'
+		})
+		.state('HomeController2', {
+			url: "/home",
+			templateUrl: 'html/home.html',
+			controller: 'HomeController'
+        })
+        .state('LoginController', {
+        	url: "/login",
+        	templateUrl: 'html/login.html',
+        	controller: 'LoginController'
+        })
 	
 	
-	$routeProvider.otherwise({
-        controller: "Test2",
-        controllerAs: "test2",
-        template: "<h1>En el Otherwise</h1>"
-    });
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }).config(function($httpProvider) {
     $httpProvider.interceptors.push('httpResponseInterceptor');

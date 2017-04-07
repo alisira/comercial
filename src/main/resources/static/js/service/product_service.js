@@ -23,16 +23,24 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
 		);
 	};
 	
-	productService.findAll = function(page, limit){
-		//console.log(model);
+	productService.findAll = function(param){
+
+
+			var str = Object.keys(param).map(function(key){ 
+			  
+				console.log(param[key] +  '-' +  key);
+				
+				return encodeURIComponent(key) + '=' + encodeURIComponent(param[key]);
+				
+			}).join('&');		
 		
-		var param =  {};
-		param.page =page;
-		param.limit =limit;		
-		//console.log(param);
+		if (str){
+			str = '?' + str;
+		}
+		console.log(str);
 		
 		
-		return $http.get(model+'/'+page+'/'+limit).then(
+		return $http.get(model+'/list'+str).then(
 				function(response){
 					//console.log(response);
 					return response.data;

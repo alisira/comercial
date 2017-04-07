@@ -6,21 +6,21 @@ App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductSer
 	$scope.products = {"list":null};
 	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];
 	$scope.model =	{"name" : "products" , "perPage" : "10", "page": 1, "count": 0};
-		
+
 	$scope.actionCount = function() {
         var productService = ProductService;        
         productService.count().then($scope.actionReadyCount, $scope.error);
     }
-	
+
 	$scope.actionReadyCount = function(response) {
 		$scope.model.count = parseInt(response.count);
 	}
-	
+
 	$scope.error = function(errResponse){
 		console.error(errResponse);
 	}
-	
-	$scope.findCategories = function() {		
+
+	$scope.findCategories = function() {
         var categoryService = CategoryService;        
         categoryService.findAll()	
 	        .then(
@@ -32,13 +32,17 @@ App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductSer
     }
 	
 	$scope.findModel = function() {
-		var productService = ProductService;        
-		productService.findAll(parseInt($scope.model.page), parseInt($scope.model.perPage))
+
+		var productService = ProductService;		
+		var param =  {};
+		param.page =parseInt($scope.model.page);
+		param.perPage =parseInt($scope.model.perPage);
+
+		productService.findAll(param)
 	        .then(
 	        		function(response) {
 	        			//console.log(response);
 	        			$scope.model.list = response;
-	        			//$scope.count = permission.permisos;
 	        		},
 	        		$scope.error
 	        );
@@ -48,7 +52,7 @@ App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductSer
         $scope.actionCount();
         $scope.findCategories();
     };
-    
+
     $scope.init();
 
 }]);
@@ -68,8 +72,6 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
     $scope.birthdate = new Date();
     $scope.adminNewborn.ref_profile = {};
 
-    
-    
     $scope.init = function() {
         
         $scope.findColors();

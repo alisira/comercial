@@ -9,8 +9,7 @@ App.directive('pagingObject', function(){
     	link: function(scope,  element, attrs){
     		
     		scope.pagination = function() {
-    			//console.log(attrs.color);
-    			//scope.color = attrs.color;
+
     			scope.limitBorder = {"left":12, "right":12};
     			
     			scope.numPage =  Math.ceil(scope.model.count / scope.model.perPage);
@@ -32,6 +31,7 @@ App.directive('pagingObject', function(){
     			}    			
     			
     			scope.findModel();
+    			
 
     			/*if (skip > 0) {
                     element.find('.prev').removeClass('hidden');
@@ -51,7 +51,12 @@ App.directive('pagingObject', function(){
     		};
     		
     		
-            scope.goToPage = function(page) {
+            scope.goToPage = function(page, $event) {
+
+            	element.find('.active').removeClass('active');
+            	//$event.currentTarget.parentNode.className ='active'; //This is another way to set de class           	
+            	angular.element($event.currentTarget).parent().addClass('active');
+            	
 
                 /*if (scope.params.limit > scope.count) {
                     scope.params.skip = 0;
@@ -61,25 +66,26 @@ App.directive('pagingObject', function(){
 
                 scope.actionFind();
                 */
-            	console.log(page);
+        		scope.model.page = page;
+        		//scope.pagination();
+        		scope.findModel();
+        		
+        		
             };
     		
             //Evento que observa el cambio en la variable pero q la primera vez tiene el mismo valor averiguar por que
     		scope.$watch('model.perPage', function(perPage, perPageOld) {
             	//console.log(perPage + '-' + perPageOld + '-' + scope.model.count);
-                /*if (perPage!= perPageOld) {
-                	//console.log('diferete');
-                    //scope.pagination();
-                }*/
+                if (perPage!= perPageOld) {
+                	scope.model.page = 1;
+                	element.find('.active').removeClass('active');
+                }
             	
             	if (perPage > 0 && scope.model.count > 0) {
             		//console.log('paginacion1');
             		//console.log(perPage + '-' + perPageOld + '-' + scope.products.count);            		
             		scope.pagination();
             	}
-            	
-            	
-            	//scope.pagination();
             	
             });
     		
@@ -93,7 +99,7 @@ App.directive('pagingObject', function(){
             	//scope.pagination();
             	
             	if (scope.model.perPage > 0 && modelCount > 0) {
-            		console.log('paginacion2');
+            		//console.log('paginacion2');
             		//console.log(modelCount + '-' + modelCountOld + '-' + scope.model.perPage  );
             		scope.pagination();
             	}

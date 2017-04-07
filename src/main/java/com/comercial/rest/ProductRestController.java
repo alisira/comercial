@@ -1,13 +1,9 @@
 package com.comercial.rest;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,15 +16,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.comercial.model.Products;
+import com.comercial.model.QProducts;
 import com.comercial.service.ProductService;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.querydsl.core.types.dsl.BooleanExpression;
 
 
 //import javax.json.*;
@@ -40,13 +39,49 @@ public class ProductRestController {
 	@Autowired
 	ProductService productService;
 	
+
+	
+	
 	@RequestMapping(value = "/product/count/", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody String count(){
+		
+		
+		/*Pageable pageable = new PageRequest(0, 20,new Sort(Sort.Direction.ASC, "idProduct").and(new Sort(Sort.Direction.DESC, "name")));
+		Products pp = new Products();
+		pp.setName("FACHALETA BARLETT NATUR 34X60");
+		//List<Products> ll = productService.findAllByCustomProduct(pp, pageable);
+		//System.out.println("Tamaños" + ll.size());
+		
+		Category cat = new Category();
+		cat.setIdCategory(2);		
+		QProducts qpro = QProducts.products;		
+		BooleanExpression creti1 = qpro.products.name.eq("FACHALETA BARLETT NATUR 34X60");
+		BooleanExpression creti2 = qpro.products.description.eq("FACHALETA BARLETT NATUR 34X60");
+		BooleanExpression creti3 = qpro.products.idCategory.eq(cat);
+		Page<Products> ll = productService.findAll(creti1.and(creti2).and(creti3),pageable);
+		System.out.println("Tamaño" + ll.getNumber());
+		
+		System.out.println(ll.getContent().size());
+		
+		ObjectMapper mapper = new ObjectMapper();
+    	String jsonInString = null;
+		try {
+			
+			jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString( ll.getContent());
 
-		long total =  productService.count();
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		*/
+		
 	    
 	    Map toParse = new HashMap();
-	    toParse.put("count", total);	    
+	    toParse.put("count", productService.count());	    
 		JSONObject jsonObject = new JSONObject(toParse);
 
 	    return jsonObject.toJSONString();
@@ -54,30 +89,39 @@ public class ProductRestController {
 	}	
 	
 	
-    @RequestMapping(value = "/product/{page}/{per_page}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody String product(@PathVariable("page") long page, @PathVariable("per_page") long perPage){
+    @RequestMapping(value = "/product/list", method = RequestMethod.GET, produces = "application/json")
+	//public @ResponseBody String product(@RequestParam(value ="page", defaultValue="") long page, @RequestParam(value ="perPage", defaultValue="") long perPage){@RequestParam Map<String,String> requestParams
+    public @ResponseBody String product(@RequestParam Map<String,String> requestParams) {
 
-		//System.out.println(page + "-" +  perPage);
+		//System.out.println(requestParams.get("page") + "-" + requestParams.get("perPage"));
 		
-		Pageable pageable = new PageRequest((int)page-1, (int)perPage,new Sort(Sort.Direction.ASC, "idProduct").and(new Sort(Sort.Direction.DESC, "name")));
+		Pageable pageable = new PageRequest(Integer.parseInt(requestParams.get("page"))-1, Integer.parseInt(requestParams.get("perPage")),new Sort(Sort.Direction.ASC, "idProduct").and(new Sort(Sort.Direction.DESC, "name")));
 		//Page list = productService.pagination(pageable).getContent();
-		
 		//List list2 = list.getContent();
-		
-		
-		
 		//*Asi Creo los productos que puedo mandar sin los id foraneos
 		/*List<Products> proTemp = new ArrayList<Products>();
 		for(int i=0; i< a.getContent().size();i++){
 			Products aa = new  Products ((Products) a.getContent().get(i));			
 			proTemp.add(aa);
 		}*/
+		
+		/*Products pp = new Products();
+		pp.setName("FACHALETA BARLETT NATUR 34X60");
+		List<Products> ll = productService.findAllByCustomProduct(pp, pageable);
+		System.out.println("Tamaños" + ll.size());
+		*/
+		
+		
+		
+		
+		
+		
         
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonInString = null;
 		try {
 			
-			jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(productService.pagination(pageable).getContent());
+			jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString( productService.findAll(pageable).getContent());
 
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
@@ -94,7 +138,7 @@ public class ProductRestController {
     @RequestMapping(value = "/product/", method = RequestMethod.POST)
     public String createUser(@RequestBody Products product, UriComponentsBuilder ucBuilder) {
 		
-		Products proTemp = productService.saveProducts(product);
+		Products proTemp = productService.save(product);
 		
 		Map toParse = new HashMap();
 	    toParse.put("id", proTemp.getIdProduct());
@@ -106,7 +150,7 @@ public class ProductRestController {
     @RequestMapping(value = "/product/", method = RequestMethod.PUT)
     public String updateProduct(@RequestBody Products product, UriComponentsBuilder ucBuilder) {
 		
-		Products proTemp = productService.updateProducts(product);
+		Products proTemp = productService.save(product);
 		
 		Map toParse = new HashMap();
 	    toParse.put("id", proTemp.getIdProduct());
@@ -122,7 +166,7 @@ public class ProductRestController {
     public String findProduct(@PathVariable("id") String id, UriComponentsBuilder ucBuilder) {
 		
 		Long aa =  Long.parseLong(id);
-		Products proTemp = productService.findById(aa);		
+		Products proTemp = productService.findOne(aa);		
 
 		ObjectMapper mapper = new ObjectMapper();
     	String jsonInString = null;
@@ -236,4 +280,7 @@ public class ProductRestController {
     
 
 }
+
+
+
 

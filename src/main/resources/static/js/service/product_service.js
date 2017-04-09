@@ -11,9 +11,27 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
         console.log(model);
     }
 	
-	productService.count = function(){
+	function encodeUrl(param){
 		
-		return $http.get(model+'/count/').then(
+		var str = Object.keys(param).map(function(key){
+			  
+			//console.log(param[key] +  '-' +  key);
+			
+			return encodeURIComponent(key) + '=' + encodeURIComponent(param[key]);
+			
+		}).join('&');		
+		
+		if (str){
+			str = '?' + str;
+		}
+		
+		
+		return str;
+	}	
+	
+	productService.count = function(param){
+		
+		return $http.get(model+'/count'+encodeUrl(param)).then(
 				function(response){					
 					return response.data;
 				},
@@ -24,23 +42,8 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
 	};
 	
 	productService.findAll = function(param){
-
-
-			var str = Object.keys(param).map(function(key){ 
-			  
-				console.log(param[key] +  '-' +  key);
-				
-				return encodeURIComponent(key) + '=' + encodeURIComponent(param[key]);
-				
-			}).join('&');		
 		
-		if (str){
-			str = '?' + str;
-		}
-		console.log(str);
-		
-		
-		return $http.get(model+'/list'+str).then(
+		return $http.get(model+'/list'+encodeUrl(param)).then(
 				function(response){
 					//console.log(response);
 					return response.data;
@@ -52,7 +55,7 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
 	};	
 
 	productService.createProduct = function(product){
-		return $http.post('http://localhost:8080/product/', product)
+		return $http.post(model+'/', product)
 		.then(
 				function(response){
 					//console.log(response.data);
@@ -66,7 +69,7 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
 	}
 	
 	productService.findProduct = function(id) {
-		return $http.get('http://localhost:8080/product/'+ id )
+		return $http.get(model+'/'+ id )
 			.then(
 					function(response){
 						//console.log(response);
@@ -80,7 +83,7 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
     }
 	
 	productService.updateProduct = function(product){
-		return $http.put('http://localhost:8080/product/', product)
+		return $http.put(model+'/', product)
 		.then(
 				function(response){
 					//console.log(response.data);

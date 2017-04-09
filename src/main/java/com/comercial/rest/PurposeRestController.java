@@ -64,19 +64,42 @@ public class PurposeRestController {
     	//System.out.println(skip + "-" + limit);
     	
     	List<Purpose> lista = purposeService.getList(limit, skip);
+    	
+    	
+    	int c =0;
+    	Map toParse1 = new HashMap();
+    	for (Purpose a :lista) {
+
+    		//System.out.println(a.getName()+"," );
+    		Map toParse = new HashMap();
+		    toParse.put("denomination", a.getDenomination());
+		    toParse.put("idPurpose", a.getIdPurpose());
+			
+		    
+		    toParse1.put("reg"+c, toParse);
+    		c++;
+
+    	}
+    	JSONObject jsonObject = new JSONObject(toParse1);
+    	
+    	
+    	//System.out.println(jsonObject);
+    	
         
     	ObjectMapper mapper = new ObjectMapper();
 
 
     	String jsonInString = null;
 		try {
+			//System.out.println(lista.get(0));
+			
 
 			//Convert object to JSON string
-			jsonInString = mapper.writeValueAsString(lista);
+			//jsonInString = mapper.writeValueAsString(jsonObject);
 			//System.out.println(jsonInString);
 
 			//Convert object to JSON string and pretty print
-			jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(lista);
+			jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonObject);
 			//System.out.println(jsonInString);
 
 

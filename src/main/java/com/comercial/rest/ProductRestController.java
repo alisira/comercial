@@ -2,6 +2,7 @@ package com.comercial.rest;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.comercial.model.Category;
 import com.comercial.model.Products;
 import com.comercial.model.QProducts;
 import com.comercial.service.ProductService;
@@ -39,54 +41,29 @@ public class ProductRestController {
 	@Autowired
 	ProductService productService;
 	
-
-	
 	
 	@RequestMapping(value = "/product/count/", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody String count(){
-		
-		
-		/*Pageable pageable = new PageRequest(0, 20,new Sort(Sort.Direction.ASC, "idProduct").and(new Sort(Sort.Direction.DESC, "name")));
-		Products pp = new Products();
-		pp.setName("FACHALETA BARLETT NATUR 34X60");
-		//List<Products> ll = productService.findAllByCustomProduct(pp, pageable);
-		//System.out.println("Tamaños" + ll.size());
-		
-		Category cat = new Category();
-		cat.setIdCategory(2);		
-		QProducts qpro = QProducts.products;		
-		BooleanExpression creti1 = qpro.products.name.eq("FACHALETA BARLETT NATUR 34X60");
-		BooleanExpression creti2 = qpro.products.description.eq("FACHALETA BARLETT NATUR 34X60");
-		BooleanExpression creti3 = qpro.products.idCategory.eq(cat);
-		Page<Products> ll = productService.findAll(creti1.and(creti2).and(creti3),pageable);
-		System.out.println("Tamaño" + ll.getNumber());
-		
-		System.out.println(ll.getContent().size());
-		
-		ObjectMapper mapper = new ObjectMapper();
-    	String jsonInString = null;
-		try {
-			
-			jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString( ll.getContent());
+	public @ResponseBody String countAll(){
 
-		} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		*/
-		
-	    
 	    Map toParse = new HashMap();
 	    toParse.put("count", productService.count());	    
 		JSONObject jsonObject = new JSONObject(toParse);
 
 	    return jsonObject.toJSONString();
-		
-	}	
+
+	}
+	
+	
+	@RequestMapping(value = "/product/count", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody String countByParam(@RequestParam Map<String,String> requestParams) {
+
+	    Map toParse = new HashMap();
+	    toParse.put("count", productService.count(criteryConstructor(requestParams)));	    
+		JSONObject jsonObject = new JSONObject(toParse);
+
+	    return jsonObject.toJSONString();
+
+	}
 	
 	
     @RequestMapping(value = "/product/list", method = RequestMethod.GET, produces = "application/json")
@@ -94,34 +71,18 @@ public class ProductRestController {
     public @ResponseBody String product(@RequestParam Map<String,String> requestParams) {
 
 		//System.out.println(requestParams.get("page") + "-" + requestParams.get("perPage"));
+
+		Pageable pageable = new PageRequest(Integer.parseInt(requestParams.get("page"))-1, Integer.parseInt(requestParams.get("perPage")),new Sort(Sort.Direction.ASC, "idProduct").and(new Sort(Sort.Direction.DESC, "name")));		
+
+		Page<Products> ll = productService.findAll(criteryConstructor(requestParams) ,pageable);
+		System.out.println("Tamaño del Page:" + ll.getNumber());
+		System.out.println("Tamaño de la lista:" + ll.getContent().size());
 		
-		Pageable pageable = new PageRequest(Integer.parseInt(requestParams.get("page"))-1, Integer.parseInt(requestParams.get("perPage")),new Sort(Sort.Direction.ASC, "idProduct").and(new Sort(Sort.Direction.DESC, "name")));
-		//Page list = productService.pagination(pageable).getContent();
-		//List list2 = list.getContent();
-		//*Asi Creo los productos que puedo mandar sin los id foraneos
-		/*List<Products> proTemp = new ArrayList<Products>();
-		for(int i=0; i< a.getContent().size();i++){
-			Products aa = new  Products ((Products) a.getContent().get(i));			
-			proTemp.add(aa);
-		}*/
-		
-		/*Products pp = new Products();
-		pp.setName("FACHALETA BARLETT NATUR 34X60");
-		List<Products> ll = productService.findAllByCustomProduct(pp, pageable);
-		System.out.println("Tamaños" + ll.size());
-		*/
-		
-		
-		
-		
-		
-		
-        
-    	ObjectMapper mapper = new ObjectMapper();
+		ObjectMapper mapper = new ObjectMapper();
     	String jsonInString = null;
 		try {
 			
-			jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString( productService.findAll(pageable).getContent());
+			jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(ll.getContent());
 
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
@@ -165,7 +126,8 @@ public class ProductRestController {
     //public ResponseEntity<Void> findProduct(@RequestBody String product, @PathVariable("id") long id, UriComponentsBuilder ucBuilder) {
     public String findProduct(@PathVariable("id") String id, UriComponentsBuilder ucBuilder) {
 		
-		Long aa =  Long.parseLong(id);
+		//poner el controlador de errores para cuando pase por aqui y no mande como id un numero
+    	Long aa =  Long.parseLong(id);
 		Products proTemp = productService.findOne(aa);		
 
 		ObjectMapper mapper = new ObjectMapper();
@@ -182,6 +144,55 @@ public class ProductRestController {
 
 		return jsonInString ;
         
+    }
+    
+    
+    private BooleanExpression criteryConstructor(Map<String,String> requestParams){
+    	
+    	
+    	QProducts qpro = QProducts.products;
+		BooleanExpression criterioFinal = null;
+		int con = 0;
+		Iterator it = requestParams.entrySet().iterator();
+		while (it.hasNext()) {
+	        Map.Entry e = (Map.Entry)it.next();
+	        System.out.println(e.getKey() + "=!" + e.getValue()+ "]!");
+	        
+	        BooleanExpression criterio = null;
+	        if (e.getKey().equals("name")){
+	        	criterio = qpro.products.name.likeIgnoreCase("%" + (String)e.getValue() + "%");
+	        }
+	        
+	        if (e.getKey().equals("description")){
+	        	criterio = qpro.products.description.likeIgnoreCase("%" + (String)e.getValue() + "%");
+	        }
+	        
+	        if (e.getKey().equals("idCategory")){
+	        	Category cat = new Category();
+	    		cat.setIdCategory(Integer.parseInt(e.getValue().toString()));	        	
+	        	criterio = qpro.products.idCategory.eq(cat);
+	        }
+	        
+	        if (e.getKey().equals("code")){
+	        	criterio = qpro.products.code.likeIgnoreCase("%" + (String)e.getValue() + "%");
+	        }	        
+	        
+	        if (criterio != null){
+	        	if (con == 0){
+	        		criterioFinal = criterio;	
+	        	}else{
+	        		if (criterioFinal != null){
+	        			criterioFinal = criterioFinal.and(criterio);
+	        		}else{
+	        			criterioFinal = criterio;
+	        		}
+	        	}
+	        }
+	        con++;
+	    }
+    	
+		return criterioFinal;
+    	
     }
     
     

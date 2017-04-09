@@ -30,6 +30,8 @@ public interface ProductService extends ProductRepository , QueryDslPredicateExe
 
 	public Page<Products> findAll(Predicate predicate);
 	public Page<Products> findAll(Predicate predicate, Pageable p);
+	
+	public long count(Predicate predicate);
 
 	
 	

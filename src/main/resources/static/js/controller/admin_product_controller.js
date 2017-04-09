@@ -5,11 +5,13 @@ App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductSer
 	$scope.appTitle = "Administrador de Productos";
 	$scope.products = {"list":null};
 	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];
-	$scope.model =	{"name" : "products" , "perPage" : "10", "page": 1, "count": 0};
+	$scope.model =	{"name" : "products" , "perPage" : "10", "page":1, "count": 0};
+	//$scope.filter =	{};
+	var param =  {};
 
-	$scope.actionCount = function() {
+	$scope.actionCount = function(param) {
         var productService = ProductService;        
-        productService.count().then($scope.actionReadyCount, $scope.error);
+        productService.count(param).then($scope.actionReadyCount, $scope.error);
     }
 
 	$scope.actionReadyCount = function(response) {
@@ -33,24 +35,50 @@ App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductSer
 	
 	$scope.findModel = function() {
 
-		var productService = ProductService;		
-		var param =  {};
-		param.page =parseInt($scope.model.page);
-		param.perPage =parseInt($scope.model.perPage);
+		param =  {};
 
-		productService.findAll(param)
+		if ($scope.code){
+			param.code = $scope.code; 
+		}
+		if ($scope.description){
+			param.description = $scope.description; 
+		}
+		if ($scope.name){
+			param.name = $scope.name; 
+		}		
+		if ($scope.category){
+			param.idCategory = $scope.category.idCategory; 
+		}
+		
+		if ($scope.code || $scope.description || $scope.name || $scope.category){
+			
+			if (!$scope.goToPageEvent){
+				param.page = $scope.model.page=1;
+			}else{
+				param.page = $scope.model.page;
+			}
+						 
+		}else{
+			param.page =parseInt($scope.model.page);
+		}
+
+		$scope.goToPageEvent =false;		
+		param.perPage =parseInt($scope.model.perPage);
+		//console.log(param);		
+
+		ProductService.findAll(param)
 	        .then(
 	        		function(response) {
-	        			//console.log(response);
 	        			$scope.model.list = response;
+	        			$scope.actionCount(param);
 	        		},
 	        		$scope.error
 	        );
 	}
 
     $scope.init = function() {
-        $scope.actionCount();
         $scope.findCategories();
+        $scope.findModel();       
     };
 
     $scope.init();
@@ -187,7 +215,7 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
     
     $scope.actionSaveForm = function() {
     	
-    	console.log($scope.product);
+    	//console.log($scope.product);
     	ProductService.createProduct($scope.product).then(
         		function(response) {
         			//console.log(response);        			

@@ -34,7 +34,7 @@ App.config(function($routeProvider, $httpProvider, $stateProvider, $urlRouterPro
 		
 		var providerTemp =  aryProvider[i];
 		
-		var aryMethod = ['index', 'list', 'new', 'view', 'edit', 'delete'];
+		var aryMethod = ['index', 'list', 'new', 'view', 'edit'];
 		for (var x in aryMethod) {
 			var method = aryMethod[x];
 			
@@ -77,7 +77,8 @@ App.config(function($routeProvider, $httpProvider, $stateProvider, $urlRouterPro
 		        	//url = '/' + provider + '/' + method + '/:id';
 		          break;
 		        case 'delete':
-		          //url = '/' + provider + '/' + method + '/:id';
+		        	url = '/' + providerTemp + '/delete/:id';
+		        	templateUrl = null;
 		          break;
 			}
 			

@@ -4,33 +4,28 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
 
 	var model = 'product';
 	var productService = {};
-	
+
 	//Constructor de ProductService
 	function ProductService(){
         var model = 'product';
         console.log(model);
     }
-	
+
 	function encodeUrl(param){
-		
+
 		var str = Object.keys(param).map(function(key){
-			  
-			//console.log(param[key] +  '-' +  key);
-			
 			return encodeURIComponent(key) + '=' + encodeURIComponent(param[key]);
-			
-		}).join('&');		
-		
+		}).join('&');
+
 		if (str){
 			str = '?' + str;
 		}
-		
-		
+
 		return str;
-	}	
-	
+	}
+
 	productService.count = function(param){
-		
+
 		return $http.get(model+'/count'+encodeUrl(param)).then(
 				function(response){					
 					return response.data;
@@ -95,97 +90,6 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
 				}
 		);
 	}
-	
-	
-	/*userService.getUserName = function(callback){
-		//console.log(user);
-		
-		 if (!user.userName){
-			
-			return userService.isAuthenticated().then(
-				function(response){
-					user = {};
-					if (response){
-						//console.log("No Nulo:" + response);
-						
-						user =  response.principal;
-						user.authenticated = true;						
-						callback(response.principal.userName);
-						
-					}else{
-						//console.log("Nulo:" + response);
-						user = {};
-						user.authenticated = false;
-						callback(null);
-					}
-					
-					//user =  response.principal;
-					//user.authenticated = true;
-					//return user.userName;
-					
-				},
-				function(errResponse){
-					return $q.reject(errResponse);
-				}
-			);
-			
-		}else{
-			//console.log('No Nulo');
-			//console.log('Entro:'+user.userName);
-			callback(user.userName);
-		}
-		
-	}
-	
-	
-	
-
-	userService.getPermission = function(callback){
-		
-		var param= {idUser:1};
-		return $http.post('http://localhost:8080/user_permission/', param)
-			.then(
-				function(response){
-					//console.log(response.data);
-					callback(response.data);					
-					//return response.data;
-				}, 
-				function(errResponse){
-					console.error('Error while get user permission');
-					return $q.reject(errResponse);
-				}
-		);
-	}
-
-	userService.authenticate = function(credentials, callback) {
-
-		var headers = credentials ? {
-			authorization : "Basic "
-					+ btoa(credentials.username + ":"
-							+ credentials.password)
-		} : {};
-
-		$http.get('user', {
-			headers : headers
-		}).then(function(response) {
-			
-			//console.log(response);
-			user = {};
-			if (response.data) {
-				user =  response.data.principal;
-				user.authenticated = true;
-				//console.log(user);
-			} else {
-				user = {};
-				user.authenticated = false;
-			}
-			callback();
-		}, function() {
-			user.authenticated = false;
-			login(false);
-		});
-
-	}*/
 
     return productService;
 

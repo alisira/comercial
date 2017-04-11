@@ -6,7 +6,6 @@ App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductSer
 	$scope.products = {"list":null};
 	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];
 	$scope.model =	{"name" : "products" , "perPage" : "10", "page":1, "count": 0};
-	//$scope.filter =	{};
 	var param =  {};
 
 	$scope.actionCount = function(param) {
@@ -263,33 +262,6 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
             });
         }
     };
-
-    $scope.actionSaveForm = function() {
-        if (!$scope.isSaving) {
-            $scope.isSaving = true;
-
-            var adminNewborn = new Newborn();
-
-            adminNewborn.data = {
-                'name': $scope.adminNewborn.name,
-                'ref_profile': $scope.adminNewborn.ref_profile._id,
-                'ref_image': $scope.image._id,
-                'birthdate': $scope.birthdate,
-                'sex': $scope.adminNewborn.sex,
-                'weight': $scope.adminNewborn.weight,
-                'height': $scope.adminNewborn.height,
-                'birth_place': $scope.adminNewborn.birth_place
-            }
-
-            adminNewborn.ready = $scope.actionSubmitReady;
-            adminNewborn.add();
-        }
-    };
-
-    $scope.actionSubmitReady = function(adminNewborn) {
-        $location.path('admin-newborn/edit/' + adminNewborn._id);
-    };
-
     
 
     $scope.findProfileAction = function() {
@@ -546,6 +518,7 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 		$scope.product.idEnviroment = parseInt($scope.product.idEnviroment);
 		$scope.product.idPurpose = parseInt($scope.product.idPurpose);		
 		$scope.product.idStatus = parseInt($scope.product.status);
+		//$scope.product.createdAt  = moment(new Date()).local().format("YYYY-MM-DDTHH:mm:ss");
     	
     	ProductService.updateProduct($scope.product).then(
     		function(response) {

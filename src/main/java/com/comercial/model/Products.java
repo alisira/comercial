@@ -6,6 +6,7 @@
 package com.comercial.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -22,14 +23,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
@@ -37,6 +38,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
  * @author asira
  */
 @Entity
+@org.hibernate.annotations.Entity(dynamicUpdate = true)
 @Table(name = "products", catalog = "comercial", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Products.findAll", query = "SELECT p FROM Products p order by p.idProduct")
@@ -59,6 +61,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
     , @NamedQuery(name = "Products.findByRank", query = "SELECT p FROM Products p WHERE p.rank = :rank")
     , @NamedQuery(name = "Products.findByIdProduct", query = "SELECT p FROM Products p WHERE p.idProduct = :idProduct")})
 
+@JsonInclude(Include.NON_NULL)
 public class Products implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -83,12 +86,15 @@ public class Products implements Serializable {
     @Basic(optional = false)
     @Column(name = "status")
     private short status;
+    
     @Column(name = "created_at")
-    @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     private Date createdAt;
-    @Column(name = "updated_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
+
+    @JsonIgnore
+    @Column(name = "updated_at")    
+    private Date updatedAt;    
+    
     @Basic(optional = false)
     @Column(name = "material")
     private String material;
@@ -150,7 +156,7 @@ public class Products implements Serializable {
     
     @JoinColumn(name = "id_purpose", referencedColumnName = "id_purpose")
     @ManyToOne(optional = false)
-    @JsonProperty(access = Access.WRITE_ONLY)
+    @JsonProperty(access = Access.READ_ONLY)
     //@JsonIgnoreProperties(ignoreUnknown = true)
     //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonIgnore
@@ -183,7 +189,7 @@ public class Products implements Serializable {
     }
     
     public Products(Products pro) {
-        this.idProduct = pro.idProduct;
+    	this.idProduct = pro.idProduct;
         this.name = pro.name;
         this.description = pro.description;
         this.code = pro.code;
@@ -197,6 +203,11 @@ public class Products implements Serializable {
         this.itemBox = pro.itemBox;
         this.kgMeter = pro.kgMeter;
         this.priceSample = pro.priceSample;
+        this.setIdColor(pro.getIdColor());
+        this.setIdCategory(pro.getIdCategory());
+        this.setIdEnviroment(pro.getIdEnviroment());
+        this.setIdPurpose(pro.getIdPurpose());
+        this.setIdImage(pro.getIdImage());
     }
     
 
@@ -257,22 +268,22 @@ public class Products implements Serializable {
     }
 
     public Date getCreatedAt() {
-        return createdAt;
-    }
+		return createdAt;
+	}
 
     public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+		this.createdAt = createdAt;
+	}
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 
-    public String getMaterial() {
+	public String getMaterial() {
         return material;
     }
 

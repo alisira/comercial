@@ -24,6 +24,7 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -42,15 +43,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
 
+//@EnableJpaRepositories
 @SpringBootApplication
 @RestController
 public class UiApplication {
 
 	 @Autowired 
 	 private UserDetailsService userDetailsService;
-	
-	 
-
 
 	@RequestMapping("/resource")
 	public Map<String, Object> home() {

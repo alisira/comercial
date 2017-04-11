@@ -44,7 +44,7 @@ App.directive('pagingObject', function(){
     		
             //Evento que observa el cambio en la variable pero q la primera vez tiene el mismo valor averiguar por que
     		scope.$watch('model.perPage', function(perPage, perPageOld) {
-            	console.log(perPage + '-' + perPageOld + '-' + scope.model.count);
+            	//console.log(perPage + '-' + perPageOld + '-' + scope.model.count);
                 if (perPage!= perPageOld) {
                 	scope.model.page = 1;
                 }

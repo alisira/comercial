@@ -1,13 +1,24 @@
 'use strict';
 
-App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductService', 'CategoryService', function($scope, $location, ProductService, CategoryService) {
+App.controller('AdminProductControllerList', ['$scope', '$location', '$rootScope', 'ProductService', 'CategoryService', '$timeout', function($scope, $location, $rootScope, ProductService, CategoryService, $timeout) {
 	var self = this;
-	$scope.appTitle = "Administrador de Productos";
+	$scope.appTitle = "Administrador de Productos";	
 	$scope.products = {"list":null};
 	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];
 	$scope.model =	{"name" : "products" , "perPage" : "10", "page":1, "count": 0};
 	var param =  {};
+    $rootScope.errors = [];
 
+	$scope.error = function(responseError) {
+		//console.log(responseError);
+		$rootScope.errors.push("Disculpe las molestia, ocurrio el siguiente error de sistema status=" + responseError.data.status + "-" + responseError.data.error + " en: " + responseError.data.path);
+		//$timeout($scope.resetErrors, 6000);
+	}
+
+	$scope.resetErrors = function() {
+		$rootScope.errors = [];
+    }
+	
 	$scope.actionCount = function(param) {
         var productService = ProductService;        
         productService.count(param).then($scope.actionReadyCount, $scope.error);
@@ -17,20 +28,17 @@ App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductSer
 		$scope.model.count = parseInt(response.count);
 	}
 
-	$scope.error = function(errResponse){
-		console.error(errResponse);
-	}
-
 	$scope.findCategories = function() {
         var categoryService = CategoryService;        
-        categoryService.findAll()	
+        categoryService.findAll()
 	        .then(
-	        		function(response) {
-	        			$scope.categories = response;
-	        		},
-	        		$scope.error
-	        );
-    }
+        		function(response) {
+        			$scope.categories = response;
+        		},
+        		$scope.error
+	        )
+     };
+    
 	
 	$scope.findModel = function() {
 
@@ -132,9 +140,7 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
         enviromentService.findAll(0,0)	
 	        .then(
 	        		function(response) {
-	        			//console.log(response);
 	        			$scope.enviroments = response;
-	        			//$scope.count = permission.permisos;
 	        		},
 	        		function(errResponse){
 	        			console.error('Error counting Enviroment');
@@ -374,26 +380,34 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 	$scope.submitTitle = 'Guardar';
 	$scope.appTitle = "Producto";
 	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];
-	
-    $scope.model =	{"name" : "products"};
-    
-    
+    $scope.model =	{"name" : "products"};    
+    $rootScope.errors = [];
+
+	$scope.error = function(responseError) {
+		//console.log(responseError);
+		$rootScope.errors.push("Disculpe las molestia, ocurrio el siguiente error de sistema status=" + responseError.data.status + "-" + responseError.data.error + " en: " + responseError.data.path);
+		//$timeout($scope.resetErrors, 6000);
+	}
+
+	$scope.resetErrors = function() {
+		$rootScope.errors = [];
+    }
+
     $scope.init = function() {
-        
-        $scope.findProfileBusy = false;        
+
+    	$scope.findProfileBusy = false;        
         $scope.findColors();
         $scope.findEnviroments();
         $scope.findPurposes();
         $scope.findCategories();
         $scope.findStatus();
         $scope.findProduct($stateParams.id);        
-        
-    };
-    
-    
-	$scope.findProduct = function(id) {	    	
 
-    	ProductService.findProduct(id).then(
+    };
+
+	$scope.findProduct = function(id) {
+
+		ProductService.findProduct(id).then(
         		function(response) {
         			$scope.product = response;
         			$scope.product.idColor = String(response.idColor.idColor);
@@ -402,26 +416,20 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
         			$scope.product.idCategory = String(response.idCategory.idCategory);
         			$scope.product.idStatus = String(response.status);        			
         		},
-        		function(errResponse){
-        			console.error('Error saving product');
-        		}
+        		$scope.error
         );
     }
-    
-    $scope.findColors = function() {    	
-    	
+
+    $scope.findColors = function() {
+
         var colorService = ColorService;
-        
+
         colorService.findAll(0,0)	
 	        .then(
 	        		function(response) {
-	        			//console.log(response);
 	        			$scope.colors = response;
-	        			//$scope.count = permission.permisos;
 	        		},
-	        		function(errResponse){
-	        			console.error('Error getting colors');
-	        		}
+	        		$scope.error
 	        );
        
     }
@@ -435,11 +443,8 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 	        		function(response) {
 	        			//console.log(response);
 	        			$scope.enviroments = response;
-	        			//$scope.count = permission.permisos;
 	        		},
-	        		function(errResponse){
-	        			console.error('Error counting Enviroment');
-	        		}
+	        		$scope.error
 	        );
        
     }
@@ -455,9 +460,7 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 	        			$scope.purposes = response;
 
 	        		},
-	        		function(errResponse){
-	        			console.error('Error counting Purpose');
-	        		}
+	        		$scope.error
 	        );
        
     }
@@ -466,17 +469,13 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 		
         var categoryService = CategoryService;
         
-        categoryService.findAll()	
-	        .then(
+        categoryService.findAll()
+        	.then(
 	        		function(response) {
-	        			//console.log(response);
 	        			$scope.categories = response;
-	        			//$scope.count = permission.permisos;
 	        		},
-	        		function(errResponse){
-	        			console.error('Error counting products');
-	        		}
-	        );
+	        		$scope.error
+	        )    
        
     }
 	
@@ -491,9 +490,7 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
         			$scope.statuses = response;
         			//$scope.count = permission.permisos;
         		},
-        		function(errResponse){
-        			console.error('Error counting products');
-        		}
+        		$scope.error
 	        );
     }
 	

@@ -54,6 +54,7 @@ public class Category implements Serializable {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+    
     @Basic(optional = false)
     @Column(name = "status")
     private short status;

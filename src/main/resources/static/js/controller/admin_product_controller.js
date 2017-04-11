@@ -30,9 +30,13 @@ App.controller('AdminProductControllerList', ['$scope', '$location', '$rootScope
 		$scope.model.count = parseInt(response.count);
 	}
 
-	$scope.findCategories = function() {
-        var categoryService = CategoryService;        
-        categoryService.findAll()
+	$scope.findCategories = function() {        
+        
+        var param =  {};
+		param.page = 0;
+		param.perPage = 0;
+		
+        CategoryService.findAll(param)
 	        .then(
         		function(response) {
         			$scope.categories = response;
@@ -173,7 +177,7 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
 		
         var categoryService = CategoryService;
         
-        categoryService.findAll()	
+        categoryService.findAll(0,0)	
 	        .then(
 	        		function(response) {
 	        			//console.log(response);
@@ -474,14 +478,17 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 		
         var categoryService = CategoryService;
         
-        categoryService.findAll()
+        var param =  {};
+		param.page = 0;
+		param.perPage = 0;
+		
+        categoryService.findAll(param)
         	.then(
 	        		function(response) {
 	        			$scope.categories = response;
 	        		},
 	        		$scope.error
-	        )    
-       
+	        )
     }
 	
 	$scope.findStatus = function() {

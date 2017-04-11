@@ -25,19 +25,25 @@ public class ProductService implements ProductRepository  {
 	
 	@Autowired
 	private ProductRepository productsRepository;
-	
+
 	@Override
-	public <S extends Products> S save(S entity) {
-		
+	public Products save(Products entity) {
+		Products entityFinal = null;
 		if (entity.getIdProduct() != null){
 			Products product = productsRepository.findOne(entity.getIdProduct());
 			if (product != null){
 	        	String[] nullPropertyNames = ServiceUtil.getNullPropertyNames(entity);
 	            ServiceUtil.copyProperties(entity, product, nullPropertyNames);
-	        }	
+	            entityFinal =  product;
+	        }else{	        	
+	        	entityFinal =  entity;
+	        }
+			
+		}else{
+			entityFinal =  entity;	
 		}
 		
-		return productsRepository.save(entity);
+		return productsRepository.save(entityFinal);
 	}
 
 	@Override
@@ -242,6 +248,7 @@ public class ProductService implements ProductRepository  {
 		return criterioFinal;
     	
     }
+
 	
 	
 

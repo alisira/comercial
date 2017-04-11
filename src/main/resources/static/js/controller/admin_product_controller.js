@@ -7,10 +7,12 @@ App.controller('AdminProductControllerList', ['$scope', '$location', '$rootScope
 	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];
 	$scope.model =	{"name" : "products" , "perPage" : "10", "page":1, "count": 0};
 	var param =  {};
-    $rootScope.errors = [];
+	$rootScope.errors = null;
 
 	$scope.error = function(responseError) {
-		//console.log(responseError);
+		if (!$rootScope.errors){
+			$rootScope.errors = [];	
+		}
 		$rootScope.errors.push("Disculpe las molestia, ocurrio el siguiente error de sistema status=" + responseError.data.status + "-" + responseError.data.error + " en: " + responseError.data.path);
 		//$timeout($scope.resetErrors, 6000);
 	}
@@ -381,10 +383,13 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 	$scope.appTitle = "Producto";
 	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];
     $scope.model =	{"name" : "products"};    
-    $rootScope.errors = [];
+    $rootScope.errors = null;
 
 	$scope.error = function(responseError) {
-		//console.log(responseError);
+		//console.log(responseError);		
+		if (!$rootScope.errors){
+			$rootScope.errors = [];	
+		}
 		$rootScope.errors.push("Disculpe las molestia, ocurrio el siguiente error de sistema status=" + responseError.data.status + "-" + responseError.data.error + " en: " + responseError.data.path);
 		//$timeout($scope.resetErrors, 6000);
 	}

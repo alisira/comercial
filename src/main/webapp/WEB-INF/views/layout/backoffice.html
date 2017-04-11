@@ -71,9 +71,8 @@
 	        </div>
 	    </nav>
 	    
-	    
-	    <div ng-if="errors" class="alert alert-warning animate-if" >
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="errors=null">
+	    <div ng-show="errors" class="alert alert-warning animate-if" ng-controller="HomeController as hc">
+			<button type="button" class="close" aria-label="Close" ng-click="hc.closeErrors()">
 				<span aria-hidden="true">&times;</span>
 			</button>
 			<ul>
@@ -83,14 +82,7 @@
 			</ul>
 		</div>
 		
-		
-		
-		
 		<div ui-view = ""></div>
-		
-		
-		
-				
       
 		<script src="/webjars/jquery/1.11.1/jquery.min.js"></script>		
   		<script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>		

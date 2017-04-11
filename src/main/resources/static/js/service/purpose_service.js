@@ -26,9 +26,6 @@ App.factory('PurposeService', ['$http', '$q', function($http, $q){
 	};
 	
 	enviromentService.findAll = function(limit, skip){
-
-		//console.log(model);		
-		//console.log(model);
 		
 		var param =  {};
 		param.skip =skip;
@@ -36,7 +33,10 @@ App.factory('PurposeService', ['$http', '$q', function($http, $q){
 		
 		return $http.post(model+'/', param).then(
 				function(response){					
-					return response.data;
+					if (response.status == 500)
+						return $q.reject(response);
+					else
+						return response.data;
 				},
 				function(errResponse){
 					return $q.reject(errResponse);

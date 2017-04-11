@@ -13,8 +13,6 @@ App.factory('ColorService', ['$http', '$q', function($http, $q){
 	
 	colorService.count = function(){
 
-		//console.log(model);
-
 		return $http.get(model+'/count/').then(
 				function(response){					
 					return response.data;
@@ -27,20 +25,20 @@ App.factory('ColorService', ['$http', '$q', function($http, $q){
 	
 	colorService.findAll = function(limit, skip){
 
-		//console.log(model);		
-		//console.log(model);
-		
 		var param =  {};
 		param.skip =skip;
 		param.limit =limit;
 		
 		return $http.post(model+'/', param).then(
-				function(response){					
+			function(response){
+				if (response.status == 500)
+					return $q.reject(response);
+				else
 					return response.data;
-				},
-				function(errResponse){
-					return $q.reject(errResponse);
-				}
+			},
+			function(errResponse){
+				return $q.reject(errResponse);
+			}
 		);
 		
 	};	

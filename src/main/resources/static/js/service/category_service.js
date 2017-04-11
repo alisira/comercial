@@ -27,11 +27,12 @@ App.factory('CategoryService', ['$http', '$q', function($http, $q){
 	
 	categoryService.findAll = function(){
 
-		//console.log(model);
-
 		return $http.get(model+'/').then(
-				function(response){					
-					return response.data;
+				function(response){
+					if (response.status == 500)
+						return $q.reject(response);
+					else
+						return response.data;
 				},
 				function(errResponse){
 					return $q.reject(errResponse);

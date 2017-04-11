@@ -26,9 +26,6 @@ App.factory('StatusService', ['$http', '$q', function($http, $q){
 	};
 	
 	statusService.findAll = function(limit, skip){
-
-		//console.log(model);		
-		//console.log(model);
 		
 		var param =  {};
 		param.skip =skip;
@@ -36,8 +33,10 @@ App.factory('StatusService', ['$http', '$q', function($http, $q){
 		
 		return $http.post(model+'/', param).then(
 				function(response){	
-					//console.log(response.data);
-					return response.data;
+					if (response.status == 500)
+						return $q.reject(response);
+					else
+						return response.data;
 				},
 				function(errResponse){
 					return $q.reject(errResponse);

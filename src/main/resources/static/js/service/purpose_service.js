@@ -3,15 +3,28 @@
 App.factory('PurposeService', ['$http', '$q', function($http, $q){
 
 	var model = 'purpose';
-	var enviromentService = {};
+	var purposeService = {};
 	
 	//Constructor de PurposeService
 	function PurposeService(){
-        var model = 'enviroment';
+        var model = 'service';
         //console.log(model);
     }
 	
-	enviromentService.count = function(){
+	function encodeUrl(param){
+
+		var str = Object.keys(param).map(function(key){
+			return encodeURIComponent(key) + '=' + encodeURIComponent(param[key]);
+		}).join('&');
+
+		if (str){
+			str = '?' + str;
+		}
+
+		return str;
+	}
+	
+	purposeService.count = function(){
 
 		//console.log(model);
 
@@ -25,13 +38,9 @@ App.factory('PurposeService', ['$http', '$q', function($http, $q){
 		);
 	};
 	
-	enviromentService.findAll = function(limit, skip){
+	purposeService.findAll = function(param){
 		
-		var param =  {};
-		param.skip =skip;
-		param.limit =limit;
-		
-		return $http.post(model+'/', param).then(
+		return $http.get(model + '/list' + encodeUrl(param)).then(
 				function(response){					
 					if (response.status == 500)
 						return $q.reject(response);
@@ -46,7 +55,7 @@ App.factory('PurposeService', ['$http', '$q', function($http, $q){
 	};	
 
 
-    return enviromentService;
+    return purposeService;
 
 }]);
 

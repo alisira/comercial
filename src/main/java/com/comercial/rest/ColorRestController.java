@@ -11,8 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.comercial.model.Category;
 import com.comercial.model.Color;
 import com.comercial.service.ColorService;
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -32,52 +35,28 @@ public class ColorRestController {
 	
 	@RequestMapping(value = "/color/count/", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody  String count(){
-
-		List<Color> lista = colorService.getList(0, 0);
+		
+		long lista = colorService.count();
 	    
 	    Map toParse = new HashMap();
-	    toParse.put("count", lista.size());
+	    toParse.put("count", lista);
 		JSONObject jsonObject = new JSONObject(toParse);
 
 	    return jsonObject.toJSONString();
 		
-	}	
-	
-	
-    @RequestMapping(value = "/color/", method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody String color(@RequestBody String param){
+	}
+    
+    @RequestMapping(value = "/color/list", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody String listColor(@RequestParam Map<String,String> requestParams) {
 
-    	long limit = 0;
-		long skip = 0;
-
-		JSONParser parser = new JSONParser();
-		try {
-			JSONObject json = (JSONObject) parser.parse(param);
-			
-			limit =  (long) json.get("limit");
-			skip =  (long) json.get("skip");
-			
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		
-    	//System.out.println(skip + "-" + limit);
-    	
-    	List<Color> lista = colorService.getList(limit, skip);
+    	List<Color> list = colorService.findAll(requestParams);
         
     	ObjectMapper mapper = new ObjectMapper();
-
 
     	String jsonInString = null;
 		try {
 
-			//Convert object to JSON string
-			jsonInString = mapper.writeValueAsString(lista);
-			//System.out.println(jsonInString);
-
-			//Convert object to JSON string and pretty print
-			jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(lista);
-			//System.out.println(jsonInString);
+			jsonInString = mapper.writeValueAsString(list);
 
 
 		} catch (JsonGenerationException e) {

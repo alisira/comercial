@@ -27,17 +27,17 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
 	productService.count = function(param){
 
 		return $http.get(model+'/count'+encodeUrl(param)).then(
-				function(response){					
-					return response.data;
-				},
-				function(errResponse){
-					return $q.reject(errResponse);
-				}
+			function(response){
+				return response.data;
+			},
+			function(errResponse){
+				return $q.reject(errResponse);
+			}
 		);
 	};
-	
+
 	productService.findAll = function(param){
-		
+
 		return $http.get(model+'/list'+encodeUrl(param)).then(
 				function(response){
 					//console.log(response);

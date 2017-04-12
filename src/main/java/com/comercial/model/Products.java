@@ -48,7 +48,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
     , @NamedQuery(name = "Products.findByPrice", query = "SELECT p FROM Products p WHERE p.price = :price")
     , @NamedQuery(name = "Products.findByStock", query = "SELECT p FROM Products p WHERE p.stock = :stock")
     , @NamedQuery(name = "Products.findByMeasure", query = "SELECT p FROM Products p WHERE p.measure = :measure")
-    , @NamedQuery(name = "Products.findByStatus", query = "SELECT p FROM Products p WHERE p.status = :status")
     , @NamedQuery(name = "Products.findByCreatedAt", query = "SELECT p FROM Products p WHERE p.createdAt = :createdAt")
     , @NamedQuery(name = "Products.findByUpdatedAt", query = "SELECT p FROM Products p WHERE p.updatedAt = :updatedAt")
     , @NamedQuery(name = "Products.findByMaterial", query = "SELECT p FROM Products p WHERE p.material = :material")
@@ -84,8 +83,9 @@ public class Products implements Serializable {
     @Column(name = "measure")
     private double measure;
     @Basic(optional = false)
-    @Column(name = "status")
-    private short status;
+    
+    @Column(name = "id_status")
+    private short idStatus;
     
     @Column(name = "created_at")
     @JsonIgnore
@@ -171,7 +171,7 @@ public class Products implements Serializable {
         this.idProduct = idProduct;
     }
 
-    public Products(Long idProduct, String name, String description, String code, double price, double stock, double measure, short status, String material, String finish, String size, int itemBox, double kgMeter, double priceSample) {
+    public Products(Long idProduct, String name, String description, String code, double price, double stock, double measure, short idStatus, String material, String finish, String size, int itemBox, double kgMeter, double priceSample) {
         this.idProduct = idProduct;
         this.name = name;
         this.description = description;
@@ -179,7 +179,7 @@ public class Products implements Serializable {
         this.price = price;
         this.stock = stock;
         this.measure = measure;
-        this.status = status;
+        this.idStatus = idStatus;
         this.material = material;
         this.finish = finish;
         this.size = size;
@@ -196,7 +196,7 @@ public class Products implements Serializable {
         this.price = pro.price;
         this.stock = pro.stock;
         this.measure = pro.measure;
-        this.status = pro.status;
+        this.idStatus = pro.idStatus;
         this.material = pro.material;
         this.finish = pro.finish;
         this.size = pro.size;
@@ -259,15 +259,15 @@ public class Products implements Serializable {
         this.measure = measure;
     }
 
-    public short getStatus() {
-        return status;
-    }
+    public short getIdStatus() {
+		return idStatus;
+	}
 
-    public void setStatus(short status) {
-        this.status = status;
-    }
+	public void setIdStatus(short idStatus) {
+		this.idStatus = idStatus;
+	}
 
-    public Date getCreatedAt() {
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 

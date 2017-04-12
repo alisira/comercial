@@ -90,6 +90,9 @@ public class ProductRestController {
         String formatDateTime = now.format(formatter);
         System.out.println("After : " + formatDateTime);
         */
+    	
+    	System.out.println(product.getIdStatus());
+    	
     	product.setCreatedAt(new Date());
     	product.setUpdatedAt(new Date());
     	
@@ -129,6 +132,7 @@ public class ProductRestController {
     	String jsonInString = null;
 		try {			
 			jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(proTemp);
+			
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {

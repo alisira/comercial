@@ -133,8 +133,8 @@
 	                                <div class="form-group">
 	                                    <label>Purpose</label>
 	                                    <select class="form-control" ng-model="product.idPurpose" validate-message="Propósito">
-											<option selected="selected" ng-repeat="purpose in purposes" value="{{purpose.idPurpose}}"  >{{purpose.denomination}}</option>
-											<option selected="selected" value="">Seleccionar</option>
+	                                    	<option selected="selected" value="">Seleccionar</option>
+											<option selected="selected" ng-repeat="purpose in purposes" value="{{purpose.idPurpose}}"  >{{purpose.denomination}}</option>											
 										</select>
 	                                </div>
 	                            </div>
@@ -150,8 +150,8 @@
 	                                <div class="form-group">
 	                                    <label>Categoría:</label>
 										<select class="form-control" ng-model="product.idCategory" validate-message="Propósito">
-											<option selected="selected" ng-repeat="category in categories" value="{{category.idCategory}}"  >{{category.denomination}}</option>
 											<option selected="selected" value="">Seleccionar</option>
+											<option selected="selected" ng-repeat="category in categories" value="{{category.idCategory}}"  >{{category.denomination}}</option>
 										</select>
 										
 	                                </div>
@@ -161,8 +161,8 @@
 	                                <div class="form-group">
 	                                    <label>Estatus</label>
 										<select class="form-control" ng-model="product.idStatus" validate-message="Estatus">
-											<option selected="selected" ng-repeat="status in statuses" value="{{status.idStatus}}"  >{{status.denomination}}</option>
 											<option selected="selected" value="">Seleccionar</option>
+											<option selected="selected" ng-repeat="status in statuses" value="{{status.idStatus}}"  >{{status.denomination}}</option>											
 										</select>
 	                                </div>
 	                            </div>

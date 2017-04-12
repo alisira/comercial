@@ -11,6 +11,19 @@ App.factory('StatusService', ['$http', '$q', function($http, $q){
         //console.log(model);
     }
 	
+	function encodeUrl(param){
+
+		var str = Object.keys(param).map(function(key){
+			return encodeURIComponent(key) + '=' + encodeURIComponent(param[key]);
+		}).join('&');
+
+		if (str){
+			str = '?' + str;
+		}
+
+		return str;
+	}
+	
 	statusService.count = function(){
 
 		//console.log(model);
@@ -25,13 +38,9 @@ App.factory('StatusService', ['$http', '$q', function($http, $q){
 		);
 	};
 	
-	statusService.findAll = function(limit, skip){
+	statusService.findAll = function(param){
 		
-		var param =  {};
-		param.skip =skip;
-		param.limit =limit;
-		
-		return $http.post(model+'/', param).then(
+		return $http.get(model + '/list' + encodeUrl(param)).then(
 				function(response){	
 					if (response.status == 500)
 						return $q.reject(response);

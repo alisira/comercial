@@ -417,13 +417,13 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 	$scope.findProduct = function(id) {
 
 		ProductService.findProduct(id).then(
-        		function(response) {
+        		function(response) {        			
         			$scope.product = response;
         			$scope.product.idColor = String(response.idColor.idColor);
         			$scope.product.idEnviroment = String(response.idEnviroment.idEnviroment);
         			$scope.product.idPurpose = String(response.idPurpose.idPurpose);
         			$scope.product.idCategory = String(response.idCategory.idCategory);
-        			$scope.product.idStatus = String(response.status);        			
+        			$scope.product.idStatus = String(response.idStatus);        			
         		},
         		$scope.error
         );
@@ -432,8 +432,12 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
     $scope.findColors = function() {
 
         var colorService = ColorService;
+        
+        var param =  {};
+		param.page = 0;
+		param.perPage = 0;
 
-        colorService.findAll(0,0)	
+        colorService.findAll(param)	
 	        .then(
 	        		function(response) {
 	        			$scope.colors = response;
@@ -447,7 +451,11 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 		
         var enviromentService = EnviromentService;
         
-        enviromentService.findAll(0,0)	
+        var param =  {};
+		param.page = 0;
+		param.perPage = 0;
+        
+        enviromentService.findAll(param)
 	        .then(
 	        		function(response) {
 	        			//console.log(response);
@@ -462,7 +470,11 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 		
         var purposeService = PurposeService;
         
-        purposeService.findAll(0,0)	
+        var param =  {};
+		param.page = 0;
+		param.perPage = 0;
+        
+        purposeService.findAll(param)
 	        .then(
 	        		function(response) {
 	        			//console.log(response);
@@ -495,7 +507,11 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 		
         var statusService = StatusService;
         
-        statusService.findAll(0,0)	
+        var param =  {};
+		param.page = 0;
+		param.perPage = 0;
+        
+        statusService.findAll(param)
 	        .then(
         		function(response) {
         			//console.log(response);
@@ -526,7 +542,7 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
     	$scope.product.idColor = parseInt($scope.product.idColor);
 		$scope.product.idEnviroment = parseInt($scope.product.idEnviroment);
 		$scope.product.idPurpose = parseInt($scope.product.idPurpose);		
-		$scope.product.idStatus = parseInt($scope.product.status);
+		$scope.product.idStatus = parseInt($scope.product.idStatus);
 		//$scope.product.createdAt  = moment(new Date()).local().format("YYYY-MM-DDTHH:mm:ss");
     	
     	ProductService.updateProduct($scope.product).then(

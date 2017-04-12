@@ -11,6 +11,19 @@ App.factory('ColorService', ['$http', '$q', function($http, $q){
         //console.log(model);
     }
 	
+	function encodeUrl(param){
+
+		var str = Object.keys(param).map(function(key){
+			return encodeURIComponent(key) + '=' + encodeURIComponent(param[key]);
+		}).join('&');
+
+		if (str){
+			str = '?' + str;
+		}
+
+		return str;
+	}
+	
 	colorService.count = function(){
 
 		return $http.get(model+'/count/').then(
@@ -23,13 +36,9 @@ App.factory('ColorService', ['$http', '$q', function($http, $q){
 		);
 	};
 	
-	colorService.findAll = function(limit, skip){
+	colorService.findAll = function(param){
 
-		var param =  {};
-		param.skip =skip;
-		param.limit =limit;
-		
-		return $http.post(model+'/', param).then(
+		return $http.get(model + '/list' + encodeUrl(param)).then(
 			function(response){
 				if (response.status == 500)
 					return $q.reject(response);
@@ -40,8 +49,7 @@ App.factory('ColorService', ['$http', '$q', function($http, $q){
 				return $q.reject(errResponse);
 			}
 		);
-		
-	};	
+	};
 
 
     return colorService;

@@ -106,7 +106,7 @@ public class ProductRestController {
     }
     
     @RequestMapping(value = "/product/", method = RequestMethod.PUT)
-    public String updateProduct(@RequestBody Products product, UriComponentsBuilder ucBuilder) {    	
+    public String updateProduct(@RequestBody Products product, UriComponentsBuilder ucBuilder) {
 
     	product.setUpdatedAt(new Date());
     	Products productRes = productService.save(product);
@@ -117,8 +117,7 @@ public class ProductRestController {
 		JSONObject jsonObject = new JSONObject(toParse);
 
 		return jsonObject.toJSONString();       
-    }  
-
+    }
 
     @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
     //public ResponseEntity<Void> findProduct(@RequestBody String product, @PathVariable("id") long id, UriComponentsBuilder ucBuilder) {
@@ -142,9 +141,8 @@ public class ProductRestController {
 		}    	
 
 		return jsonInString ;
-        
     }
-    
+	
 
 }
 

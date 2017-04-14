@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-@Entity
+
 @Converter(autoApply = true)
 public class LocalDateAttributeConverter implements AttributeConverter<LocalDateTime, Timestamp> {
 

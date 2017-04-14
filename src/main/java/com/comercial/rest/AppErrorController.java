@@ -45,9 +45,13 @@ public class AppErrorController implements ErrorController{
     @RequestMapping(value = ERROR_PATH, produces = "text/html")
     public ModelAndView errorHtml(HttpServletRequest request) {
     	
+    	
+    	//return new ModelAndView("/error", getErrorAttributes(request, false));
+    	
+    	
     	String message = "Ha ocurrido un error";    	
     	Map<String, Object> model = new HashMap();
-    	model.put("message", message);
+    	model.put("message", getErrorAttributes(request, false));
     	
         return new ModelAndView("/errors/error", model);
     }

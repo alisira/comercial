@@ -241,86 +241,7 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
         );
     }
     
-	
-
-    /*$scope.isSaving = false;
-     * 
-     * 
-     * 
-     * 
-
-    $scope.actionSubmit = function() {
-        var isValid = true;
-
-        if ($.trim($scope.adminNewborn.ref_profile.full_name) == '') {
-            isValid = false;
-        }
-
-        if ($.trim($scope.adminNewborn.name) == '') {
-            isValid = false;
-        }
-
-        if (isValid) {
-            $scope.saveImage($scope.fileImage);
-        } else {
-            $.bootstrapGrowl('Por favor complete el formulario', {
-                type: 'danger',
-                allow_dismiss: false,
-                offset: {
-                    from: 'bottom',
-                    amount: 20
-                },
-                align: 'left'
-            });
-        }
-    };
     
-
-    $scope.findProfileAction = function() {
-        //Valida si no hay una busqueda en ejecucion
-        if (!$scope.findProfileBusy) {
-            if ($scope.adminNewborn.ref_profile.full_name.length > 0) {
-                $scope.findProfileBusy = true;
-                $scope.findProfile($scope.adminNewborn.ref_profile.full_name);
-            }
-        }
-    };
-
-    $scope.findProfile = function(fullName) {
-        var profile = new Friend();
-        if (fullName != undefined && fullName.length > 2) {
-            profile.params = {
-                'fields': '_id, full_name, ref_user, ref_image, anexo, area, position, total_friend, total_post,follow_always',
-                'ref[user][fields]': 'google_email',
-                'ref[image][fields]': 'image_original, image_name',
-                'search[and][full_name]': '*' + fullName + '*',
-                'limit': false,
-                'search[and][active]': true,
-                'cache': true
-            };
-            profile.ready = $scope.findProfileReady;
-            profile.findAll();
-        }
-
-    };
-
-    $scope.findProfileReady = function(aryProfile) {
-        if (Array.isArray(aryProfile)) {
-            $scope.aryProfile = aryProfile;
-        } else {
-            $scope.aryProfile = new Array(aryProfile);
-        }
-
-        $scope.findProfileBusy = false;
-
-    };
-
-    $scope.selectProfile = function(idProfile, fullName) {
-        $scope.adminNewborn.ref_profile._id = idProfile;
-        $scope.adminNewborn.ref_profile.full_name = fullName;
-        $scope.aryProfile = null;
-    }
-
     $scope.$on('uploader.add()', function(event, file) {
 
     });
@@ -337,40 +258,7 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
 
         $scope.$broadcast('croper.done()');
     });
-
-    $scope.saveImage = function(fileImage) {
-        var image = new Image();
-
-        image.data = {
-            'image_original': fileImage.url,
-            'image_small': fileImage.smallUrl,
-            'image_medium': fileImage.mediumUrl,
-            'image_large': fileImage.largeUrl,
-            'image_name': fileImage.originalName
-        };
-
-        image.ready = $scope.saveImageReady;
-        image.add();
-    };
-
-    $scope.saveImageReady = function(image) {
-        $scope.image = image;
-        $scope.actionSaveForm();
-    };
-
-    $scope.changeGender = function() {
-        if ($scope.fileImage == '' ||  $scope.fileImage.originalName == 'default') {
-            var image_url = $scope.adminNewborn.sex == 0 ? 'img/default_girl.jpg' : 'img/default_boy.jpg';
-
-            $scope.fileImage = {
-                'url': image_url,
-                'smallUrl': image_url,
-                'mediumUrl': image_url,
-                'largeUrl': image_url,
-                'originalName': 'default'
-            };
-        }
-    }*/
+    
 
     $scope.init();
 });
@@ -381,12 +269,13 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
  * @param {stateParams} $stateParams
  * @param {ProductService} ProductService factory
  */
-App.controller('AdminProductControllerEdit', function($scope, $location, $stateParams, ProductService, ColorService, EnviromentService, PurposeService, CategoryService, StatusService, $rootScope, $timeout) {
+App.controller('AdminProductControllerEdit', function($scope, $location, $stateParams, ProductService, ColorService, EnviromentService, PurposeService, CategoryService, StatusService, $rootScope, $timeout, $http ) {
 	$scope.appTitle = "Administrador de Productos";
 	$scope.submitTitle = 'Guardar';
 	$scope.appTitle = "Producto";
 	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];
-    $scope.model =	{"name" : "products"};    
+    $scope.model =	{"name" : "products"};
+    $scope.image = {};
     $rootScope.errors = null;
 
 	$scope.error = function(responseError) {
@@ -394,7 +283,7 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 		if (!$rootScope.errors){
 			$rootScope.errors = [];	
 		}
-		$rootScope.errors.push("Disculpe las molestia, ocurrio el siguiente error de sistema status=" + responseError.data.status + "-" + responseError.data.error + " en: " + responseError.data.path);
+		$rootScope.errors.push("Disculpe las molestia, ocurrio el siguiente error de sistema status=" + responseError.data.status + "-" + responseError.data.message + " en: " + responseError.data.path);
 		//$timeout($scope.resetErrors, 6000);
 	}
 
@@ -555,7 +444,22 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
     		}
         );
     }
-	
+    
+    $scope.loadImage = function(resp){
+    	//console.log(resp);
+    	$scope.image.url = resp.data.imageUrl;
+    	$scope.image.idImage = resp.data.idImage;
+    	$scope.product.idImage = $scope.image.idImage;
+    }
+    
+    $scope.OnUpload = function ($event) {
+    	//$event.stopPropagation(); // <-- this is important
+        $timeout(function() {
+        	angular.element('#upload_image').trigger('click');
+        }, 0);
+    };
+    
+    
     
 
     /*
@@ -606,5 +510,6 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 
     $scope.init();
 });
+
 
 

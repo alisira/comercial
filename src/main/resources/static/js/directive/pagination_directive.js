@@ -5,7 +5,7 @@ App.directive('pagingObject', function(){
 	return {
     	restrict: 'AE',    	
     	replace: true,
-    	templateUrl: 'html/pagination.html',
+    	templateUrl: 'html/directive/pagination.html',
     	link: function(scope,  element, attrs){
     		
     		scope.pagination = function() {

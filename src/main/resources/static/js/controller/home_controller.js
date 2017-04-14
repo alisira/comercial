@@ -1,44 +1,47 @@
 'use strict';
 
 App.controller('HomeController', ['$http', '$location', '$route', '$scope', '$rootScope', 'UserService', function($http, $location, $route, $scope, $rootScope, UserService) {
-	var self = this;
-	self.appTitle = "Acceso Principal";
 	
-	self.authenticate = function() {
+	$scope.appTitle = "Acceso Principal";
+	
+	$scope.authenticate = function() {
 
 		UserService.isAuthenticated().then(
 				function(response){										
 					if (response) {
-						UserService.getPermission(self.setPermission);
-						self.error = false;						
-						self.getUserName();						
+						UserService.getPermission($scope.setPermission);
+						$scope.error = false;						
+						$scope.getUserName();						
 						
 					}else{
-						$location.path("/login");
-						self.error = true;
+						//$location.path("/login");
+						//console.log('esta ejecuta');
+						$scope.error = true;
+						
 					}
 				}, 
 				function(errResponse){
-					$location.path("/login");
-					self.error = true;
+					//$location.path("/login");
+					//console.log('o  es este');
+					$scope.error = true;
 				}
 		);
 
 	};
 	
-	self.setPermission = function(respuesta) {
+	$scope.setPermission = function(respuesta) {
 		$rootScope.permission = respuesta.permisos;
 		//console.log($rootScope.permission);
 	}
 
-	self.getUserName = function() {
+	$scope.getUserName = function() {
 		UserService.getUserName(function(resp) {
 			$rootScope.userName = resp;
 		});
 	}
 	
 
-	self.logout = function() {
+	$scope.logout = function() {
 
 		UserService.logout().then(
 				function(response){										
@@ -46,22 +49,24 @@ App.controller('HomeController', ['$http', '$location', '$route', '$scope', '$ro
 					$rootScope.permission = null;
 					$rootScope.userName =  null;
 					$rootScope.authenticated = false;
-					self.error = false;
+					$scope.error = false;
 					$location.path("/");
 
 				}, 
 				function(errResponse){
 					$location.path("/");
-					self.error = true;
+					$scope.error = true;
 				}
 		);
 		
 		
 	}
 	
+	$scope.closeErrors = function() {
+		$rootScope.errors = null;
+	}
 	
-	self.authenticate();
-	
+	$scope.authenticate();
 	
 	
       	/*
@@ -77,7 +82,7 @@ App.controller('HomeController', ['$http', '$location', '$route', '$scope', '$ro
       				'X-Auth-Token' : response.data.token
       			}
       		}).then(function(response) {
-      			//self.greeting = response.data;
+      			//$scope.greeting = response.data;
       			console.log(response.data);
       			
       		});

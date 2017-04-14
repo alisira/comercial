@@ -266,30 +266,35 @@
 	
 	                            <div class="col-md-4">
 	                                <div class="form-group">
-	                                    <label>Imagen de Muestra</label>	
-	                                    
+	                                    <label>Imagen de Muestra</label>
+
 	                                    <div class="form-group">
-	                                        <input type="file" name="image" id="image" class="btn btn-primary form-control" >
-	                                    </div>
-	                                </div>
-	                            </div>
-	
-	
-	                            <div class="col-md-4">
-	                                <div class="form-group">
-	
-	                                    <!-- @if (isset(product.imagefile)) 
-	                                        <img ng-model="imgModel" src="{storage.product.imagefile}}" class="img-responsive center-block" width="400" height="400">
-	                                        -->	                                    
-	                                        <img ng-model="imgModel" src="https://dummyimage.com/300x300.png&text=Seleccione%20Imagen" class="img-responsive center-block" width="400" height="400">	                                    
-	
-	                                </div>
-	                            </div>
-	
-	                            <!--  <button type="submit" class="btn btn-primary btn-block" ng-disabled="form.$invalid">{{submitTitle}}</button>-->	                            
+											<div class="fileinput-button">
+												<input id="upload_image" type="file" name="files[]" multiple class="btn btn-primary form-control hidden" ng-model="archivo" ng-disabled="disabled" file-load>
+												<a class="btn btn-default btn-sm trans-button" ng-click="OnUpload(this)"> 
+													<i class="fa fa-camera"></i> Cargar foto
+												</a>
+											</div>
+										</div>
+									</div>
+                            	</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<span ng-if="!image" >
+											<img id="noImage" src="http://placehold.it/300x300" class="img-responsive center-block" width="400" height="400"> 
+										</span>
+										<span ng-if="image" >											
+											<img id="imgModel" ng-src={{image.url}} class="img-responsive center-block" width="400" height="400">
+										</span>
+									</div>
+								</div>
+
+								<!--  <button type="submit" class="btn btn-primary btn-block" ng-disabled="form.$invalid">{{submitTitle}}</button>-->	                            
 	                            <button type="submit" class="btn btn-primary btn-block">{{submitTitle}}</button>
-	                            
+
 							</form>
+
                         </div>
                     </div>
                 </div>

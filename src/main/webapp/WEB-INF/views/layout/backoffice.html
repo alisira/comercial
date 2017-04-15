@@ -8,12 +8,11 @@
 		<link href="bootstrap/css/fonts-googleapis.css" rel="stylesheet"/>
 		<link href="css/app.css" rel="stylesheet"/>
 		<link href="css/style_back.css" rel="stylesheet"/>
-			
 	</head>
   	
 	<body id="app-layout" ng-app="myApp" class="ng-cloak">
 		
-		<nav class="navbar navbar-default" ng-controller="HomeController as hc">	
+		<nav class="navbar navbar-default" ng-controller="HomeController as hc">
 	        <div class="container" >
 
 				<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -71,7 +70,7 @@
 	        </div>
 	    </nav>
 	    
-	    <div ng-show="errors" class="alert alert-warning animate-if" ng-controller="HomeController as hc">
+	    <div ng-show="errors" class="alert alert-danger" ng-controller="HomeController as hc">
 			<button type="button" class="close" aria-label="Close" ng-click="hc.closeErrors()">
 				<span aria-hidden="true">&times;</span>
 			</button>

@@ -3,8 +3,9 @@
 App.controller('HomeController', ['$http', '$location', '$route', '$scope', '$rootScope', 'UserService', function($http, $location, $route, $scope, $rootScope, UserService) {
 	
 	$scope.appTitle = "Acceso Principal";
+	$rootScope.errors = '';		
 	
-	$scope.authenticate = function() {
+	$scope.isAuthenticated = function() {
 
 		UserService.isAuthenticated().then(
 				function(response){										
@@ -14,16 +15,15 @@ App.controller('HomeController', ['$http', '$location', '$route', '$scope', '$ro
 						$scope.getUserName();						
 						
 					}else{
-						//$location.path("/login");
+						$location.path("/login");//Enviar a Login solo en caso de no querer mostrar el home
 						//console.log('esta ejecuta');
 						$scope.error = true;
 						
 					}
 				}, 
 				function(errResponse){
-					//$location.path("/login");
-					//console.log('o  es este');
-					$scope.error = true;
+					$location.path("/login");
+					//console.log('o  es este');					
 				}
 		);
 
@@ -63,10 +63,10 @@ App.controller('HomeController', ['$http', '$location', '$route', '$scope', '$ro
 	}
 	
 	$scope.closeErrors = function() {
-		$rootScope.errors = null;
+		$rootScope.errors = '';
 	}
 	
-	$scope.authenticate();
+	$scope.isAuthenticated();
 	
 	
       	/*

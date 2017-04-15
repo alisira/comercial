@@ -30,11 +30,11 @@ App.factory('UserService', ['$http', '$q', function($http, $q){
 	userService.isAuthenticated = function(){
 		return $http.get('/user').then(
 				function(response){					
-					//console.log(response);
+					console.log(response);
 					return response.data;
 				},
 				function(errResponse){
-					//console.error('Error Autenticando: ');
+					console.error('Error Autenticando: ');
 					//console.error(errResponse);
 					//console.error(errResponse.status);
 					return $q.reject(errResponse);
@@ -126,70 +126,44 @@ App.factory('UserService', ['$http', '$q', function($http, $q){
 					return $q.reject(errResponse);
 				}
 		);
-	}
+	}	
 
 	
-	
-	userService.authenticate = function (){
+	userService.authenticate = function (credentials){
+	    
+		var headers = credentials ? {
+			authorization : "Basic "
+					+ btoa(credentials.username + ":"
+							+ credentials.password)
+		} : {};
 		
-		var self = this;
-		
-		var y = new userService.authenticate2();
-		
-		return y;
-		
-	}
-	
-	userService.authenticate2 = function (){
-
-	    var self = this;
-	    var thenCallback = null;
-
-	    self.then = function(callback){
-	    	//console.log(3);
-	        thenCallback = callback;
-	  
-	    };
-
-	    self.complete = function(credentials){
-	    	//Debe ser una funcion asincrona obligatoriamente con un callback
-			
-			var headers = credentials ? {
-				authorization : "Basic "
-						+ btoa(credentials.username + ":"
-								+ credentials.password)
-			} : {};
-
-			$http.get('user', {
-				headers : headers
-			}).then(function(response) {
-				
+		return $http.get('user', {headers : headers}).then(function(response) {
 				user = {};
 				if (response.data) {
 					user =  response.data.principal;
-					user.authenticated = true; 
+					user.authenticated = true;
+					return response.data;
+	
 				} else {
 					user = {};
 					user.authenticated = false;
+					response.data = {};
+					response.data.status = response.status;					
+					response.data.error = 'Usuario no autorizado'
+					response.data.path = 'Login de Usuario';					
+					return $q.reject(response);
 				}
-				
-				if (thenCallback && typeof thenCallback === 'function'){
-		            //console.log(response.data);
-					thenCallback(response.data);
-		        }				
-
+	
+				return response.data;
+	
 			}, function() {
 				user.authenticated = false;
-				login(false);
-			});
-
-	        return this;
-	    };
-
-	}
-	
-	
-
+				return $q.reject('Error al autenticar'); 
+				//login(false);
+			}
+		)
+	       
+	};    
 
     return userService;
 

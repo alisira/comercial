@@ -1,42 +1,73 @@
 'use strict';
 
-App.controller('LoginController', ['$http', '$location', '$route', '$scope', 'UserService', function($http, $location, $route, $scope, UserService) {	
+App.controller('LoginController', ['$http', '$location', '$route', '$scope', '$rootScope', 'UserService', function($http, $location, $route, $scope, $rootScope, UserService) {	
 	var self = $scope;
+	$rootScope.errors = '';
+	$scope.userAuth = false;
 
-	self.tab = function(route) {
-		//console.log($location);
-		return $route.current && route === $route.current.controller;
-	};
+	$scope.error = function(responseError) {
+		
+		$rootScope.errors = [];		
+		$rootScope.errors.push(responseError.data.error + ', favor revisar');
+		//$timeout($scope.resetErrors, 6000);
+	}
+
+	$scope.resetErrors = function() {
+		$rootScope.errors = [];
+    }
 
 	self.credentials = {};
 	$scope.login = function() {
-		//console.log(self.credentials);
-		var autentication = UserService.authenticate();
-		//console.log(autentication);
-		autentication.complete(self.credentials).then(
+
+		UserService.authenticate(self.credentials).then(
 			function(response){
 				//console.log(response);					
 				if (response){
+					$scope.userAuth = true;
 					$location.path("/home");
-					self.error = false;	
 				}else{
 					//console.log("Usuario no Autorizado:"+response)
+					response.data.error = "Usuario no Autorizado";					
+					console.log("Usuario no Autorizado:"+response);
 					$location.path("/login");
-					$scope.userNoAuth = true
-					self.error = true;	
+					$scope.userAuth = false;
+					$scope.error(response.data.error);
 				}
 				
-				//UserService.getPermission(self.setPermission);
+
 			}, 
-			function(errResponse){
-				console.log("Login failed:"+errResponse)
+			function(errResponse){				
 				$location.path("/login");
-				self.error = true;
+				$scope.error(errResponse);
+				$scope.userAuth = false;
+
 			}
 		);
-		//console.log(445566);
 		
 	};
+	
+	$scope.init = function() {
+		
+		UserService.isAuthenticated().then(
+			function(response){	
+				
+				if (response){
+					$scope.userAuth = true;
+					//console.log('ir al home');
+					$location.path("/home");
+				}else{
+					//console.log('ir a login sin error');
+					$location.path("/login");
+				}
+			},
+			function(errResponse){
+				console.log('ir a login');
+				$location.path("/login");
+			}
+		);
+    };
+
+    $scope.init();
 	
 
       	/*

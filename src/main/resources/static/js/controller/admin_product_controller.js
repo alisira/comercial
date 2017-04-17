@@ -299,11 +299,11 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
         $scope.findPurposes();
         $scope.findCategories();
         $scope.findStatus();
-        $scope.findProduct($stateParams.id);        
+        $scope.findProductById($stateParams.id);        
 
     };
 
-	$scope.findProduct = function(id) {
+	$scope.findProductById = function(id) {
 
 		ProductService.findProduct(id).then(
         		function(response) {        			
@@ -317,6 +317,36 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
         		$scope.error
         );
     }
+	
+	$scope.searchProducts = function() {
+		//console.log($scope.productsToFind);
+		if ($scope.productsToFind != ''){
+			var param =  {};
+			var arrayFind =  [];
+
+			arrayFind.push({"column": "code", "value": $scope.productsToFind});
+			arrayFind.push({"conect": 'or'});
+			arrayFind.push({"column": "description", "value":  $scope.productsToFind});
+			arrayFind.push({"conect": 'or'});
+			arrayFind.push({"column": "name", "value": $scope.productsToFind});		 
+
+			param.page = 1;
+			param.perPage = 10;
+			param.param = arrayFind;
+			//console.log(paramFinal);		
+
+			ProductService.findAllDetail(param)
+		        .then(
+		        		function(response) {
+		        			$scope.listSearchProducts = response;	        			
+		        		},
+		        		$scope.error
+		        );	
+		}else{
+			$scope.listSearchProducts = '';
+		}
+		
+	}
 
     $scope.findColors = function() {
 

@@ -23,6 +23,39 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
 
 		return str;
 	}
+	
+	function encodeUrlDetail(param){
+
+		var strQuery = '';
+		var str = Object.keys(param).map(function(key){
+			//console.log("key:" + key + ", param[key]:" + param[key]);
+
+			if (key=='param'){
+				
+				var subParam = param[key];
+				
+				subParam.forEach(function(item, index){
+					
+					if (item.column){
+						strQuery += item.column+ '=' + item.value + '&';						
+					}else{
+						strQuery += 'conect=' + item.conect + '&';	
+					}
+					
+					//console.log(strQuery);
+				})
+
+			}else{
+				return encodeURIComponent(key) + '=' + encodeURIComponent(param[key]);	
+			}
+			
+		}).join('&');
+		
+		
+		str += strQuery;
+
+		return str;
+	}
 
 	productService.count = function(param){
 
@@ -47,7 +80,25 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
 					return $q.reject(errResponse);
 				}
 		);
-	};	
+	};
+	
+	productService.findAllDetail = function(param){
+
+		//console.log(encodeUrl2(param));
+		
+		return $http.get(model+'/listDetail', {
+            params: encodeUrlDetail(param)
+        }).then(
+				function(response){
+					//console.log(response);
+					return response.data;
+				},
+				function(errResponse){
+					return $q.reject(errResponse);
+				});
+		
+		
+	};
 
 	productService.createProduct = function(product){
 		return $http.post(model+'/', product)

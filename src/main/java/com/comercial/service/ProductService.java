@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -186,6 +187,10 @@ public class ProductService implements ProductRepository  {
 		return productsRepository.findAll(criteryConstructor(requestParams), page);
 	}
 	
+	public Page<Products> findAll(@RequestParam Map<String,String> requestParams) {
+		return productsRepository.findAll(criteryConstructorFromChar(requestParams), pageConstructor(requestParams));
+	}
+	
 	@Override
 	public Page<Products> findAll(Predicate predicate, Pageable p) {
 		// TODO Auto-generated method stub
@@ -200,7 +205,6 @@ public class ProductService implements ProductRepository  {
 	public long count(@RequestParam Map<String,String> requestParams) {
 		return productsRepository.count(criteryConstructor(requestParams));
 	}
-	
 
 	private BooleanExpression criteryConstructor(Map<String,String> requestParams){
     	
@@ -248,7 +252,143 @@ public class ProductService implements ProductRepository  {
 		return criterioFinal;
     	
     }
+	
+	
+	private BooleanExpression criteryConstructorFromChar(Map<String,String> requestParams){
+		
+    	Iterator it = requestParams.entrySet().iterator();    	
+    	String[] xy =  new String[requestParams.size()];
+    	
+    	//insert ?0=p&1=a&10=P&11=a&12=g&13=e&14=%3D&15=1&16=0&17=%26 into a array
+    	while (it.hasNext()) {
+			Map.Entry e = (Map.Entry)it.next();
+	        xy[Integer.parseInt(e.getKey().toString())] = e.getValue().toString();
+		}
+    	
+    	//convert xy into string page=1&perPage=10&code=a&conect=or&description=a&conect=or&name=a&
+    	String strQuery = "";
+	    for (int i=0; i < xy.length;i++){
+	    	strQuery  += xy[i];
+	    }	    
+	        	
+	    String[] arrayParam =  strQuery.split("&");
+	    
+	    
+    	QProducts qpro = QProducts.products;
+		BooleanExpression criterioFinal = null;
+		String conectTemp = null;
+	    
+	    for (int i=0; i < arrayParam.length;i++){	    		    	
+	    	String[] obj =  arrayParam[i].split("=");
+	    	
+	        BooleanExpression criterio = null;
+	        if (obj[0].toString().equals("name")){
+	        	if (obj.length > 1 && obj[1].toString().length() > 0){
+	        		criterio = qpro.products.name.likeIgnoreCase("%" + obj[1].toString() + "%");
+	        	}
+	        }
+	        
+	        if (obj[0].toString().equals("description")){
+	        	if (obj.length > 1 && obj[1].toString().length() > 0){
+	        		criterio = qpro.products.description.likeIgnoreCase("%" + obj[1].toString() + "%");
+	        	}	
+	        }
+	        
+	        if (obj[0].toString().equals("idCategory")){
+	        	if (obj.length > 1 && obj[1].toString().length() > 0){
+	        		Category cat = new Category();
+		    		cat.setIdCategory(Integer.parseInt(obj[1].toString()));	        	
+		        	criterio = qpro.products.idCategory.eq(cat);	
+	        	}
+	        }
+	        
+	        if (obj[0].toString().equals("code")){
+	        	if (obj.length > 1 && obj[1].toString().length() > 0){
+	        		criterio = qpro.products.code.likeIgnoreCase("%" + obj[1].toString() + "%");
+	        	}
+	        }
+	        
+	        if (criterio != null && i >= 0 && criterioFinal == null){
+	        	criterioFinal = criterio;
+	        }
+	        
+	        //System.out.println(e.getKey().toString() + " - " + e.getKey().toString().indexOf("conect"));
+	        if (obj[0].toString().indexOf("conect") > -1){
+				if ("or".equals(obj[1].toString())){
+	        		conectTemp = "or";
+	        	}else{
+	        		conectTemp = "and";
+	        	}
+	        }
+	        
+	        if (criterio != null && conectTemp != null){
+	        	
+	        	if ("or".equals(conectTemp)){
+	        		criterioFinal = criterioFinal.or(criterio);
+	        	}else{
+	        		criterioFinal = criterioFinal.and(criterio);
+	        	}
+	        	
+	        	conectTemp = null;
+	        	
+	        }	    	
+	    	
+	    }
+    	
+		return criterioFinal;
+    	
+    }
+	
+	private Pageable pageConstructor(Map<String,String> requestParams){
+		
+		
+    	Iterator it = requestParams.entrySet().iterator();
+    	//List<String> xx =  new ArrayList<String>();    	
+    	String[] xy =  new String[requestParams.size()];
+    	
+    	//insert ?0=p&1=a&10=P&11=a&12=g&13=e&14=%3D&15=1&16=0&17=%26 into a array
+    	while (it.hasNext()) {
+			Map.Entry e = (Map.Entry)it.next();
+	        xy[Integer.parseInt(e.getKey().toString())] = e.getValue().toString();
+		}
+    	
+    	//convert xy into string page=1&perPage=10&code=a&conect=or&description=a&conect=or&name=a&
+    	String strQuery = "";
+	    for (int i=0; i < xy.length;i++){
+	    	strQuery  += xy[i];
+	    }	    
+    	
+	    String[] arrayParam =  strQuery.split("&");
 
+	    int page= -1;
+	    int perPage= -1;
+	    for (int i=0; i < arrayParam.length;i++){
+	    	
+	    	String[] obj =  arrayParam[i].split("=");
+	        
+	        BooleanExpression criterio = null;
+	        if (obj[0].toString().equals("page")){
+	        	page =  Integer.parseInt(obj[1].toString())-1;
+	        }
+
+	        if (obj[0].toString().equals("perPage")){
+	        	perPage =  Integer.parseInt(obj[1].toString());
+	        }	        	    	
+	    	
+	    }
+	    
+	    if (page == -1){
+	    	page = 1;
+	    }
+	    
+	    if (perPage <= 0){
+	    	perPage = 10;
+	    }
+		
+	    return new PageRequest(page, perPage, new Sort(Sort.Direction.ASC, "idProduct").and(new Sort(Sort.Direction.DESC, "name")));
+		
+	}
 
 }
+
 

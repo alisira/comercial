@@ -1,9 +1,9 @@
 'use strict';
 
-var App = angular.module('myApp',['ngRoute','ngAnimate', 'ui.router']);
+var App = angular.module('myApp',['ngAnimate', 'ui.router']);
 
 
-App.config(function($routeProvider, $httpProvider, $stateProvider, $urlRouterProvider){
+App.config(function($httpProvider, $stateProvider, $urlRouterProvider){
 	
 	//console.log($httpProvider);	
 	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

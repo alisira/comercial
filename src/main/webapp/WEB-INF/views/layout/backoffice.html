@@ -19,7 +19,7 @@
 			}
 		</style>
 		
-</head>
+	</head>
   	
 	<body id="app-layout" ng-app="myApp" class="ng-cloak">
 		
@@ -39,12 +39,12 @@
 								<span class="icon-bar"></span>
 							</button>
 						</div>
-						
+
 						<div id="spark-navbar-collapse" class="collapse navbar-collapse">
 	
 							<!-- Left Side Of Navbar -->
 							<ul ng-if="permission" class="nav navbar-nav">
-								<li ng-if="permission" ng-repeat="per in permission track by $index">
+								<li ng-if="permission" ng-repeat="per in permission track by $index" ng-class="{active:tab(per.url)}">
 									<a href="#!/{{per.url}}/list"> <span ng-bind="per.desc"></span></a>
 								</li>
 	
@@ -56,7 +56,7 @@
 	
 									<ul class="dropdown-menu nav navbar-nav navbar-right" role="menu">
 										<li>
-											<a href="#" ng-click="hc.logout()" role="button">
+											<a href="#" ng-click="logout()" role="button">
 												<i class="fa fa-btn fa-sign-out"></i>Logout
 											</a>
 										</li>
@@ -100,6 +100,7 @@
 		<script src="js/angular-animate.js"></script>
 		<script src="js/angular-route.min.js"></script>
 		<script src="js/angular-ui-router.min.js"></script>
+		<script src="js/angular-touch.min.js"></script>
 		<script src="js/moment.min.js"></script>
 
 		<script src="js/app.js"></script>

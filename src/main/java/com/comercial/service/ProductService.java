@@ -341,7 +341,6 @@ public class ProductService implements ProductRepository  {
 	
 	private Pageable pageConstructor(Map<String,String> requestParams){
 		
-		
     	Iterator it = requestParams.entrySet().iterator();
     	//List<String> xx =  new ArrayList<String>();    	
     	String[] xy =  new String[requestParams.size()];

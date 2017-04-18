@@ -1,10 +1,22 @@
 'use strict';
 
-App.controller('HomeController', ['$http', '$location', '$route', '$scope', '$rootScope', 'UserService', function($http, $location, $route, $scope, $rootScope, UserService) {
+App.controller('HomeController', function($http, $location, $state, $scope, $rootScope, UserService, $stateParams) {
 	
 	$scope.appTitle = "Acceso Principal";
 	$rootScope.errors = '';		
 	
+	//Cada vez q se cambia de vista se ejecuta esta funcion
+	$scope.tab = function(route) {
+
+		 //console.log($attrs);
+		var temp = $state.current.url.split("/")[1];
+		if ($state.current.url.split("/")[1]  == route)
+			return true
+		else
+			return false;
+
+	};
+
 	$scope.isAuthenticated = function() {
 
 		UserService.isAuthenticated().then(
@@ -67,8 +79,7 @@ App.controller('HomeController', ['$http', '$location', '$route', '$scope', '$ro
 	}
 	
 	$scope.isAuthenticated();
-	
-	
+
       	/*
       	$http.get('/token').then(function(response) {
       		
@@ -89,4 +100,5 @@ App.controller('HomeController', ['$http', '$location', '$route', '$scope', '$ro
       	})*/
           
 
-}]);
+});
+

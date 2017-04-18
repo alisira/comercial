@@ -1,0 +1,118 @@
+<div class="container spark-screen admin-product">
+    <br/>
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/">Home</a></li>
+                <li class="active">Listar</li>
+            </ol>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-baby"></i>{{ appTitle }}
+                    <div class="pull-right">
+                        <a class="btn btn-primary" href="{{relativePath +'/new'}}"  role="button">Nuevo</a>
+                    </div>
+                </div>
+                <!-- <div class="panel-body">
+                    <div class="pull-right">
+                        <a class="btn btn-primary" href="{ $url }}/create"  role="button">Nuevo</a>
+                    </div>
+                </div> -->
+                <div class="form-inline">
+                
+                    <div class="col-md-6">
+                        Mostrar
+                        <select class="form-control" id="perPage" ng-model="model.perPage" ng-click="findProducts()">
+                        	<option value="5">5</option>
+                        	<option value="10">10</option>
+                        	<option value="25">25</option>
+                        	<option value="50">50</option>
+                        	<option value="75">75</option>
+                        	<option value="100">100</option>
+                        </select>
+                        Registros por página de <strong ng-bind="model.count"></strong>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-default prev hidden">
+                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            </button>
+                            <button type="button" class="btn btn-default next hidden">
+                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <table id="detailTable" class="table table-hover">
+                    <thead>
+                        <tr class="margin-10">
+                            <th>
+                                <span class="field-ref_profile.full_name caret-up-down dropdown">
+                                    Código
+                                    <span class="caret"></span>
+                                </span>
+                                <br />
+                                <input ng-model="code" type="text" class="form-control" ng-change="findModel()" />
+                            </th>
+                            <th>
+                                <span class="field-name caret-up-down dropdown" >
+                                    Nombre
+                                    <span class="caret"></span>
+                                </span>
+                                <br />
+                                <input ng-model="name" type="text" class="form-control" ng-change="findModel()" />
+                            </th>
+
+                            <th>
+                                <span class="field-name caret-up-down dropdown" >
+                                    Descripcion
+                                    <span class="caret"></span>
+                                </span>
+                                <br />
+                                <input ng-model="description" type="text" class="form-control" ng-change="findModel()" />
+                            </th>
+                            
+                            <th>
+                            	<span class="field-ref_profile.full_name caret-up-down dropdown">
+                                    Categoria
+                                    <span class="caret"></span>
+                                </span>
+                                <br />
+                                <select class="form-control" ng-model="category" ng-options="x.denomination for x in categories" ng-change="findModel()">
+								  	<option selected="selected" value="">Seleccionar</option>
+								</select>								
+                            </th>
+
+                        </tr>
+                    </thead>
+                    
+                    <tbody id="tbodyDetail">       
+
+                        <tr ng-repeat="pro in model.list">
+                            <td>{{pro.code}}</td>
+                            <td>{{pro.name}}</td>
+                            <td>{{pro.description}}</td>
+                            <td>{{pro.category.denomination}}</td>
+
+                            <td>
+                            	<div style="text-align: right;">
+	                            	<a href="{{relativePath}}/view/{{pro.idProduct}}/" class="btn btn-sm btn-info" title="Ver">
+	                                	<span class="glyphicon glyphicon-file"></span>
+	                            	</a>
+	
+	                                <a href="{{relativePath}}/edit/{{pro.idProduct}}" class="btn btn-sm btn-info" title="Editar">
+	                                    <span class="glyphicon glyphicon-pencil"></span>
+	                                </a>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>				
+				
+				<paging-object></paging-object>
+				
+            </div>
+        </div>
+    </div>
+</div>

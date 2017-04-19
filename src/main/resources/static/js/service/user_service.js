@@ -30,7 +30,7 @@ App.factory('UserService', ['$http', '$q', function($http, $q){
 	userService.isAuthenticated = function(){
 		return $http.get('/user').then(
 				function(response){					
-					console.log(response);
+					//console.log(response);
 					return response.data;
 				},
 				function(errResponse){

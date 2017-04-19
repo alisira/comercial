@@ -66,6 +66,7 @@ public class AppErrorController implements ErrorController{
     public ResponseEntity<Map<String, Object>> error(HttpServletRequest request) {
         Map<String, Object> body = getErrorAttributes(request, getTraceParameter(request));
         HttpStatus status = getStatus(request);
+        //System.out.println("status:" + status);
         return new ResponseEntity<Map<String, Object>>(body, status);
     }
 
@@ -103,8 +104,11 @@ public class AppErrorController implements ErrorController{
                 return HttpStatus.valueOf(statusCode);
             }
             catch (Exception ex) {
+            	return HttpStatus.INTERNAL_SERVER_ERROR;
             }
+        }else{
+        	return HttpStatus.INTERNAL_SERVER_ERROR;
         }
-        return HttpStatus.INTERNAL_SERVER_ERROR;
+        
     }
 }

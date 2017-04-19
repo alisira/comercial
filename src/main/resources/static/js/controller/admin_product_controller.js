@@ -30,7 +30,7 @@ App.controller('AdminProductControllerList', ['$scope', '$location', '$rootScope
 		$scope.model.count = parseInt(response.count);
 	}
 
-	$scope.findCategories = function() {        
+	$scope.findCategories = function() {
         
         var param =  {};
 		param.page = 0;
@@ -279,11 +279,11 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
     $rootScope.errors = null;
 
 	$scope.error = function(responseError) {
-		//console.log(responseError);		
+		console.log(responseError);		
 		if (!$rootScope.errors){
 			$rootScope.errors = [];	
 		}
-		$rootScope.errors.push("Disculpe las molestia, ocurrio el siguiente error de sistema status=" + responseError.data.status + "-" + responseError.data.message + " en: " + responseError.data.path);
+		$rootScope.errors.push("Disculpe las molestia, ocurrio el siguiente error: " +  responseError.data.message);
 		//$timeout($scope.resetErrors, 6000);
 	}
 
@@ -299,7 +299,7 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
         $scope.findPurposes();
         $scope.findCategories();
         $scope.findStatus();
-        $scope.findProductById($stateParams.id);        
+        $scope.findProductById($stateParams.id);
 
     };
 

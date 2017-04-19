@@ -117,10 +117,13 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
 			.then(
 					function(response){
 						//console.log(response);
-						return response.data;
+						if (response.status != 200)
+							return $q.reject(response);
+						else
+							return response.data;
 					}, 
 					function(errResponse){
-						console.error('Error while creating product');
+						console.error('Error while searching product');
 						return $q.reject(errResponse);
 					}
 			);

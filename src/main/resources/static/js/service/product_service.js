@@ -70,8 +70,8 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
 	};
 
 	productService.findAll = function(param){
-
-		return $http.get(model+'/list'+encodeUrl(param)).then(
+		
+		return $http.get(model,{params:param}).then(
 				function(response){
 					//console.log(response);
 					return response.data;
@@ -82,13 +82,11 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
 		);
 	};
 	
-	productService.findAllDetail = function(param){
+	productService.findAllWithArray = function(param){
 
 		//console.log(encodeUrl2(param));
 		
-		return $http.get(model+'/listDetail', {
-            params: encodeUrlDetail(param)
-        }).then(
+		return $http.get(model, {params: encodeUrlDetail(param)}).then(
 				function(response){
 					//console.log(response);
 					return response.data;
@@ -101,7 +99,7 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
 	};
 
 	productService.createProduct = function(product){
-		return $http.post(model+'/', product)
+		return $http.post(model, product)
 		.then(
 				function(response){
 					//console.log(response.data);
@@ -129,7 +127,7 @@ App.factory('ProductService', ['$http', '$q', function($http, $q){
     }
 	
 	productService.updateProduct = function(product){
-		return $http.put(model+'/', product)
+		return $http.put(model, product)
 		.then(
 				function(response){
 					//console.log(response.data);

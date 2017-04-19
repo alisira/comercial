@@ -1,6 +1,6 @@
 'use strict';
 
-App.controller('LoginController', ['$http', '$location', '$scope', '$rootScope', 'UserService', function($http, $location, $route, $scope, $rootScope, UserService) {	
+App.controller('LoginController', ['$http', '$location', '$scope', '$rootScope', 'UserService', function($http, $location, $scope, $rootScope, UserService) {	
 	var self = $scope;
 	$rootScope.errors = '';
 	$scope.userAuth = false;

@@ -335,7 +335,7 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 			param.param = arrayFind;
 			//console.log(paramFinal);		
 
-			ProductService.findAllDetail(param)
+			ProductService.findAllWithArray(param)
 		        .then(
 		        		function(response) {
 		        			$scope.listSearchProducts = response;	        			

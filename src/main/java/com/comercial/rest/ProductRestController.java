@@ -56,35 +56,11 @@ public class ProductRestController {
 	}
 	
 	
-    @RequestMapping(value = "/product/list", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/product", method = RequestMethod.GET, produces = "application/json")
 	//public @ResponseBody String product(@RequestParam(value ="page", defaultValue="") long page, @RequestParam(value ="perPage", defaultValue="") long perPage){@RequestParam Map<String,String> requestParams
     public @ResponseBody String product(@RequestParam Map<String,String> requestParams) {
-
-		Pageable pageable = new PageRequest(Integer.parseInt(requestParams.get("page"))-1, Integer.parseInt(requestParams.get("perPage")),new Sort(Sort.Direction.ASC, "idProduct").and(new Sort(Sort.Direction.DESC, "name")));
-		Page<Products> ll = productService.findAll(requestParams ,pageable);
 		
-		ObjectMapper mapper = new ObjectMapper();
-    	String jsonInString = null;
-		try {
-			
-			jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(ll.getContent());
-
-		} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    	
-		return jsonInString ;
-
-    }   
-	
-    @RequestMapping(value = "/product/listDetail", method = RequestMethod.GET, produces = "application/json")
-	//public @ResponseBody String product(@RequestParam(value ="page", defaultValue="") long page, @RequestParam(value ="perPage", defaultValue="") long perPage){@RequestParam Map<String,String> requestParams
-    public @ResponseBody String product2(@RequestParam Map<String,String> requestParams) {
-
+    	//System.out.println(requestParams);
 		Page<Products> list = productService.findAll(requestParams);
 		
 		ObjectMapper mapper = new ObjectMapper();
@@ -105,7 +81,7 @@ public class ProductRestController {
 
     }
     
-    @RequestMapping(value = "/product/", method = RequestMethod.POST)
+    @RequestMapping(value = "/product", method = RequestMethod.POST)
     public String createUser(@RequestBody Products product, UriComponentsBuilder ucBuilder) {
 		
     	//LocalDateTime now = LocalDateTime.now();
@@ -129,7 +105,7 @@ public class ProductRestController {
 		return jsonObject.toJSONString();       
     }
     
-    @RequestMapping(value = "/product/", method = RequestMethod.PUT)
+    @RequestMapping(value = "/product", method = RequestMethod.PUT)
     public String updateProduct(@RequestBody Products product, UriComponentsBuilder ucBuilder) {
 
     	product.setUpdatedAt(new Date());

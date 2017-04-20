@@ -21,7 +21,7 @@ App.config(function($httpProvider, $stateProvider, $urlRouterProvider){
 		'admin_report'
 	];
 	
-	var c=0;
+	//var c=0;
 	for (var i in aryProvider){
 		
 		var ctrTemp = aryProvider[i].split("_");
@@ -90,11 +90,10 @@ App.config(function($httpProvider, $stateProvider, $urlRouterProvider){
 		        controller: ctr+'Controller'+method.charAt(0).toUpperCase()+ method.slice(1)
 		      });
 			
-			
 			//console.log(url + ":" + ctr + ":" + "html/"+providerTemp+ '/' + method+ ".html");
 			//console.log(ctr+'Controller'+method.charAt(0).toUpperCase()+ method.slice(1));
 		}
-		c++;
+		//c++;
 	}
 	
 	$urlRouterProvider.otherwise('/home');

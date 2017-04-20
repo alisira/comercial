@@ -1,9 +1,8 @@
 'use strict';
 
-App.controller('HomeController', function($http, $location, $state, $scope, $rootScope, UserService, $stateParams) {
+App.controller('HomeController', function($http, $location, $state, $scope, $rootScope, UserService, $stateParams, ErrorService) {
 	
 	$scope.appTitle = "Acceso Principal";
-	$rootScope.errors = '';		
 	
 	//Cada vez q se cambia de vista se ejecuta esta funcion
 	$scope.tab = function(route) {
@@ -61,21 +60,19 @@ App.controller('HomeController', function($http, $location, $state, $scope, $roo
 					$rootScope.permission = null;
 					$rootScope.userName =  null;
 					$rootScope.authenticated = false;
-					$scope.error = false;
 					$location.path("/");
 
 				}, 
 				function(errResponse){
 					$location.path("/");
-					$scope.error = true;
 				}
 		);
 		
 		
 	}
 	
-	$scope.closeErrors = function() {
-		$rootScope.errors = '';
+	$scope.closeErrors = function() {		
+		ErrorService.resetErrors();
 	}
 	
 	$scope.isAuthenticated();

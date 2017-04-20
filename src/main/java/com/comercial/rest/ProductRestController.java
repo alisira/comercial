@@ -125,23 +125,9 @@ public class ProductRestController {
 
 		return jsonObject.toJSONString();       
     }
-
-    
-    /*  @RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getUser(@PathVariable("id") long id) {
-        System.out.println("Fetching User with id " + id);
-        User user = userService.findById(id);
-        if (user == null) {
-            System.out.println("User with id " + id + " not found");
-            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<User>(user, HttpStatus.OK);
-    }
-    */
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     //public ResponseEntity<Void> findProduct(@RequestBody String product, @PathVariable("id") long id, UriComponentsBuilder ucBuilder) {
-    //public String findProduct(@PathVariable("id") String id, UriComponentsBuilder ucBuilder) {
     public ResponseEntity<Object> findProduct(@PathVariable("id") String id, UriComponentsBuilder ucBuilder) {
 		
 		//poner el controlador de errores para cuando pase por aqui y no mande como id un numero

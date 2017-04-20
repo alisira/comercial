@@ -81,8 +81,8 @@
 	        </div>
 	    </nav>
 	    
-	    <div ng-show="errors" class="alert alert-danger" ng-controller="HomeController as hc">
-			<button type="button" class="close" aria-label="Close" ng-click="hc.closeErrors()">
+	    <div ng-if="errors" class="alert alert-danger animate-if" ng-controller="HomeController as hc">
+			<button type="button" class="close" aria-label="Close" ng-click="closeErrors()">
 				<span aria-hidden="true">&times;</span>
 			</button>
 			<ul>
@@ -107,6 +107,7 @@
 
 		<!-- Services-->
 		<script src="js/service/user_service.js"></script>
+		<script src="js/service/error_service.js"></script>
 		<script src="js/service/product_service.js"></script>
 		<script src="js/service/category_service.js"></script>
 		<script src="js/service/color_service.js"></script>

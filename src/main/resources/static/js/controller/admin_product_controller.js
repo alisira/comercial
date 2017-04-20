@@ -7,19 +7,6 @@ App.controller('AdminProductControllerList', ['$scope', '$location', '$rootScope
 	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];
 	$scope.model =	{"name" : "products" , "perPage" : "10", "page":1, "count": 0};
 	var param =  {};
-	$rootScope.errors = null;
-
-	$scope.error = function(responseError) {
-		if (!$rootScope.errors){
-			$rootScope.errors = [];	
-		}
-		$rootScope.errors.push("Disculpe las molestia, ocurrio el siguiente error de sistema status=" + responseError.data.status + "-" + responseError.data.error + " en: " + responseError.data.path);
-		//$timeout($scope.resetErrors, 6000);
-	}
-
-	$scope.resetErrors = function() {
-		$rootScope.errors = [];
-    }
 	
 	$scope.actionCount = function(param) {
         var productService = ProductService;        
@@ -269,27 +256,13 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
  * @param {stateParams} $stateParams
  * @param {ProductService} ProductService factory
  */
-App.controller('AdminProductControllerEdit', function($scope, $location, $stateParams, ProductService, ColorService, EnviromentService, PurposeService, CategoryService, StatusService, $rootScope, $timeout, $http ) {
+App.controller('AdminProductControllerEdit', function($scope, $location, $stateParams, ProductService, ColorService, EnviromentService, PurposeService, CategoryService, StatusService, $rootScope, ErrorService, $http ) {
 	$scope.appTitle = "Administrador de Productos";
 	$scope.submitTitle = 'Guardar';
 	$scope.appTitle = "Producto";
 	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];
     $scope.model =	{"name" : "products"};
     $scope.image = {};
-    $rootScope.errors = null;
-
-	$scope.error = function(responseError) {
-		console.log(responseError);		
-		if (!$rootScope.errors){
-			$rootScope.errors = [];	
-		}
-		$rootScope.errors.push("Disculpe las molestia, ocurrio el siguiente error: " +  responseError.data.message);
-		//$timeout($scope.resetErrors, 6000);
-	}
-
-	$scope.resetErrors = function() {
-		$rootScope.errors = [];
-    }
 
     $scope.init = function() {
 
@@ -306,15 +279,20 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 	$scope.findProductById = function(id) {
 
 		ProductService.findProduct(id).then(
-        		function(response) {        			
-        			$scope.product = response;
-        			$scope.product.idColor = String(response.idColor.idColor);
-        			$scope.product.idEnviroment = String(response.idEnviroment.idEnviroment);
-        			$scope.product.idPurpose = String(response.idPurpose.idPurpose);
-        			$scope.product.idCategory = String(response.idCategory.idCategory);
-        			$scope.product.idStatus = String(response.idStatus);        			
-        		},
-        		$scope.error
+    		function(response) {        			
+    			$scope.product = response;
+    			$scope.product.idColor = String(response.idColor.idColor);
+    			$scope.product.idEnviroment = String(response.idEnviroment.idEnviroment);
+    			$scope.product.idPurpose = String(response.idPurpose.idPurpose);
+    			$scope.product.idCategory = String(response.idCategory.idCategory);
+    			$scope.product.idStatus = String(response.idStatus);        			
+    		},
+    		function(response) {
+    			ErrorService.set(response);
+    			//Aqui redirigir;
+    			//console.log($location.path().split('/').slice(1,2)[0]+'/list');
+    			$location.path($location.path().split('/').slice(1,2)[0]+'/list');
+    		}
         );
     }
 	

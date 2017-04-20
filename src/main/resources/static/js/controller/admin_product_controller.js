@@ -263,6 +263,7 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];
     $scope.model =	{"name" : "products"};
     $scope.image = {};
+    $scope.listRelationatedProducts = [];
 
     $scope.init = function() {
 
@@ -284,7 +285,11 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
     			$scope.product.idColor = String(response.idColor.idColor);
     			$scope.product.idEnviroment = String(response.idEnviroment.idEnviroment);
     			$scope.product.idPurpose = String(response.idPurpose.idPurpose);
+    			
+    			console.log(response);
     			$scope.product.idCategory = String(response.idCategory.idCategory);
+    			
+    			
     			$scope.product.idStatus = String(response.idStatus);        			
     		},
     		function(response) {
@@ -418,21 +423,7 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
         		$scope.error
 	        );
     }
-	
-	
-	$scope.deleteErrors = function() {		        
-		$rootScope.errors = false;
-		//console.log('borro los errores: ' + $rootScope.errors);
-    }
 
-	$scope.actionSubmit = function() {
-		
-		if ($rootScope.errors){
-			$timeout($scope.deleteErrors, 4000);
-		}
-		
-    };
-    
     $scope.actionSaveForm = function() {
     	
     	$scope.product.idCategory =  parseInt($scope.product.idCategory);
@@ -440,12 +431,13 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 		$scope.product.idEnviroment = parseInt($scope.product.idEnviroment);
 		$scope.product.idPurpose = parseInt($scope.product.idPurpose);		
 		$scope.product.idStatus = parseInt($scope.product.idStatus);
+		$scope.product.listRelationatedProducts =  $scope.listRelationatedProducts;
 		//$scope.product.createdAt  = moment(new Date()).local().format("YYYY-MM-DDTHH:mm:ss");
     	
     	ProductService.updateProduct($scope.product).then(
     		function(response) {
     			//console.log(response);
-    			$scope.findProduct($stateParams.id);
+    			$scope.findProductById($stateParams.id);
     		},
     		function(errResponse){
     			console.error('Error saving product');
@@ -468,6 +460,34 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
     };
     
     
+    $scope.addRelaProduct = function (id) {
+        //console.log(id);
+        for (var index in $scope.listSearchProducts ){        	
+        	if ($scope.listSearchProducts[index].idProduct == id ){
+        		var value = $scope.listSearchProducts.splice( index, 1 )[0];        		
+        		var sw = false;
+        		for (var index in $scope.listRelationatedProducts ){
+                	if ($scope.listRelationatedProducts[index].idProduct == value.idProduct ){
+                		sw = true;
+                	}
+        		}
+        		
+        		if (sw == false)    		
+        			$scope.listRelationatedProducts.push(value);
+        	}
+        }
+        
+    };
+    
+    $scope.removeRelaProduct = function (idProduct) {
+
+        for (var index in $scope.listRelationatedProducts){
+        	if ($scope.listRelationatedProducts[index].idProduct == idProduct ){        		
+        		$scope.listRelationatedProducts.splice( index, 1 )[0];
+        	}
+        }
+        
+    };    
     
 
     /*

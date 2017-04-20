@@ -210,7 +210,7 @@
 															</td>
 															<td>
 																<div class="media">
-																	<a href="" ng-click="addProduct(this);"
+																	<a href="" ng-click="addRelaProduct(pro.idProduct);"
 																		title="Pulse para agregar a los Productos Relacionados"><i
 																		class="fa fa-check fa-2x"></i></a>
 																</div>
@@ -223,7 +223,8 @@
 	                                    </div>
 	                                </div>
 	                            </div>
-	
+	                            
+	                            
 	                            <div class="col-md-4" style="width:369px; height:300px; overflow: auto;">
 	                                <div class="form-group">
 	                                    <div class="col-lg-12">
@@ -232,7 +233,6 @@
 	                                        <table class="table table-hover" id ="tableRelationatedProducts">
 	                                            <thead>
 	                                                <tr>
-	
 	                                                    <th>
 	                                                        Código
 	                                                    </th>
@@ -241,40 +241,31 @@
 	                                                    </th>
 	                                                    <th>
 	                                                        Acción
-	                                                    </th>
-	
+	                                                    </th>	
 	                                                </tr>
 	                                            </thead>
-	                                            <tbody id="tBodyRelationatedProducts" >
-	
-	                                                @if (isset(relationatedProducts))
-	
-	                                                    @foreach(relationatedProducts as rp)
-	                                                    <tr id="{rp.idProductRelation}}_tBodyRelationatedProducts">
-	                                                        <td>
-	                                                            <div class="media">
-	                                                                <input type="hidden" name="relationatedProducts[]" id="relationatedProducts" ng-model="rp.idProductRelation" class="relationatedProducts">
-	                                                                <a class="" href="/cordillera/public/admin_product/{rp.idProductRelation}}/edit">
-	                                                                    {rp.code}}
-	                                                                </a>
-	                                                            </div>
-	                                                        </td>
-	
-	                                                        <td>
-	                                                            <div class="media">
-	                                                                {rp.name}}
-	                                                            </div>
-	                                                        </td>
-	                                                        <td>
-	                                                            <div class="media">
-																	<a class="" href="javascript:addFindProduct('{rp.idProductRelation}}', '{rp.code}}' , '{rp.name}}');removeRelationatedProduct({rp.idProductRelation}})" title="Pulse para eliminar de los Productos Relacionados" >
-																		<i class="fa fa-trash fa-2x"></i>
-	                                                                </a>
-	                                                            </div>
-	                                                        </td>
-	                                                    </tr>
-	                                                    @endforeach
-	                                                @endif
+	                                            <tbody>
+                                                    
+                                                    <tr ng-repeat="list in listRelationatedProducts">
+                                                        <td>
+                                                            <div class="media">
+                                                                <a href="{{relativePath+'/edit/'+list.idProduct}}">{{list.code}}</a>
+                                                            </div>
+                                                        </td>
+
+                                                        <td>
+                                                            <div class="media">
+                                                                {{list.name}}
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="media">
+																<a class="" href="" ng-click="removeRelaProduct(list.idProduct);" title="Pulse para eliminar de los Productos Relacionados" >
+																	<i class="fa fa-trash fa-2x"></i>
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
 	
 	                                            </tbody>
 	

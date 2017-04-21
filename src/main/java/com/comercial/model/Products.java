@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -126,15 +128,20 @@ public class Products implements Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idProduct")
     @Column(nullable=false)
+    //@JsonIgnore
+    private List<RelationatedProduct> relationatedProduct;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idProduct")
+    @Column(nullable=false)
     @JsonIgnore
     private Collection<OrderDetail> orderDetailCollection;
-    
+
     @JoinColumn(name = "id_category", referencedColumnName = "id_category")
     @ManyToOne(optional = false)
-    @JsonProperty(access = Access.WRITE_ONLY)
-    @JsonIgnore
+    //@JsonProperty(access = Access.WRITE_ONLY)
+    //@JsonIgnore
     private Category idCategory;
-    
+
     @JoinColumn(name = "id_color", referencedColumnName = "id_color")
     @JsonProperty(access = Access.WRITE_ONLY)
     //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -142,7 +149,7 @@ public class Products implements Serializable {
     @ManyToOne(optional = false)
     @JsonIgnore
     private Color idColor;
-    
+
     @JoinColumn(name = "id_enviroment", referencedColumnName = "id_enviroment")
     @JsonProperty(access = Access.WRITE_ONLY)
     @ManyToOne(optional = false)
@@ -156,10 +163,10 @@ public class Products implements Serializable {
     
     @JoinColumn(name = "id_purpose", referencedColumnName = "id_purpose")
     @ManyToOne(optional = false)
-    @JsonProperty(access = Access.READ_ONLY)
+    @JsonProperty(access = Access.READ_WRITE)
     //@JsonIgnoreProperties(ignoreUnknown = true)
     //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @JsonIgnore
+    //@JsonIgnore
     //@JsonProperty(access = Access.READ_ONLY)
     //@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "idTaskAction")
     private Purpose idPurpose;
@@ -211,7 +218,15 @@ public class Products implements Serializable {
     }
     
 
-    public String getName() {
+    public List<RelationatedProduct> getRelationatedProduct() {
+		return relationatedProduct;
+	}
+
+	public void setRelationatedProduct(List<RelationatedProduct> relationatedProduct) {
+		this.relationatedProduct = relationatedProduct;
+	}
+
+	public String getName() {
         return name;
     }
 

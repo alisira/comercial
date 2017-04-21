@@ -8,16 +8,25 @@ package com.comercial.model;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 /**
  *
@@ -32,35 +41,47 @@ import javax.persistence.TemporalType;
     , @NamedQuery(name = "RelationatedProduct.findByIdRelationatedProduct", query = "SELECT r FROM RelationatedProduct r WHERE r.idRelationatedProduct = :idRelationatedProduct")
     , @NamedQuery(name = "RelationatedProduct.findByIdProduct", query = "SELECT r FROM RelationatedProduct r WHERE r.idProduct = :idProduct")
     , @NamedQuery(name = "RelationatedProduct.findByIdProductRelation", query = "SELECT r FROM RelationatedProduct r WHERE r.idProductRelation = :idProductRelation")})
+
+@JsonInclude(Include.NON_NULL)
 public class RelationatedProduct implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
+
     @Column(name = "created_at")
+    @JsonIgnore
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
+
     @Basic(optional = false)
     @Column(name = "updated_at")
+    @JsonIgnore
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Basic(optional = false)
     @Column(name = "id_relationated_product")
-    private Integer idRelationatedProduct;
-    @Column(name = "id_product")
-    private Integer idProduct;
+    private Long idRelationatedProduct;
+
     @Column(name = "id_product_relation")
-    private Integer idProductRelation;
+    private Long idProductRelation;
+
+    @JoinColumn(name = "id_product", referencedColumnName = "id_product")
+    @ManyToOne(optional = false)
+    @JsonProperty(access = Access.WRITE_ONLY)
+    //@JsonIgnore
+    private Products idProduct;
 
     public RelationatedProduct() {
     }
 
-    public RelationatedProduct(Integer idRelationatedProduct) {
+    public RelationatedProduct(Long idRelationatedProduct) {
         this.idRelationatedProduct = idRelationatedProduct;
     }
 
-    public RelationatedProduct(Integer idRelationatedProduct, Date createdAt, Date updatedAt) {
+    public RelationatedProduct(Long idRelationatedProduct, Date createdAt, Date updatedAt) {
         this.idRelationatedProduct = idRelationatedProduct;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -82,27 +103,27 @@ public class RelationatedProduct implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getIdRelationatedProduct() {
+    public Long getIdRelationatedProduct() {
         return idRelationatedProduct;
     }
 
-    public void setIdRelationatedProduct(Integer idRelationatedProduct) {
+    public void setIdRelationatedProduct(Long idRelationatedProduct) {
         this.idRelationatedProduct = idRelationatedProduct;
     }
 
-    public Integer getIdProduct() {
-        return idProduct;
-    }
+    public Products getIdProduct() {
+		return idProduct;
+	}
 
-    public void setIdProduct(Integer idProduct) {
-        this.idProduct = idProduct;
-    }
+	public void setIdProduct(Products idProduct) {
+		this.idProduct = idProduct;
+	}
 
-    public Integer getIdProductRelation() {
+	public Long getIdProductRelation() {
         return idProductRelation;
     }
 
-    public void setIdProductRelation(Integer idProductRelation) {
+    public void setIdProductRelation(Long idProductRelation) {
         this.idProductRelation = idProductRelation;
     }
 

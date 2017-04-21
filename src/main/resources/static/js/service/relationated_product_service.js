@@ -1,13 +1,13 @@
 'use strict';
 
-App.factory('ProductService', ['$http', '$q','RelationatedProductService', function($http, $q, RelationatedProductService){
+App.factory('RelationatedProductService', ['$http', '$q', function($http, $q){
 
 	var model = 'product';
-	var productService = {};
+	var relationatedProductService = {};
 
-	//Constructor de ProductService
-	function ProductService(){
-        var model = 'product';
+	//Constructor de RelationatedProductService
+	function RelationatedProductService(){
+        var model = 'relationatedProduct';
         console.log(model);
     }
 
@@ -57,7 +57,7 @@ App.factory('ProductService', ['$http', '$q','RelationatedProductService', funct
 		return str;
 	}
 
-	productService.count = function(param){
+	relationatedProductService.count = function(param){
 
 		return $http.get(model+'/count'+encodeUrl(param)).then(
 			function(response){
@@ -69,7 +69,7 @@ App.factory('ProductService', ['$http', '$q','RelationatedProductService', funct
 		);
 	};
 
-	productService.findAll = function(param){
+	relationatedProductService.findAll = function(param){
 		
 		return $http.get(model,{params:param}).then(
 				function(response){
@@ -82,7 +82,7 @@ App.factory('ProductService', ['$http', '$q','RelationatedProductService', funct
 		);
 	};
 	
-	productService.findAllWithArray = function(param){
+	relationatedProductService.findAllWithArray = function(param){
 
 		//console.log(encodeUrl2(param));
 		
@@ -98,7 +98,7 @@ App.factory('ProductService', ['$http', '$q','RelationatedProductService', funct
 		
 	};
 
-	productService.createProduct = function(product){
+	relationatedProductService.createProduct = function(product){
 		return $http.post(model, product)
 		.then(
 				function(response){
@@ -112,30 +112,14 @@ App.factory('ProductService', ['$http', '$q','RelationatedProductService', funct
 		);
 	}
 	
-	productService.findProductRelationated = function(id) {
+	relationatedProductService.findById = function(id) {
 		return $http.get(model+'/'+ id )
 			.then(
 					function(response){
+						//console.log(response);
 						if (response.status != 200){
 							return $q.reject(response);
 						}else{
-							response.data.relationatedProduct.forEach(function myFunction(item, index) {
-							    	productService.findById(item.idProductRelation).then(
-							        		function(response) {
-							        			//console.log(response);
-							        			//console.log(item);
-							        			item.idProduct = parseInt(id);
-							        			item.name = response.name;  
-							        			item.code = response.code;
-							        			
-							        		},
-							        		function(errResponse) {
-							        			console.log(errResponse);
-							        		}
-							        );
-
-							})
-							
 							return response.data;
 						}	
 							
@@ -147,28 +131,7 @@ App.factory('ProductService', ['$http', '$q','RelationatedProductService', funct
 			);
     }
 	
-	
-	productService.findById = function(id) {
-		return $http.get(model+'/'+ id )
-			.then(
-					function(response){
-						//console.log(response);
-						if (response.status != 200){
-							return $q.reject(response);
-						}else{
-							return response.data;
-						}
-
-					}, 
-					function(errResponse){
-						console.error('Error while searching product');
-						return $q.reject(errResponse);
-					}
-			);
-    }
-
-
-	productService.updateProduct = function(product){
+	relationatedProductService.updateProduct = function(product){
 		return $http.put(model, product)
 		.then(
 				function(response){
@@ -182,7 +145,7 @@ App.factory('ProductService', ['$http', '$q','RelationatedProductService', funct
 		);
 	}
 
-    return productService;
+    return relationatedProductService;
 
 }]);
 

@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.comercial.model.Products;
-import com.comercial.service.ProductService;
+import com.comercial.model.RelationatedProduct;
 import com.comercial.service.RelationatedProductService;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -28,48 +27,42 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @RestController
-@RequestMapping("/product")
-public class ProductRestController {
-
-	private final ProductService productService;
+@RequestMapping("/relationated_product")
+public class ProductRelationatedRestController {
+	
 	private final RelationatedProductService relationatedProductService;
 
 	@Autowired
-	ProductRestController(ProductService productService, RelationatedProductService relationatedProductService ) {
-		this.productService = productService;
+	ProductRelationatedRestController(RelationatedProductService relationatedProductService) {
 		this.relationatedProductService = relationatedProductService;
 	}
-
-
+	
 	@RequestMapping(value = "/count/", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody String countAll(){
 
 	    Map<String, Number> toParse = new HashMap<String, Number>();
-	    toParse.put("count", productService.count());	    
+	    toParse.put("count", relationatedProductService.count());	    
 		JSONObject jsonObject = new JSONObject(toParse);
 
 	    return jsonObject.toJSONString();
 
 	}
-	
 	
 	@RequestMapping(value = "/count", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody String countByParam(@RequestParam Map<String,String> requestParams) {
 
 	    Map<String, Number> toParse = new HashMap<String, Number>();
-	    toParse.put("count", productService.count(requestParams));	    
+	    toParse.put("count", relationatedProductService.count(requestParams));	    
 		JSONObject jsonObject = new JSONObject(toParse);
 
 	    return jsonObject.toJSONString();
 
 	}
 	
-	
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-	//public @ResponseBody String product(@RequestParam(value ="page", defaultValue="") long page, @RequestParam(value ="perPage", defaultValue="") long perPage){@RequestParam Map<String,String> requestParams
-    public @ResponseBody String product(@RequestParam Map<String,String> requestParams) {
+    public @ResponseBody String relationatedProduct(@RequestParam Map<String,String> requestParams) {
 
-		Page<Products> list = productService.findAll(requestParams);
+		Page<RelationatedProduct> list = relationatedProductService.findAll(requestParams);
 		
 		ObjectMapper mapper = new ObjectMapper();
     	String jsonInString = null;
@@ -90,7 +83,7 @@ public class ProductRestController {
     }
 
     @RequestMapping( method = RequestMethod.POST)
-    public String createUser(@RequestBody Products product, UriComponentsBuilder ucBuilder) {
+    public String createUser(@RequestBody RelationatedProduct relationatedProduct, UriComponentsBuilder ucBuilder) {
 		
     	//LocalDateTime now = LocalDateTime.now();
         /*System.out.println("Before : " + now);
@@ -99,64 +92,59 @@ public class ProductRestController {
         System.out.println("After : " + formatDateTime);
         */
     	
-    	System.out.println(product.getIdStatus());
+    	relationatedProduct.setCreatedAt(new Date());
+    	relationatedProduct.setUpdatedAt(new Date());
     	
-    	product.setCreatedAt(new Date());
-    	product.setUpdatedAt(new Date());
-    	
-    	Products proTemp = productService.save(product);
+    	RelationatedProduct proTemp = relationatedProductService.save(relationatedProduct);
 		
 		Map<String, Number> toParse = new HashMap<String, Number>();
-	    toParse.put("id", proTemp.getIdProduct());
+	    toParse.put("id", proTemp.getIdRelationatedProduct());
 		JSONObject jsonObject = new JSONObject(toParse);
 
 		return jsonObject.toJSONString();       
     }
-
-
+    
     @RequestMapping(method = RequestMethod.PUT)
-    public String updateProduct(@RequestBody Products product, UriComponentsBuilder ucBuilder){
-
-    	//System.out.println(product.getIdProduct());
-    	if (product.getRelationatedProduct() != null )
-    		relationatedProductService.deleteByidProduct(product);
-
-    	product.setUpdatedAt(new Date());
-    	Products productRes = productService.save(product);
-
+    public String updateProduct(@RequestBody RelationatedProduct relationatedProduct, UriComponentsBuilder ucBuilder) {
+    	
+    	relationatedProduct.setUpdatedAt(new Date());
+    	RelationatedProduct relationatedProductRes = relationatedProductService.save(relationatedProduct);
+		
 		Map<String, Number> toParse = new HashMap<String, Number>();
-	    toParse.put("id", productRes.getIdProduct());	    
+	    toParse.put("id", relationatedProductRes.getIdRelationatedProduct());	    
 
 		JSONObject jsonObject = new JSONObject(toParse);
 
 		return jsonObject.toJSONString();       
     }
-
+    
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    //public ResponseEntity<Void> findProduct(@RequestBody String product, @PathVariable("id") long id, UriComponentsBuilder ucBuilder) {
     public ResponseEntity<Object> findProduct(@PathVariable("id") String id, UriComponentsBuilder ucBuilder) {
-
+		
 		//poner el controlador de errores para cuando pase por aqui y no mande como id un numero
     	Long aa =  Long.parseLong(id);
-		Products proTemp = productService.findOne(aa);
+		RelationatedProduct proTemp = relationatedProductService.findOne(aa);
 		//System.out.println(proTemp);
 		if (proTemp == null) {
 
+            
             Map<String, String> toParse = new HashMap<String, String>();
     	    toParse.put("message", "Producto con id " + id  +" no existe, favor corregir");
     		JSONObject jsonObject = new JSONObject(toParse);
-
+            
             return new ResponseEntity<Object>(jsonObject, HttpStatus.NOT_FOUND);
         }else{
         	return new ResponseEntity<Object>(proTemp, HttpStatus.OK);
         }
-
+	        
+		
     }
-
+    
 	/*private void validateUser(Long userId) {
-		this.productService.findOne(userId).orElseThrow(
+		this.relationatedProductService.findOne(userId).orElseThrow(
 				() -> new UserNotFoundException(userId));
 	}*/
+	
 
 }
 

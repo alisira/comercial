@@ -256,7 +256,7 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
  * @param {stateParams} $stateParams
  * @param {ProductService} ProductService factory
  */
-App.controller('AdminProductControllerEdit', function($scope, $location, $stateParams, ProductService, ColorService, EnviromentService, PurposeService, CategoryService, StatusService, $rootScope, ErrorService, $http ) {
+App.controller('AdminProductControllerEdit', function($scope, $location, $stateParams, $timeout, ProductService, ColorService, EnviromentService, PurposeService, CategoryService, StatusService, $rootScope, ErrorService, $http ) {
 	$scope.appTitle = "Administrador de Productos";
 	$scope.submitTitle = 'Guardar';
 	$scope.appTitle = "Producto";
@@ -279,18 +279,18 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 
 	$scope.findProductById = function(id) {
 
-		ProductService.findProduct(id).then(
-    		function(response) {        			
+		ProductService.findProductRelationated(id).then(
+    		function(response) {
+    			//console.log(response);
     			$scope.product = response;
     			$scope.product.idColor = String(response.idColor.idColor);
     			$scope.product.idEnviroment = String(response.idEnviroment.idEnviroment);
     			$scope.product.idPurpose = String(response.idPurpose.idPurpose);
-    			
-    			console.log(response);
     			$scope.product.idCategory = String(response.idCategory.idCategory);
-    			
-    			
-    			$scope.product.idStatus = String(response.idStatus);        			
+    			$scope.product.idStatus = String(response.idStatus);
+    			$scope.listRelationatedProducts = response.relationatedProduct
+    			//console.log($scope.listRelationatedProducts);
+
     		},
     		function(response) {
     			ErrorService.set(response);
@@ -311,7 +311,7 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 			arrayFind.push({"conect": 'or'});
 			arrayFind.push({"column": "description", "value":  $scope.productsToFind});
 			arrayFind.push({"conect": 'or'});
-			arrayFind.push({"column": "name", "value": $scope.productsToFind});		 
+			arrayFind.push({"column": "name", "value": $scope.productsToFind});
 
 			param.page = 1;
 			param.perPage = 10;
@@ -321,7 +321,7 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 			ProductService.findAllWithArray(param)
 		        .then(
 		        		function(response) {
-		        			$scope.listSearchProducts = response;	        			
+		        			$scope.listSearchProducts = response;
 		        		},
 		        		$scope.error
 		        );	
@@ -425,15 +425,16 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
     }
 
     $scope.actionSaveForm = function() {
-    	
+
     	$scope.product.idCategory =  parseInt($scope.product.idCategory);
     	$scope.product.idColor = parseInt($scope.product.idColor);
 		$scope.product.idEnviroment = parseInt($scope.product.idEnviroment);
-		$scope.product.idPurpose = parseInt($scope.product.idPurpose);		
+		$scope.product.idPurpose = parseInt($scope.product.idPurpose);
 		$scope.product.idStatus = parseInt($scope.product.idStatus);
-		$scope.product.listRelationatedProducts =  $scope.listRelationatedProducts;
-		//$scope.product.createdAt  = moment(new Date()).local().format("YYYY-MM-DDTHH:mm:ss");
-    	
+
+		//console.log($scope.listRelationatedProducts);
+		$scope.product.relationatedProduct =  $scope.listRelationatedProducts;
+
     	ProductService.updateProduct($scope.product).then(
     		function(response) {
     			//console.log(response);
@@ -458,37 +459,39 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
         	angular.element('#upload_image').trigger('click');
         }, 0);
     };
-    
-    
+
     $scope.addRelaProduct = function (id) {
         //console.log(id);
-        for (var index in $scope.listSearchProducts ){        	
+        for (var index in $scope.listSearchProducts ){
         	if ($scope.listSearchProducts[index].idProduct == id ){
-        		var value = $scope.listSearchProducts.splice( index, 1 )[0];        		
+        		var value = $scope.listSearchProducts.splice( index, 1 )[0];
         		var sw = false;
         		for (var index in $scope.listRelationatedProducts ){
-                	if ($scope.listRelationatedProducts[index].idProduct == value.idProduct ){
+                	if ($scope.listRelationatedProducts[index].idProductRelation == value.idProduct ){
                 		sw = true;
                 	}
         		}
-        		
-        		if (sw == false)    		
-        			$scope.listRelationatedProducts.push(value);
+
+        		if (sw == false)
+        			$scope.listRelationatedProducts.push({"idProduct":$scope.product.idProduct, "idProductRelation": value.idProduct, "code": value.code, "name": value.name});
+
         	}
         }
-        
+
     };
-    
+
     $scope.removeRelaProduct = function (idProduct) {
 
         for (var index in $scope.listRelationatedProducts){
-        	if ($scope.listRelationatedProducts[index].idProduct == idProduct ){        		
+
+        	if ($scope.listRelationatedProducts[index].idProductRelation == idProduct ){
         		$scope.listRelationatedProducts.splice( index, 1 )[0];
         	}
+
         }
-        
-    };    
-    
+
+    };
+
 
     /*
 

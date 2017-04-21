@@ -23,27 +23,33 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 @Service("ProductService")
 @Transactional
 public class ProductService implements ProductRepository  {
-	
+
 	@Autowired
 	private ProductRepository productsRepository;
 
 	@Override
 	public Products save(Products entity) {
+
+		//Falta el controlador de errores importante 
+
 		Products entityFinal = null;
+
 		if (entity.getIdProduct() != null){
 			Products product = productsRepository.findOne(entity.getIdProduct());
 			if (product != null){
 	        	String[] nullPropertyNames = ServiceUtil.getNullPropertyNames(entity);
 	            ServiceUtil.copyProperties(entity, product, nullPropertyNames);
 	            entityFinal =  product;
-	        }else{	        	
+	        }else{
 	        	entityFinal =  entity;
 	        }
-			
+
 		}else{
 			entityFinal =  entity;	
 		}
-		
+
+		entityFinal.setRelationatedProduct(entity.getRelationatedProduct());
+
 		return productsRepository.save(entityFinal);
 	}
 

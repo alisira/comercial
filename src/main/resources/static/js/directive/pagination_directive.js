@@ -28,8 +28,7 @@ App.directive('pagingObject', function(){
     			}
 
     		};
-    		
-    		
+
             scope.goToPage = function(page, $event) {
 
             	element.find('.active').removeClass('active');

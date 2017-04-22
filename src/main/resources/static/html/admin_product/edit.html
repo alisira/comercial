@@ -166,59 +166,22 @@
 										</select>
 	                                </div>
 	                            </div>
-	
+	                            
 	                            <div class="col-md-4">
 	                                <div class="form-group">
-                                        <label>Buscar Productos</label>
+	                                    <label>Buscar Productos</label>
 
-                                        <div class="input-group custom-search-form ">
-                                            <input ng-model="productsToFind" placeholder="Buscar por nombre o código" type="text" class="form-control" ng-change="searchProducts()">
-                                            <span class="input-group-btn">
-                                                <button id="findProducts" class="btn btn-default" type="button" onclick="">
-                                                    <span class="glyphicon glyphicon-search"></span>
-                                                    <i class="fa fa-refreshh fa-spin"></i>
-                                                </button>
-                                            </span>
-                                        </div>
+										<div class="input-group custom-search-form " data-toggle="modal" data-target="#myModal">
+											<button class="btn btn-primary" type="button">
+												Haga click aqui para buscar 
+												<span class="glyphicon glyphicon-search"> </span>
+												<i class="fa fa-refreshh fa-spin"></i>
+											</button>
 
-                                        <div style=" overflow: auto;">
-                                            <table class="table table-hover" id ="tableRelationatedProducts">
-                                                <thead>
-                                                    <tr>
-                                                        <th>
-                                                            Código
-                                                        </th>
-                                                        <th>
-                                                            Nombre
-                                                        </th>
-                                                        <th>
-                                                            Acción
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>														
+										</div>
 
-													<tr ng-repeat="pro in listSearchProducts">
-														<td>
-															<div class="media">
-																<a href="{{relativePath+'/edit/'+pro.idProduct}}">{{pro.code}}</a>
-															</div>
-														</td>
-														<td>
-															<div class="media">{{pro.name}}</div>
-														</td>
-														<td>
-															<div class="media">
-																<a href="" ng-click="addRelaProduct(pro.idProduct);"
-																	title="Pulse para agregar a los Productos Relacionados"><i
-																	class="fa fa-check fa-2x"></i></a>
-															</div>
-														</td>
-													</tr>
-
-												</tbody>
-                                            </table>
-                                        </div>
+										<relationated-product></relationated-product>
+										
 	                                </div>
 	                            </div>
 
@@ -240,8 +203,8 @@
                                                     </th>	
                                                 </tr>
                                             </thead>
+                                            
                                             <tbody>
-
 												<tr ng-repeat="list in listRelationatedProducts">
 													<td>
 														<div class="media">
@@ -288,6 +251,9 @@
 	                            <button type="submit" class="btn btn-primary btn-block">{{submitTitle}}</button>
 
 							</form>
+							
+
+  
 
                         </div>
                     </div>

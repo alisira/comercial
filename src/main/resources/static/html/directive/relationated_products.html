@@ -1,0 +1,72 @@
+<div class="modal fade" id="myModal" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Modal Header</h4>
+			</div>
+			<div class="modal-body">
+
+				<div class="form-group">
+					<label>Buscar Productos</label>
+
+					<div class="input-group custom-search-form ">
+						<input ng-model="productsToFind"
+							placeholder="Buscar por nombre o código" type="text"
+							class="form-control" ng-change="searchProducts()"> 
+						<span
+							class="input-group-btn">
+							<button id="findProducts" class="btn btn-default" type="button"
+								onclick="">
+								<span class="glyphicon glyphicon-search"></span> <i
+									class="fa fa-refreshh fa-spin"></i>
+							</button>
+						</span>
+					</div>
+
+					<div style="overflow: auto;">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>Código</th>
+									<th>Nombre</th>
+									<th>Acción</th>
+								</tr>
+							</thead>
+							<tbody>
+
+								<tr ng-repeat="pro in listSearchProducts">
+									<td>
+										<div class="media">
+											<a href="{{relativePath+'/edit/'+pro.idProduct}}">{{pro.code}}</a>
+										</div>
+									</td>
+									<td>
+										<div class="media">{{pro.name}}</div>
+									</td>
+									<td>
+										<div class="media">
+											<a href="" ng-click="addRelaProduct(pro.idProduct);"
+												title="Pulse para agregar a los Productos Relacionados"><i
+												class="fa fa-check fa-2x"></i></a>
+										</div>
+									</td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+

@@ -288,11 +288,7 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
     			$scope.product.idPurpose = String(response.idPurpose.idPurpose);
     			$scope.product.idCategory = String(response.idCategory.idCategory);
     			$scope.product.idStatus = String(response.idStatus);
-    			
-    			//ProductService.setRelationatedProducts(response.relationatedProduct);
-    		    $scope.listRelationatedProducts = ProductService.getRelationatedProducts();
-    		    $scope.listRelationatedProducts = response.relationatedProduct;
-
+    			$scope.listRelationatedProducts = response.relationatedProduct;
 
     		},
     		function(response) {
@@ -435,24 +431,16 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
         }, 0);
     };
 
-
-
     $scope.removeRelaProduct = function (idProduct) {
 
         for (var index in $scope.listRelationatedProducts){
-
         	if ($scope.listRelationatedProducts[index].idProductRelation == idProduct ){
         		$scope.listRelationatedProducts.splice( index, 1 )[0];
         	}
-
         }
 
     };
-    
-    $scope.mm = function () {
-        console.log($scope.XZ);
-    }
-    
+
     //$scope.listRelationatedProducts = ProductService.getRelationatedProducts();
 
     /*

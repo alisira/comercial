@@ -17,7 +17,7 @@
                         		<a class="btn btn-primary" href="{{relativePath}}/new"  role="button">Nuevo</a>
                         	</div>
                         </div>
-                        
+
                         <div class="panel-body">
                             <form ng-submit="actionSubmit()" name="form" class="form-horizontal" novalidate validate-form>
 	                            <div class="col-md-4">
@@ -26,7 +26,7 @@
 	                                    <input type="text" validate-name="Código" placeholder="Ingrese un código alfanumérico" class="form-control" ng-model="product.code" required/>	                                    
 	                                    <span style="color:red" ng-show="form.code.$dirty && form.code.$invalid">
 											<span ng-show="form.code.$error.required">Username is required.</span>
-										</span>	                                    
+										</span>
 	                                </div>
 	                            </div>
 	
@@ -128,7 +128,7 @@
 										</select>
 	                                </div>
 	                            </div>
-	                            
+
 	                            <div class="col-md-4">
 	                                <div class="form-group">
 	                                    <label>Purpose</label>
@@ -138,14 +138,14 @@
 										</select>
 	                                </div>
 	                            </div>
-	                            
+
 	                            <div class="col-md-4">
 	                                <div class="form-group">
 	                                    <label>Tamaño</label>
 	                                    <input type="text" name="size" placeholder="Ingrese Tamaño"  class="form-control" ng-model="product.size" />
 	                                </div>
-	                            </div>                            
-	
+	                            </div>
+
 	                            <div class="col-md-4">
 	                                <div class="form-group">
 	                                    <label>Categoría:</label>
@@ -153,7 +153,7 @@
 											<option selected="selected" value="">Seleccionar</option>
 											<option selected="selected" ng-repeat="category in categories" value="{{category.idCategory}}"  >{{category.denomination}}</option>
 										</select>
-										
+
 	                                </div>
 	                            </div>
 	
@@ -166,7 +166,7 @@
 										</select>
 	                                </div>
 	                            </div>
-	                            
+
 	                            <div class="col-md-4">
 	                                <div class="form-group">
 	                                    <label>Buscar Productos</label>
@@ -180,8 +180,8 @@
 
 										</div>
 
-										<relationated-product title="Buscar Productos" id-product="product.idProduct" ></relationated-product>
-										
+										<relationated-product title="Buscar Productos" id-product="product.idProduct" list-relationated-products="listRelationatedProducts"></relationated-product>
+
 	                                </div>
 	                            </div>
 
@@ -203,9 +203,9 @@
                                                     </th>	
                                                 </tr>
                                             </thead>
-                                            
+
                                             <tbody>
-												<tr ng-repeat="list in listRelationatedProducts">
+												<tr ng-repeat="list in listRelationatedProducts | orderBy: 'name'">
 													<td>
 														<div class="media">
 															<a href="{{relativePath+'/edit/'+list.idProduct}}">{{list.code}}</a>
@@ -237,7 +237,7 @@
 										<a class="btn btn-default btn-sm trans-button" ng-click="OnUpload(this)"> 
 											<i class="fa fa-camera"></i> Cargar foto
 										</a>
-										
+
 										<span ng-if="!image" >
 											<img id="noImage" src="http://placehold.it/300x300" class="img-responsive center-block" width="400" height="400"> 
 										</span>
@@ -254,7 +254,7 @@
                         </div>
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
 </div>

@@ -288,8 +288,11 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
     			$scope.product.idPurpose = String(response.idPurpose.idPurpose);
     			$scope.product.idCategory = String(response.idCategory.idCategory);
     			$scope.product.idStatus = String(response.idStatus);
-    			$scope.listRelationatedProducts = response.relationatedProduct
-    			//console.log($scope.listRelationatedProducts);
+    			
+    			//ProductService.setRelationatedProducts(response.relationatedProduct);
+    		    $scope.listRelationatedProducts = ProductService.getRelationatedProducts();
+    		    $scope.listRelationatedProducts = response.relationatedProduct;
+
 
     		},
     		function(response) {
@@ -301,35 +304,7 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
         );
     }
 	
-	$scope.searchProducts = function() {
-		//console.log($scope.productsToFind);
-		if ($scope.productsToFind != ''){
-			var param =  {};
-			var arrayFind =  [];
 
-			arrayFind.push({"column": "code", "value": $scope.productsToFind});
-			arrayFind.push({"conect": 'or'});
-			arrayFind.push({"column": "description", "value":  $scope.productsToFind});
-			arrayFind.push({"conect": 'or'});
-			arrayFind.push({"column": "name", "value": $scope.productsToFind});
-
-			param.page = 1;
-			param.perPage = 10;
-			param.param = arrayFind;
-			//console.log(paramFinal);		
-
-			ProductService.findAllWithArray(param)
-		        .then(
-		        		function(response) {
-		        			$scope.listSearchProducts = response;
-		        		},
-		        		$scope.error
-		        );	
-		}else{
-			$scope.listSearchProducts = '';
-		}
-		
-	}
 
     $scope.findColors = function() {
 
@@ -460,25 +435,7 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
         }, 0);
     };
 
-    $scope.addRelaProduct = function (id) {
-        //console.log(id);
-        for (var index in $scope.listSearchProducts ){
-        	if ($scope.listSearchProducts[index].idProduct == id ){
-        		var value = $scope.listSearchProducts.splice( index, 1 )[0];
-        		var sw = false;
-        		for (var index in $scope.listRelationatedProducts ){
-                	if ($scope.listRelationatedProducts[index].idProductRelation == value.idProduct ){
-                		sw = true;
-                	}
-        		}
 
-        		if (sw == false)
-        			$scope.listRelationatedProducts.push({"idProduct":$scope.product.idProduct, "idProductRelation": value.idProduct, "code": value.code, "name": value.name});
-
-        	}
-        }
-
-    };
 
     $scope.removeRelaProduct = function (idProduct) {
 
@@ -491,7 +448,12 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
         }
 
     };
-
+    
+    $scope.mm = function () {
+        console.log($scope.XZ);
+    }
+    
+    //$scope.listRelationatedProducts = ProductService.getRelationatedProducts();
 
     /*
 

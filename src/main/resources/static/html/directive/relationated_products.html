@@ -5,17 +5,15 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Modal Header</h4>
+				<h4 class="modal-title">Buscar productos</h4>
 			</div>
 			<div class="modal-body">
 
 				<div class="form-group">
-					<label>Buscar Productos</label>
+					<label>{{title}}</label>{{idProduct}}
 
 					<div class="input-group custom-search-form ">
-						<input ng-model="productsToFind"
-							placeholder="Buscar por nombre o código" type="text"
-							class="form-control" ng-change="searchProducts()"> 
+						<input ng-model="productsToFind" placeholder="Buscar por nombre o código" type="text" class="form-control" ng-change="searchProducts()"> 
 						<span
 							class="input-group-btn">
 							<button id="findProducts" class="btn btn-default" type="button"

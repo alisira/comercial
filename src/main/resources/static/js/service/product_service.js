@@ -4,6 +4,7 @@ App.factory('ProductService', ['$http', '$q','RelationatedProductService', funct
 
 	var model = 'product';
 	var productService = {};
+	var listRelationatedProducts = [];
 
 	//Constructor de ProductService
 	function ProductService(){
@@ -180,6 +181,20 @@ App.factory('ProductService', ['$http', '$q','RelationatedProductService', funct
 					return $q.reject(errResponse);
 				}
 		);
+	}
+	
+	productService.setRelationatedProducts = function(param){
+
+		if (Array.isArray(param)) {
+			listRelationatedProducts = param;
+        } else {
+        	listRelationatedProducts = new Array(param);
+        }		
+
+	}
+	
+	productService.getRelationatedProducts = function(){
+		return listRelationatedProducts;
 	}
 
     return productService;

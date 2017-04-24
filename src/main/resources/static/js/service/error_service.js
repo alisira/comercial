@@ -2,8 +2,6 @@
 
 App.factory('ErrorService', ['$rootScope','$timeout',  function($rootScope,$timeout){
 
-	//var errors = {"message":[], "status":''};
-	//var errors = [];
 	var errorService = {};
 	
 	errorService.set = function(responseError){
@@ -14,7 +12,8 @@ App.factory('ErrorService', ['$rootScope','$timeout',  function($rootScope,$time
 		}
 		
 		for (var error in $rootScope.errors){
-			if ($rootScope.errors[error] == "Disculpe las molestia, ocurrio el siguiente error: " +  responseError.data.message) var sw = true;
+			if ($rootScope.errors[error] == "Disculpe las molestia, ocurrio el siguiente error: " +  responseError.data.message) 
+				var sw = true;
 		}
 		
 		if (!sw) $rootScope.errors.push("Disculpe las molestia, ocurrio el siguiente error: " +  responseError.data.message);

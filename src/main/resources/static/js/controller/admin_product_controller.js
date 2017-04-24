@@ -256,7 +256,7 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
  * @param {stateParams} $stateParams
  * @param {ProductService} ProductService factory
  */
-App.controller('AdminProductControllerEdit', function($scope, $location, $stateParams, $timeout, ProductService, ColorService, EnviromentService, PurposeService, CategoryService, StatusService, $rootScope, ErrorService, $http ) {
+App.controller('AdminProductControllerEdit', function($scope, $location, $stateParams, $timeout, ProductService, ColorService, EnviromentService, PurposeService, CategoryService, StatusService, $rootScope, ErrorService, FileService ) {
 	$scope.appTitle = "Administrador de Productos";
 	$scope.submitTitle = 'Guardar';
 	$scope.appTitle = "Producto";
@@ -288,6 +288,8 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
     			$scope.product.idPurpose = String(response.idPurpose.idPurpose);
     			$scope.product.idCategory = String(response.idCategory.idCategory);
     			$scope.product.idStatus = String(response.idStatus);
+    			$scope.image.url =  FileService.storagePath() + response.idImage.imagefile;
+    			$scope.product.idImage = response.idImage.idImage;
     			$scope.listRelationatedProducts = response.relationatedProduct;
 
     		},
@@ -402,8 +404,6 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 		$scope.product.idEnviroment = parseInt($scope.product.idEnviroment);
 		$scope.product.idPurpose = parseInt($scope.product.idPurpose);
 		$scope.product.idStatus = parseInt($scope.product.idStatus);
-
-		//console.log($scope.listRelationatedProducts);
 		$scope.product.relationatedProduct =  $scope.listRelationatedProducts;
 
     	ProductService.updateProduct($scope.product).then(
@@ -422,6 +422,7 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
     	$scope.image.url = resp.data.imageUrl;
     	$scope.image.idImage = resp.data.idImage;
     	$scope.product.idImage = $scope.image.idImage;
+    	//console.log($scope.product);
     }
     
     $scope.OnUpload = function ($event) {

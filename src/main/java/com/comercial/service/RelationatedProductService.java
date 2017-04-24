@@ -28,28 +28,25 @@ public class RelationatedProductService  implements RelationatedProductRepositor
 	@Autowired
 	private RelationatedProductRepository relationatedProductRepository;
 
-	
-	
 	public Page<RelationatedProduct> findAll(@RequestParam Map<String,String> requestParams, Pageable page) {
 		return relationatedProductRepository.findAll(criteryConstructor(requestParams), pageConstructor(requestParams));
 	}
-	
+
 	public Page<RelationatedProduct> findAll(@RequestParam Map<String,String> requestParams) {
 		return relationatedProductRepository.findAll(criteryConstructor(requestParams), pageConstructor(requestParams));
 	}
-	
+
 	public  RelationatedProductRepository save(RelationatedProductService entity) {
-		
+
 		return relationatedProductRepository;
 	}
 
-	
-	public long count() {		
+	public long count() {
 		return relationatedProductRepository.count();
 	}
-	
+
 	private BooleanExpression criteryConstructor(Map<String,String> requestParams){
-    	
+
     	QRelationatedProduct qRelationatedProduct = QRelationatedProduct.relationatedProduct;
 		BooleanExpression criterioFinal = null;
 		int con = 0;
@@ -65,7 +62,7 @@ public class RelationatedProductService  implements RelationatedProductRepositor
 
 	        if (e.getKey().equals("idProductRelation")){
 	        	criterio = qRelationatedProduct.idProductRelation.eq((long)e.getValue());
-	        }	        
+	        }
 
 	        if (criterio != null){
 	        	if (con == 0){

@@ -31,15 +31,14 @@ public class CategoryService {
 
 	
 	public  CategoryRepository save(Category entity) {
-		// TODO Auto-generated method stub		
 		return categoryRepository;
 	}
 
-	public List<Category> findAll(@RequestParam Map<String,String> requestParams) {		
+	public List<Category> findAll(@RequestParam Map<String,String> requestParams) {
 
 		Sort sort = null;
 		try {
-		
+
 			if (requestParams.get("page") != null && requestParams.get("perPage") != null){
 				if (Integer.parseInt(requestParams.get("page"))-1 > -1 && Integer.parseInt(requestParams.get("perPage")) > 0 ){
 					Pageable pageable = new PageRequest(Integer.parseInt(requestParams.get("page"))-1, Integer.parseInt(requestParams.get("perPage")),new Sort(Sort.Direction.ASC, "denomination"));
@@ -53,12 +52,12 @@ public class CategoryService {
 				sort = new Sort(Sort.Direction.ASC, "denomination");
 				return (List<Category>) categoryRepository.findAll(criteryConstructor(requestParams), sort);
 			}
-			
+
 		}catch(NumberFormatException e) {
 			sort = new Sort(Sort.Direction.ASC, "denomination");
 			return (List<Category>) categoryRepository.findAll(criteryConstructor(requestParams), sort);
 		}
-		
+
 	}
 	
 	public long count() {		
@@ -66,7 +65,7 @@ public class CategoryService {
 	}
 	
 	private BooleanExpression criteryConstructor(Map<String,String> requestParams){
-    	
+
     	QCategory qCategory = QCategory.category;
 		BooleanExpression criterioFinal = null;
 		int con = 0;
@@ -74,16 +73,16 @@ public class CategoryService {
 		while (it.hasNext()) {
 	        Map.Entry e = (Map.Entry)it.next();
 	        //System.out.println(e.getKey() + "=" + e.getValue());
-	        
+
 	        BooleanExpression criterio = null;
 	        if (e.getKey().equals("denomination")){
 	        	criterio = qCategory.category.denomination.likeIgnoreCase("%" + (String)e.getValue() + "%");
 	        }
-	        
-	        if (e.getKey().equals("status")){	        		        	
+
+	        if (e.getKey().equals("status")){
 	        	criterio = qCategory.status.eq((short)e.getValue());
-	        }	        
-	        
+	        }
+
 	        if (criterio != null){
 	        	if (con == 0){
 	        		criterioFinal = criterio;	
@@ -97,9 +96,9 @@ public class CategoryService {
 	        }
 	        con++;
 	    }
-    	
+
 		return criterioFinal;
-    	
+
     }
 
 }

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.comercial.model.Image;
+import com.comercial.service.ImageService;
 import com.comercial.storage.StorageException;
 import com.comercial.storage.StorageFileNotFoundException;
 import com.comercial.storage.StorageService;
@@ -20,10 +22,12 @@ import java.util.Map;
 public class FileUploadController {
 
     private final StorageService storageService;
+    private final ImageService imageService;
 
     @Autowired
-    public FileUploadController(StorageService storageService) {
+    public FileUploadController(StorageService storageService, ImageService imageService) {
         this.storageService = storageService;
+        this.imageService = imageService;
     }
 
     @RequestMapping(value = "/file/{filename:.+}", method = RequestMethod.GET)
@@ -44,10 +48,12 @@ public class FileUploadController {
     	try {
     		
     		String newFile = storageService.store(file);
+    		
+    		Image image = imageService.save(new Image(newFile));
         	
         	Map<String, Object> toParse = new HashMap<String, Object>();
     	    toParse.put("imageUrl", "/file/" +newFile);
-    	    toParse.put("idImage", 123);
+    	    toParse.put("idImage", image.getIdImage());
     		jsonObject = new JSONObject(toParse);
         	
         } catch (StorageException e) {
@@ -57,7 +63,7 @@ public class FileUploadController {
 	    return jsonObject.toJSONString();
         //redirectAttributes.addFlashAttribute("message", "You successfully uploaded " + file.getOriginalFilename() + "!");
         //return "redirect:/";
-    }
+    }    
 
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity handleStorageFileNotFound(StorageFileNotFoundException exc) {

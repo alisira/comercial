@@ -40,7 +40,7 @@ public class FileSystemStorageService implements StorageService {
             String str = file.getOriginalFilename();
             String [] fileName = str.split("\\.");
             
-            String newFileName =  fileName[0] + "_" + formatDateTime + "." + fileName[1];
+            String newFileName =  fileName[0].replace(' ','_') + "_" + formatDateTime + "." + fileName[1];
             
             long resp =  Files.copy(file.getInputStream(), this.rootLocation.resolve(newFileName));            
             
@@ -70,6 +70,11 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public Path load(String filename) {
         return rootLocation.resolve(filename);
+    }
+
+    @Override
+    public Path storagePath() {
+        return rootLocation;
     }
 
     @Override

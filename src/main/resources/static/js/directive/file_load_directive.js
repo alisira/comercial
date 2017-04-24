@@ -1,6 +1,6 @@
 'use strict';
 
-App.directive('fileLoad', function($http, $rootScope){	
+App.directive('fileLoad', function($http, ErrorService){	
 	return {
 		restrict: 'A',
         link: function (scope, element, attributes) {
@@ -43,15 +43,17 @@ App.directive('fileLoad', function($http, $rootScope){
                     }).then(
             			function(response){
             				//console.log(response);
-            				if (response.status == 500){
+            				if (response.status != 200){
             					//Error de javascript element.context.files[0].name=null; resp:TypeError: Cannot assign to read only property 'name' of object '#<File>'            					
-            					return scope.error(response);
+            					//return scope.error(response);
+            					ErrorService.set(response)
             				}else
             					return scope.loadImage(response);
             			},
             			function(errResponse){
             				console.log(errResponse);
-            				return scope.error(errResponse);
+            				ErrorService.set(response)
+            				//return scope.error(errResponse);
             				//return $q.reject(errResponse);
             			}
             		);

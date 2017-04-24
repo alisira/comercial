@@ -21,6 +21,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * @author asira
@@ -40,7 +42,7 @@ public class Image implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_image")
-    private Integer idImage;
+    private Long idImage;
     @Basic(optional = false)
     @Column(name = "imagefile")
     private String imagefile;
@@ -50,26 +52,32 @@ public class Image implements Serializable {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+    
     @OneToMany(mappedBy = "idImage")
+    @JsonIgnore
     private Collection<Products> productsCollection;
 
     public Image() {
     }
 
-    public Image(Integer idImage) {
+    public Image(Long idImage) {
         this.idImage = idImage;
     }
 
-    public Image(Integer idImage, String imagefile) {
+    public Image(Long idImage, String imagefile) {
         this.idImage = idImage;
         this.imagefile = imagefile;
     }
 
-    public Integer getIdImage() {
+    public Image(String imagefile) {
+        this.imagefile = imagefile;
+    }
+
+    public Long getIdImage() {
         return idImage;
     }
 
-    public void setIdImage(Integer idImage) {
+    public void setIdImage(Long idImage) {
         this.idImage = idImage;
     }
 

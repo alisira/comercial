@@ -157,6 +157,7 @@ public class Products implements Serializable {
     private Enviroment idEnviroment;
     
     @JoinColumn(name = "id_image", referencedColumnName = "id_image")
+    @JsonProperty(access = Access.WRITE_ONLY)
     @ManyToOne
     @JsonIgnore    
     private Image idImage;

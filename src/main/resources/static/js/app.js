@@ -145,24 +145,30 @@ App.config(function($httpProvider, $stateProvider, $urlRouterProvider){
 
 //http interceptor to handle redirection to login on 401 response from API
 App.factory('httpResponseInterceptor', ['$q', '$rootScope', '$location', function($q, $rootScope, $location) {
-    return {
+	
+	
+	return {
     	
-    	response: function(resp) {
-    		//console.log(rejection);
+    	function(resp) {
+    		console.log(resp);
     		
-            /*if (resp.status === 401) {
+            if (resp.status === 401) {
                 // Something like below:
             	console.log('111');
                 $location.path('/login');
-            }*/
+            }
             return resp;
         },    	
     
-        responseError: function(rejection) {
+        function(rejection) {
             if (rejection.status === 401) {                
                 $location.path('/login');
             }
             return rejection;
         }
     };
+    
+    
+    
+    
 }]);

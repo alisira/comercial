@@ -89,16 +89,12 @@ App.controller('AdminProductControllerList', ['$scope', '$location', '$rootScope
 App.controller('AdminProductControllerNew', function($scope, $location, ProductService, ColorService, EnviromentService, PurposeService, CategoryService, StatusService, $rootScope, $timeout) {
 	$scope.submitTitle = 'Guardar';
 	$scope.appTitle = "Producto";
-	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];	
-	
-	$scope.friendSkip = 0;
-    $scope.friendLimit = 10;
-    $scope.fileImage = '';
+	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];
+	$scope.listRelationatedProducts = [];
+
     $scope.image = {};
-    $scope.image.url = 'http://placehold.it/200x200';
-    $scope.adminNewborn = {};
-    $scope.birthdate = new Date();
-    $scope.adminNewborn.ref_profile = {};
+    $scope.image.url = 'https://dummyimage.com/300x300.png&text=Seleccione%20Imagen';
+
 
     $scope.init = function() {
         
@@ -177,43 +173,30 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
 	        );
        
     }
-	
+
 	$scope.findStatus = function() {
 		
         var statusService = StatusService;
         
         statusService.findAll(0,0)	
 	        .then(
-	        		function(response) {
-	        			//console.log(response);
-	        			$scope.statuses = response;
-	        			//$scope.count = permission.permisos;
-	        		},
-	        		function(errResponse){
-	        			console.error('Error counting products');
-	        		}
+        		function(response) {
+        			//console.log(response);
+        			$scope.statuses = response;
+        			//$scope.count = permission.permisos;
+        		},
+        		function(errResponse){
+        			console.error('Error counting products');
+        		}
 	        );
        
     }
-	
 
-
-	$scope.deleteErrors = function() {
-		$rootScope.errors = false;
-		//console.log('borro los errores: ' + $rootScope.errors);
-    }
-
-	$scope.actionSubmit = function() {
-		
-		if ($rootScope.errors){
-			$timeout($scope.deleteErrors, 4000);
-		}
-		
-    };
-    
     $scope.actionSaveForm = function() {
     	
-    	//console.log($scope.product);
+    	$scope.product.idCategory = parseInt($scope.product.idCategory);
+    	$scope.product.relationatedProduct =  $scope.listRelationatedProducts;
+    	
     	ProductService.createProduct($scope.product).then(
         		function(response) {
         			//console.log(response);        			
@@ -221,6 +204,7 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
         			$location.path($location.path().split('/').slice(1,2)[0] + '/edit/'+ response.id);
         			//$scope.statuses = response;
         			//$scope.count = permission.permisos;
+        			
         		},
         		function(errResponse){
         			console.error('Error saving product');
@@ -228,24 +212,30 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
         );
     }
     
+    $scope.loadImage = function(resp){
+    	//console.log(resp);
+    	$scope.image.url = resp.data.imageUrl;
+    	$scope.image.idImage = resp.data.idImage;
+    	$scope.product.idImage = $scope.image.idImage;
+    	//console.log($scope.product);
+    }
     
-    $scope.$on('uploader.add()', function(event, file) {
+    $scope.OnUpload = function ($event) {
+    	//$event.stopPropagation(); // <-- this is important
+        $timeout(function() {
+        	angular.element('#upload_image').trigger('click');
+        }, 0);
+    };
+    
+    $scope.removeRelaProduct = function (idProduct) {
 
-    });
-
-    $scope.$on('uploader.progress()', function(event, file) {
-
-    });
-
-    $scope.$on('uploader.done()', function(event, file, isUploadingDone) {
-        if (isUploadingDone) {
-            $scope.fileImage = file;
-            $scope.image = file;
+        for (var index in $scope.listRelationatedProducts){
+        	if ($scope.listRelationatedProducts[index].idProductRelation == idProduct ){
+        		$scope.listRelationatedProducts.splice( index, 1 )[0];
+        	}
         }
 
-        $scope.$broadcast('croper.done()');
-    });
-    
+    };
 
     $scope.init();
 });
@@ -288,8 +278,11 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
     			$scope.product.idPurpose = String(response.idPurpose.idPurpose);
     			$scope.product.idCategory = String(response.idCategory.idCategory);
     			$scope.product.idStatus = String(response.idStatus);
-    			$scope.image.url =  FileService.storagePath() + response.idImage.imagefile;
-    			$scope.product.idImage = response.idImage.idImage;
+    			if (response.idImage != undefined){
+    				$scope.image.url =  FileService.storagePath() + response.idImage.imagefile;
+    				$scope.product.idImage = response.idImage.idImage;
+    			}
+    				
     			$scope.listRelationatedProducts = response.relationatedProduct;
 
     		},

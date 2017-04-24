@@ -19,22 +19,25 @@ App.controller('HomeController', function($http, $location, $state, $scope, $roo
 	$scope.isAuthenticated = function() {
 
 		UserService.isAuthenticated().then(
-				function(response){										
+				function(response){
+					//console.log(response);
 					if (response) {
+						console.log(1);
 						UserService.getPermission($scope.setPermission);
-						$scope.error = false;						
-						$scope.getUserName();						
-						
+						$scope.error = false;
+						$scope.getUserName();
+
 					}else{
+						console.log(2);
 						$location.path("/login");//Enviar a Login solo en caso de no querer mostrar el home
 						//console.log('esta ejecuta');
-						$scope.error = true;
-						
+
 					}
 				}, 
 				function(errResponse){
+					console.log(errResponse);
 					$location.path("/login");
-					//console.log('o  es este');					
+
 				}
 		);
 
@@ -55,7 +58,7 @@ App.controller('HomeController', function($http, $location, $state, $scope, $roo
 	$scope.logout = function() {
 
 		UserService.logout().then(
-				function(response){										
+				function(response){
 
 					$rootScope.permission = null;
 					$rootScope.userName =  null;

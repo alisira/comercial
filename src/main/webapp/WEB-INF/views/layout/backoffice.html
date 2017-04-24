@@ -21,9 +21,9 @@
 		
 	</head>
   	
-	<body id="app-layout" ng-app="myApp" class="ng-cloak">
+	<body id="app-layout" ng-app="myApp" class="ng-cloak" ng-controller="HomeController as hc">
 		
-		<nav class="navbar navbar-default" ng-controller="HomeController as hc">
+		<nav class="navbar navbar-default" >
 	        <div class="container" >
 
 				<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -81,7 +81,7 @@
 	        </div>
 	    </nav>
 	    
-	    <div ng-if="errors" class="alert alert-danger animate-if" ng-controller="HomeController as hc">
+	    <div ng-if="errors" class="ng-cloak alert alert-danger animate-if" >
 			<button type="button" class="close" aria-label="Close" ng-click="closeErrors()">
 				<span aria-hidden="true">&times;</span>
 			</button>

@@ -22,6 +22,26 @@ App.factory('ErrorService', ['$rootScope','$timeout',  function($rootScope,$time
 		
 	};
 	
+	
+	errorService.setFormError = function(responseError){
+
+		//console.log(responseError);
+		if (!$rootScope.errors){
+			$rootScope.errors = [];	
+		}
+		
+		for (var error in $rootScope.errors){
+			if ($rootScope.errors[error] == responseError) 
+				var sw = true;
+		}
+		
+		if (!sw) $rootScope.errors.push(responseError);
+		
+		$timeout(errorService.resetErrors, 9000);
+		
+	};
+	
+	
 	errorService.get = function(param){
 		return errors;
 	};

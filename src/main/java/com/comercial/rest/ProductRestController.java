@@ -1,8 +1,10 @@
 package com.comercial.rest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.comercial.model.Products;
+import com.comercial.model.RelationatedProduct;
 import com.comercial.service.ProductService;
 import com.comercial.service.RelationatedProductService;
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -90,7 +93,7 @@ public class ProductRestController {
     }
 
     @RequestMapping( method = RequestMethod.POST)
-    public String createUser(@RequestBody Products product, UriComponentsBuilder ucBuilder) {
+    public String createProduct(@RequestBody Products product, UriComponentsBuilder ucBuilder) {
 		
     	//LocalDateTime now = LocalDateTime.now();
         /*System.out.println("Before : " + now);
@@ -99,12 +102,25 @@ public class ProductRestController {
         System.out.println("After : " + formatDateTime);
         */
     	
-    	System.out.println(product.getIdStatus());
+    	//System.out.println(product.getIdStatus());
     	
     	product.setCreatedAt(new Date());
     	product.setUpdatedAt(new Date());
     	
     	Products proTemp = productService.save(product);
+
+    	
+    	//Al faltarle el codigo de idProducto lo busco cada uno de los q se insertaron y le inserto el objeto proTemp q ya tiene esa informacion
+    	for ( RelationatedProduct rp: proTemp.getRelationatedProduct()){
+    		RelationatedProduct pp = relationatedProductService.findOne(rp.getIdRelationatedProduct());
+    		pp.setIdProduct(proTemp);    		
+    		//Al salvarlo se agrega lo q faltaba 
+    		relationatedProductService.save(pp);    		
+    	}
+
+    	//Obtengo el objeto nuevo
+    	proTemp = productService.findOne(proTemp.getIdProduct());    	
+    	
 		
 		Map<String, Number> toParse = new HashMap<String, Number>();
 	    toParse.put("id", proTemp.getIdProduct());

@@ -1,6 +1,6 @@
 'use strict';
 
-App.directive('validateForm', function($rootScope){	
+App.directive('validateForm', function(ErrorService){	
 	return {
     	restrict: 'A',
     	link: function(scope,  element, attrs){
@@ -17,14 +17,27 @@ App.directive('validateForm', function($rootScope){
 	                    	//console.log(element.$$attr.validateName + '-' + element.$$attr.required + '-' + element.$invalid  + '-' + element.$pristine);
 	                    	if (element.$$attr.required){
 	                    		if (element.$invalid){
-	                    			errors.push('Favor llenar el campo ' +  element.$$attr.validateName );
+	                    			if (element.$$attr.validateName ){
+	                    				if (element.$$attr.ngOptions || element.$$element.context.type == 'select-one' ){
+	                    					//errors.push('Favor Seleccionar el campo ' +  element.$$attr.validateName );
+	                    					ErrorService.setFormError('Favor Seleccionar el campo ' +  element.$$attr.validateName)
+	                    				}else{
+	                    					ErrorService.setFormError('Favor llenar el campo ' +  element.$$attr.validateName );
+	                    				}
+	                    				
+	                    			}else{
+	                    				console.log(element.$$attr);
+	                    				if (element.$$attr.placeholder)
+	                    					ErrorService.setFormError(element.$$attr.placeholder);
+	                    			}
 
 	                    		}
 	                    	}
 
 	                    });
 
-	                    $rootScope.errors = errors;
+	                    //$rootScope.errors = errors;
+	                    //ErrorService.set(errors)
 
 	                }
             	}

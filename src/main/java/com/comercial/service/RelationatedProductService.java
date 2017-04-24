@@ -200,8 +200,7 @@ public class RelationatedProductService  implements RelationatedProductRepositor
 
 	@Override
 	public RelationatedProduct findOne(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return relationatedProductRepository.findOne(id);
 	}
 
 	@Override

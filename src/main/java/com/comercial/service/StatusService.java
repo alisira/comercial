@@ -19,21 +19,20 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 @Service("StatusService")
 @Transactional
 public class StatusService {
-	
+
 	@Autowired
 	private StatusRepository statusRepository;
 
-	
+
 	public  StatusRepository save(Status entity) {
-		// TODO Auto-generated method stub		
 		return statusRepository;
 	}
 
-	public List<Status> findAll(@RequestParam Map<String,String> requestParams) {		
+	public List<Status> findAll(@RequestParam Map<String,String> requestParams) {
 
 		Sort sort = null;
 		try {
-		
+
 			if (requestParams.get("page") != null && requestParams.get("perPage") != null){
 				if (Integer.parseInt(requestParams.get("page"))-1 > -1 && Integer.parseInt(requestParams.get("perPage")) > 0 ){
 					Pageable pageable = new PageRequest(Integer.parseInt(requestParams.get("page"))-1, Integer.parseInt(requestParams.get("perPage")),new Sort(Sort.Direction.ASC, "denomination"));
@@ -42,25 +41,25 @@ public class StatusService {
 					//sort = new Sort(Sort.Direction.ASC, "idStatus").and(new Sort(Sort.Direction.DESC, "denomination"));
 					sort = new Sort(Sort.Direction.ASC, "denomination");
 					return (List<Status>) statusRepository.findAll(criteryConstructor(requestParams), sort);	
-				}	
+				}
 			}else{
 				sort = new Sort(Sort.Direction.ASC, "denomination");
 				return (List<Status>) statusRepository.findAll(criteryConstructor(requestParams), sort);
 			}
-			
+
 		}catch(NumberFormatException e) {
 			sort = new Sort(Sort.Direction.ASC, "denomination");
 			return (List<Status>) statusRepository.findAll(criteryConstructor(requestParams), sort);
 		}
-		
+
 	}
-	
-	public long count() {		
+
+	public long count() {
 		return statusRepository.count();
 	}
-	
+
 	private BooleanExpression criteryConstructor(Map<String,String> requestParams){
-    	
+
     	QStatus qStatus = QStatus.status;
 		BooleanExpression criterioFinal = null;
 		int con = 0;
@@ -68,12 +67,12 @@ public class StatusService {
 		while (it.hasNext()) {
 	        Map.Entry e = (Map.Entry)it.next();
 	        //System.out.println(e.getKey() + "=" + e.getValue());
-	        
+
 	        BooleanExpression criterio = null;
 	        if (e.getKey().equals("denomination")){
 	        	criterio = qStatus.status.denomination.likeIgnoreCase("%" + (String)e.getValue() + "%");
 	        }
-	        
+
 	        if (criterio != null){
 	        	if (con == 0){
 	        		criterioFinal = criterio;	
@@ -87,9 +86,9 @@ public class StatusService {
 	        }
 	        con++;
 	    }
-    	
+
 		return criterioFinal;
-    	
+
     }
 
 }

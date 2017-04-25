@@ -1,22 +1,10 @@
 'use strict';
 
-App.controller('LoginController', ['$http', '$location', '$scope', '$rootScope', 'UserService', function($http, $location, $scope, $rootScope, UserService) {	
+App.controller('LoginController', ['$http', '$location', '$scope', '$rootScope', 'UserService', 'ErrorService', function($http, $location, $scope, $rootScope, UserService, ErrorService) {	
 	var self = $scope;
-	$rootScope.errors = '';
 	$scope.userAuth = false;
-
-	$scope.error = function(responseError) {
-		
-		$rootScope.errors = [];		
-		$rootScope.errors.push(responseError.data.error + ', favor revisar');
-		//$timeout($scope.resetErrors, 6000);
-	}
-
-	$scope.resetErrors = function() {
-		$rootScope.errors = [];
-    }
-
 	self.credentials = {};
+	
 	$scope.login = function() {
 
 		UserService.authenticate(self.credentials).then(
@@ -27,30 +15,32 @@ App.controller('LoginController', ['$http', '$location', '$scope', '$rootScope',
 					$location.path("/home");
 				}else{
 					//console.log("Usuario no Autorizado:"+response)
-					response.data.error = "Usuario no Autorizado";					
-					console.log("Usuario no Autorizado:"+response);
+					response = "Usuario no Autorizado";					
+					//console.log("Usuario no Autorizado:"+response);
 					$location.path("/login");
 					$scope.userAuth = false;
 					$scope.error(response.data.error);
+					ErrorService.setFormError(response);
 				}
-				
+
 
 			}, 
-			function(errResponse){				
+			function(errResponse){
 				$location.path("/login");
-				$scope.error(errResponse);
+				//console.log(errResponse);
+				ErrorService.setFormError(errResponse);
 				$scope.userAuth = false;
 
 			}
 		);
-		
+
 	};
-	
+
 	$scope.init = function() {
-		
+
 		UserService.isAuthenticated().then(
 			function(response){	
-				
+
 				if (response){
 					$scope.userAuth = true;
 					//console.log('ir al home');

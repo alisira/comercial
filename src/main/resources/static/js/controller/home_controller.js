@@ -22,13 +22,13 @@ App.controller('HomeController', function($http, $location, $state, $scope, $roo
 				function(response){
 					//console.log(response);
 					if (response) {
-						console.log(1);
+						//console.log(1);
 						UserService.getPermission($scope.setPermission);
 						$scope.error = false;
 						$scope.getUserName();
 
 					}else{
-						console.log(2);
+						//console.log(2);
 						$location.path("/login");//Enviar a Login solo en caso de no querer mostrar el home
 						//console.log('esta ejecuta');
 

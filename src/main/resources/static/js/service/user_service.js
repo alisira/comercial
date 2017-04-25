@@ -158,7 +158,7 @@ App.factory('UserService', ['$http', '$q', function($http, $q){
 	
 			}, function() {
 				user.authenticated = false;
-				return $q.reject('Error al autenticar'); 
+				return $q.reject('Usuario no autorizado'); 
 				//login(false);
 			}
 		)

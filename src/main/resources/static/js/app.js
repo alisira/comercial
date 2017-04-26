@@ -166,45 +166,22 @@ App.config(function($httpProvider, $stateProvider, $urlRouterProvider){
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-}).config(function($httpProvider) {
-    $httpProvider.interceptors.push('httpResponseInterceptor');
 });
 
 
 
 //http interceptor to handle redirection to login on 401 response from API
-App.factory('httpResponseInterceptor', ['$q', '$rootScope', '$location', function($q, $rootScope, $location) {
-	
-	
-	return {
-    	
-    	function(resp) {
-    		console.log(resp);
-    		
-            if (resp.status === 401) {
-                // Something like below:
-            	console.log('111');
-                $location.path('/login');
-            }
-            return resp;
-        },    	
-    
-        function(rejection) {
-            if (rejection.status === 401) {                
-                $location.path('/login');
-            }
-            return rejection;
+App.service('authInterceptor', function($q, $location) {
+    var service = this;
+
+    service.responseError = function(response) {
+        
+    	if (response.status == 401){
+    		console.log(response);	
+    		return $location.path("/");
         }
+        //return $q.reject(response);
     };
-    
-    
-    
-    
-}]);
+}).config(function($httpProvider) {
+    $httpProvider.interceptors.push('authInterceptor');
+});

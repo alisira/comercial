@@ -68,7 +68,7 @@ App.controller('LoginController', ['$http', '$location', '$scope', '$rootScope',
       		console.log(response.data.token);
       		
       		/*$http({
-      			url : 'http://localhost:8080',
+      			url : '/',
       			method : 'GET',
       			headers : {
       				'X-Auth-Token' : response.data.token

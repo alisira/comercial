@@ -86,8 +86,17 @@ App.config(function($httpProvider, $stateProvider, $urlRouterProvider){
 			
 			$stateProvider.state(ctr+'Controller'+method.charAt(0).toUpperCase()+ method.slice(1), {
 		        url: url,
-		        templateUrl: templateUrl,
-		        controller: ctr+'Controller'+method.charAt(0).toUpperCase()+ method.slice(1)
+		        views:{
+                    "mainView":{
+                         templateUrl: templateUrl,
+                         controller: ctr+'Controller'+method.charAt(0).toUpperCase()+ method.slice(1)
+                    },
+                    "menu": {
+                        templateUrl: "html/navigation.html",
+                        controller: 'HomeController'
+                    }
+		        
+		        } 
 		      });
 			
 			//console.log(url + ":" + ctr + ":" + "html/"+providerTemp+ '/' + method+ ".html");
@@ -99,20 +108,47 @@ App.config(function($httpProvider, $stateProvider, $urlRouterProvider){
 	$urlRouterProvider.otherwise('/home');
 	
 	$stateProvider
-		.state('HomeController', {
+		.state('Principal', {
 			url: "/",
-			templateUrl: 'html/home.html',
-			controller: 'HomeController'
+			views:{
+                "mainView":{
+                	templateUrl: 'html/home.html',
+        			controller: 'HomeController'
+                },
+                "menu": {
+                    templateUrl: "html/navigation.html",
+                    controller: 'HomeController'
+                }     
+	        }
 		})
-		.state('HomeController2', {
+		.state('Home', {
 			url: "/home",
-			templateUrl: 'html/home.html',
-			controller: 'HomeController'
+			views:{
+                "mainView":{
+                	templateUrl: 'html/home.html',
+        			controller: 'HomeController'
+                },
+                "menu": {
+
+                    templateUrl: "html/navigation.html",
+                    controller: 'HomeController'
+                }	        
+	        }
+			
         })
         .state('LoginController', {
         	url: "/login",
-        	templateUrl: 'html/login.html',
-        	controller: 'LoginController'
+        	views:{
+                "mainView":{
+                	templateUrl: 'html/login.html',
+                    controller: 'LoginController'
+                },
+                "menu": {
+                    templateUrl: "html/navigation.html",
+                    controller: 'HomeController'
+                }	        
+	        }        	
+        	
         })
 	
 	

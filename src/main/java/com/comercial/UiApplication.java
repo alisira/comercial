@@ -78,7 +78,7 @@ public class UiApplication {
 			 http
 			 .httpBasic().and()
 			 .authorizeRequests()
-			 .antMatchers("/", "/user", "/error", "/index.html", "/html/home.html", "/html/login.html", "/bootstrap/*/*", "/token"  ).permitAll()
+			 .antMatchers("/", "/user", "/error", "/index.html", "/html/home.html", "/html/login.html", "/html/navigation.html", "/bootstrap/*/*", "/token"  ).permitAll()
 			 .anyRequest().authenticated()
 			 .and()
 			 .csrf()
@@ -129,8 +129,6 @@ public class UiApplication {
 	 public Map<String,String> token(HttpSession session, Principal user) {
 		 System.out.println("token:" + session.getId());
 		 //System.out.println(session.getAttributeNames());
-
-
 		 //System.out.println("user en token:" + user.toString());
 		 System.out.println(Collections.singletonMap("token", session.getId()));
 

@@ -13,7 +13,7 @@ App.factory('UserService', ['$http', '$q', function($http, $q){
 	
 	
 	/*createUser: function(user){
-		return $http.post('http://localhost:8080/user/', user)
+		return $http.post('/user/', user)
 				.then(
 						function(response){
 							return response.data;
@@ -28,7 +28,7 @@ App.factory('UserService', ['$http', '$q', function($http, $q){
 */
 	
 	userService.isAuthenticated = function(){
-		return $http.get('/user').then(
+		return $http.get('user').then(
 				function(response){					
 					//console.log(response);
 					return response.data;
@@ -114,7 +114,7 @@ App.factory('UserService', ['$http', '$q', function($http, $q){
 	userService.getPermission = function(callback){
 		
 		var param= {idUser:1};
-		return $http.post('http://localhost:8080/user_permission/', param)
+		return $http.post('/user_permission/', param)
 			.then(
 				function(response){
 					//console.log(response.data);

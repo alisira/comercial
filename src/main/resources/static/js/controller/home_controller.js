@@ -1,13 +1,13 @@
 'use strict';
 
-App.controller('HomeController', function($http, $location, $state, $scope, $rootScope, UserService, $stateParams, ErrorService) {
+App.controller('HomeController', function($http, $location, $state, $scope, UserService, $stateParams, ErrorService) {
 	
 	$scope.appTitle = "Acceso Principal";
 	
 	//Cada vez q se cambia de vista se ejecuta esta funcion
 	$scope.tab = function(route) {
 
-		 //console.log($attrs);
+		//console.log(route);
 		var temp = $state.current.url.split("/")[1];
 		if ($state.current.url.split("/")[1]  == route)
 			return true
@@ -44,13 +44,12 @@ App.controller('HomeController', function($http, $location, $state, $scope, $roo
 	};
 	
 	$scope.setPermission = function(respuesta) {
-		$rootScope.permission = respuesta.permisos;
-		//console.log($rootScope.permission);
+		$scope.permission = respuesta.permisos;
 	}
 
 	$scope.getUserName = function() {
 		UserService.getUserName(function(resp) {
-			$rootScope.userName = resp;
+			$scope.userName = resp;
 		});
 	}
 	
@@ -60,9 +59,9 @@ App.controller('HomeController', function($http, $location, $state, $scope, $roo
 		UserService.logout().then(
 				function(response){
 
-					$rootScope.permission = null;
-					$rootScope.userName =  null;
-					$rootScope.authenticated = false;
+					$scope.permission = null;
+					$scope.userName =  null;
+					$scope.authenticated = false;
 					$location.path("/");
 
 				}, 
@@ -87,7 +86,7 @@ App.controller('HomeController', function($http, $location, $state, $scope, $roo
       		console.log(response.data.token);
       		
       		/*$http({
-      			url : 'http://localhost:8080',
+      			url : '/',
       			method : 'GET',
       			headers : {
       				'X-Auth-Token' : response.data.token

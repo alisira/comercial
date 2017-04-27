@@ -1,29 +1,29 @@
 <div class="container">
 	<div class="row">
-		<div class="col-md-4 col-md-offset-4" role="dialog">
+		<div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-4" role="dialog">
 
 			<form role="form" ng-submit="login()">
-				<div class="modal-header" style="margin-bottom: 10px;border-radius: 10px;">					
+				<div class="modal-header" style="margin-bottom: 10px;border-radius: 10px;">
 					<h4>
 						<span class="glyphicon glyphicon-lock"></span> Login
 					</h4>
 				</div>
 
-				<div class="form-group">					
+				<div class="form-group">
 					<label for="usrname"><span class="glyphicon glyphicon-user"></span> Usuario/Correo</label> 
 					<input type="text" class="form-control" id="username" name="username" ng-model="credentials.username"/>
 					<span ng-if="userNoAuth" class="help-block latofont font-16 normal black-font">
 			            <strong>Usuario No Autorizado</strong>
 			        </span>
 				</div>
-				<div class="form-group">					
+				<div class="form-group">
 					<label for="psw"><span class="glyphicon glyphicon-eye-open"></span>Password</label> 
 					<input type="password" class="form-control" id="password" name="password" ng-model="credentials.password"/>
 				</div>
 				<div class="checkbox">
               		<label><input type="checkbox" value="" checked>Recuerdame</label>
             	</div>
-				
+
 				<button type="submit" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-off"></span> Login</button>
 			</form>
 		</div>

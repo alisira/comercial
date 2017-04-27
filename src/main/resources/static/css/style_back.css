@@ -1,3 +1,27 @@
+@media only screen and (min-width: 0px) {
+	.menuView{
+		margin-bottom: 70px;	
+	}
+}
+
+@media only screen and (min-width: 768px){
+	.menuView{
+		margin-bottom: 170px;	
+	}
+}
+
+@media only screen and (min-width: 1340px){
+	.menuView{
+		margin-bottom: 110px;	
+	}
+}
+
+@media only screen and (min-width: 1500px){
+	.menuView{
+		margin-bottom: 70px;	
+	}
+}
+
 .modal-header, h4, .close {
 	background-color: #337ab7;
 	color:white !important;
@@ -6,6 +30,7 @@
 	padding: 5px 0px;
 	
 }
+
 .modal-footer {
 	background-color: #f9f9f9;
 }
@@ -31,3 +56,10 @@
   opacity:1;
 }
 
+.panel-heading-custom{
+	padding-bottom: 20px;
+}
+
+.panel-filter-custom{
+	margin-top: 5px;
+}

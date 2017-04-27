@@ -1,58 +1,62 @@
-<nav class="navbar navbar-default" >
-	<div class="container" >
-	
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container-fluid">
-				<div class="navbar-header visible-xs">
-					<!-- Collapsed Hamburger -->
-					<span class="navbar-brand" >Sistema Comercial</span>
-		
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#spark-navbar-collapse">
-						<span class="sr-only">Toggle Navigation</span> 
-						<span class="icon-bar"></span> 
-						<span class="icon-bar"></span> 
-						<span class="icon-bar"></span>
-					</button>
-				</div>
-		
-				<div id="spark-navbar-collapse" class="collapse navbar-collapse">
-		
-					<!-- Left Side Of Navbar -->
-					<ul ng-if="permission" class="nav navbar-nav">
-						<li ng-if="permission" ng-repeat="per in permission track by $index" ng-class="{active:tab(per.url)}">
-							<a href="#!/{{per.url}}/list"> <span ng-bind="per.desc"></span></a>
-						</li>
-		
-						<!-- Authentication Links -->
-						<li class="dropdown nav navbar-nav navbar-right">
-							<a href="" class="dropdown-toggle"	data-toggle="dropdown" role="button" aria-expanded="false">
-								Bienvenido: <span class="glyphicon glyphicon-user text-capitalize" ng-bind="userName"></span><span class="caret"></span>
-							</a>
-		
-							<ul class="dropdown-menu nav navbar-nav navbar-right" role="menu">
-								<li>
-									<a href="#" ng-click="logout()" role="button">
-										<i class="fa fa-btn fa-sign-out"></i>Logout
-									</a>
-								</li>
-							</ul>
-						</li>
-		
-					</ul>
-		
-					<!-- Right Side Of Navbar -->							
-					<ul ng-if="!permission" class="nav navbar-nav navbar-right">
-						<!-- Authentication Links -->
-						<li><a href="/#!/register"><span class="glyphicon glyphicon-user"></span> Registrarse</a></li>
-						<li><a href="/#!/login"><span class="glyphicon glyphicon-log-in"> </span> Login</a></li>
-				    </ul>
-		
-				</div>
-			</div>
-		</nav>
-	
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" >		
 
-	         
-	</div>
+		<div class="navbar-header">
+			<!-- Collapsed Hamburger -->
+			<span class="visible-xs">
+				<span class="navbar-brand" >Demo Sistema Comercial
+				</span>
+				<a class="navbar-brand" href="#">Log</a>
+			</span>
+
+			<span class="visible-md visible-lg">
+				<span ng-if="!permission">
+					<span class="navbar-brand" >Demo Sistema Comercial
+					</span>
+					<a class="navbar-brand" href="#">Log</a>
+				</span>
+			</span>
+
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#spark-navbar-collapse">
+				<span class="sr-only">Toggle Navigation</span> 
+				<span class="icon-bar"></span> 
+				<span class="icon-bar"></span> 
+				<span class="icon-bar"></span>
+			</button>
+
+		</div>
+
+		<div id="spark-navbar-collapse" class="collapse navbar-collapse navbar-ex1-collapse">
+
+			<!-- Left Side Of Navbar -->
+			<ul ng-if="permission" class="nav navbar-nav">
+				<li ng-if="permission" ng-repeat="per in permission track by $index" ng-class="{active:tab(per.url)}">
+					<a href="#!/{{per.url}}/list"> <span ng-bind="per.desc"></span></a>
+				</li>
+			</ul>
+
+			<ul ng-if="permission" class="nav navbar-nav pull-right">
+                      <!-- Authentication Links -->
+				<li class="dropdown">
+					<a href="" class="dropdown-toggle"	data-toggle="dropdown" role="button" aria-expanded="false">
+						Bienvenido: <span class="glyphicon glyphicon-user text-capitalize" ng-bind="userName"></span><span class="caret"></span>
+					</a>
+
+					<ul class="dropdown-menu nav nav-pills navbar-right" role="menu">
+						<li>
+							<a href="#" ng-click="logout()" role="button">
+								<i class="fa fa-btn fa-sign-out"></i>Logout
+							</a>
+						</li>
+					</ul>
+				</li>
+                  </ul>
+
+			<!-- Right Side Of Navbar -->							
+			<ul ng-if="!permission" class="nav nav-pills pull-right">
+				<!-- Authentication Links -->
+				<li><a href="/#!/register"><span class="glyphicon glyphicon-user"></span> Registrarse</a></li>
+		    </ul>
+
+		</div>
+	
 </nav>
-    

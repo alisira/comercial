@@ -1,14 +1,13 @@
 'use strict';
 
-App.directive('validateForm', function(ErrorService){	
+App.directive('validateForm', function(ErrorService, $location, $anchorScroll){
 	return {
     	restrict: 'A',
     	link: function(scope,  element, attrs){
 
     		scope.$watch('form.$submitted', function(obj, objOld) {
             	if (scope.form.$submitted){
-
-	            	if (scope.form.$valid) {
+            		if (scope.form.$valid) {
 	                	scope.actionSaveForm();
 	                }else{
 	                	var elements = scope.form.$$controls;
@@ -24,26 +23,23 @@ App.directive('validateForm', function(ErrorService){
 	                    				}else{
 	                    					ErrorService.setFormError('Favor llenar el campo ' +  element.$$attr.validateName );
 	                    				}
-	                    				
+
 	                    			}else{
-	                    				console.log(element.$$attr);
+	                    				//console.log(element.$$attr);
 	                    				if (element.$$attr.placeholder)
 	                    					ErrorService.setFormError(element.$$attr.placeholder);
 	                    			}
-
 	                    		}
 	                    	}
 
 	                    });
 
-	                    //$rootScope.errors = errors;
-	                    //ErrorService.set(errors)
-
 	                }
+	            	scope.form.$submitted = false;
+	        		$location.hash();
+	                $anchorScroll();
             	}
-            	scope.form.$submitted = false;
             });
-
     	}
     }
 });

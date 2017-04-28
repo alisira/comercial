@@ -162,7 +162,7 @@ App.service('authInterceptor', function($q, $location) {
 
     service.responseError = function(response) {
     	if (response.status == 401){
-    		console.log(response);	
+    		//console.log(response);	
     		return $location.path("/");
         }
         //return $q.reject(response);

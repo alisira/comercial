@@ -13,31 +13,42 @@
 			body {
 				font-family: 'Lato';
 			}
-			
+
 			.fa-btn {
 				margin-right: 6px;
 			}
 		</style>
-		
+
 	</head>
-  	
+
 	<body id="app-layout" ng-app="myApp" class="ng-cloak" >
-		
-	    <div ui-view="menu" class="menuView"></div>
-	    
+	<div id="inicio">
+	</div>
+	    <div id="app-menu" ui-view="menu" class="menuView"></div>
+
 	    <div ng-if="errors" class="ng-cloak alert alert-danger animate-if" >
 			<button type="button" class="close" aria-label="Close" ng-click="closeErrors()">
 				<span aria-hidden="true">&times;</span>
 			</button>
 			<ul>
-				<li ng-repeat="error in errors">
-					{{error}}
+				<li ng-repeat="error in errors" class="">
+					<div class="ng-cloak" ng-bind="error" ></div>
+				</li>
+			</ul>
+		</div>
+
+		<div ng-if="messages" class="ng-cloak alert alert-success animate-if" >
+			<button type="button" class="close" aria-label="Close" ng-click="closeMessages()">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<ul>
+				<li ng-repeat="message in messages">
+					<div class="ng-cloak" ng-bind="message" ></div>
 				</li>
 			</ul>
 		</div>
 
 		<div ui-view="mainView"></div>
-    	
 
 		<script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
   		<script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -52,6 +63,7 @@
 		<!-- Services-->
 		<script src="js/service/user_service.js"></script>
 		<script src="js/service/error_service.js"></script>
+		<script src="js/service/message_service.js"></script>
 		<script src="js/service/product_service.js"></script>
 		<script src="js/service/category_service.js"></script>
 		<script src="js/service/color_service.js"></script>

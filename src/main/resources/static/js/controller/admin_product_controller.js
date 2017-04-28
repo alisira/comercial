@@ -1,6 +1,6 @@
 'use strict';
 
-App.controller('AdminProductControllerList', ['$scope', '$location', '$rootScope', 'ProductService', 'CategoryService', '$timeout', function($scope, $location, $rootScope, ProductService, CategoryService, $timeout) {
+App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductService', 'CategoryService', '$timeout', function($scope, $location, ProductService, CategoryService, $timeout) {
 	var self = this;
 	$scope.appTitle = "Administrador de Productos";	
 	$scope.products = {"list":null};
@@ -86,7 +86,7 @@ App.controller('AdminProductControllerList', ['$scope', '$location', '$rootScope
 }]);
 
 
-App.controller('AdminProductControllerNew', function($scope, $location, ProductService, ColorService, EnviromentService, PurposeService, CategoryService, StatusService, $rootScope, $timeout) {
+App.controller('AdminProductControllerNew', function($scope, $location, ProductService, ColorService, EnviromentService, PurposeService, CategoryService, StatusService, $timeout, MessageService) {
 	$scope.submitTitle = 'Guardar';
 	$scope.appTitle = "Producto";
 	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];
@@ -150,7 +150,8 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
 
 	        		},
 	        		function(errResponse){
-	        			console.error('Error counting Purpose');
+	        			//console.error('Error counting Purpose');
+	        			ErrorService.set('Error counting Purpose');
 	        		}
 	        );
        
@@ -168,7 +169,8 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
 	        			//$scope.count = permission.permisos;
 	        		},
 	        		function(errResponse){
-	        			console.error('Error counting products');
+	        			//console.error('Error counting products');
+	        			ErrorService.set('Error counting Categories');
 	        		}
 	        );
        
@@ -204,10 +206,12 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
         			$location.path($location.path().split('/').slice(1,2)[0] + '/edit/'+ response.id);
         			//$scope.statuses = response;
         			//$scope.count = permission.permisos;
+        			MessageService.set('Registro guardado satisfactoriamente');
         			
         		},
         		function(errResponse){
-        			console.error('Error saving product');
+        			//console.error('Error saving product');
+        			ErrorService.set('Error Guardando el Producto favor revisar los datos o comunicarse con un administrador, gracias');
         		}
         );
     }
@@ -246,7 +250,7 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
  * @param {stateParams} $stateParams
  * @param {ProductService} ProductService factory
  */
-App.controller('AdminProductControllerEdit', function($scope, $location, $stateParams, $timeout, ProductService, ColorService, EnviromentService, PurposeService, CategoryService, StatusService, $rootScope, ErrorService, FileService ) {
+App.controller('AdminProductControllerEdit', function($scope, $location, $stateParams, $timeout, ProductService, ColorService, EnviromentService, PurposeService, CategoryService, StatusService, ErrorService, FileService, MessageService ) {
 	$scope.appTitle = "Administrador de Productos";
 	$scope.submitTitle = 'Guardar';
 	$scope.appTitle = "Producto";
@@ -403,6 +407,7 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
     		function(response) {
     			//console.log(response);
     			$scope.findProductById($stateParams.id);
+    			MessageService.set('Registro guardado satisfactoriamente');
     		},
     		function(errResponse){
     			console.error('Error saving product');

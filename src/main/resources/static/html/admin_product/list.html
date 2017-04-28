@@ -38,75 +38,82 @@
                         </div>
                     </div>
                 </div>
-                <table id="detailTable" class="table table-hover">
-                    <thead>
-                        <tr class="margin-10">
-                            <th>
-                                <span class="field-ref_profile.full_name caret-up-down dropdown">
-                                    Código
-                                    <span class="caret"></span>
-                                </span>
-                                <br />
-                                <input ng-model="code" type="text" class="form-control" ng-change="findModel()" />
-                            </th>
-                            <th>
-                                <span class="field-name caret-up-down dropdown" >
-                                    Nombre
-                                    <span class="caret"></span>
-                                </span>
-                                <br />
-                                <input ng-model="name" type="text" class="form-control" ng-change="findModel()" />
-                            </th>
 
-                            <th>
-                                <span class="field-name caret-up-down dropdown" >
-                                    Descripcion
-                                    <span class="caret"></span>
-                                </span>
-                                <br />
-                                <input ng-model="description" type="text" class="form-control" ng-change="findModel()" />
-                            </th>
-                            
-                            <th>
-                            	<span class="field-ref_profile.full_name caret-up-down dropdown">
-                                    Categoria
-                                    <span class="caret"></span>
-                                </span>
-                                <br />
-                                <select class="form-control" ng-model="category" ng-options="x.denomination for x in categories" ng-change="findModel()">
-								  	<option selected="selected" value="">Seleccionar</option>
-								</select>								
-                            </th>
+                <div class="row">
+	                <div class="col-md-12">
+		                <div class="table-responsive"> 
+			                <table id="detailTable" class="table table-hover table-condensed">
+			                    <thead>
+			                        <tr class="margin-10">
+			                            <th>
+			                                <span class="field-ref_profile.full_name caret-up-down dropdown">
+			                                    Código
+			                                    <span class="caret"></span>
+			                                </span>
+			                                <br />
+			                                <input ng-model="code" type="text" class="form-control" ng-change="findModel()" />
+			                            </th>
+			                            <th>
+			                                <span class="field-name caret-up-down dropdown" >
+			                                    Nombre
+			                                    <span class="caret"></span>
+			                                </span>
+			                                <br />
+			                                <input ng-model="name" type="text" class="form-control" ng-change="findModel()" />
+			                            </th>
+			
+			                            <th>
+			                                <span class="field-name caret-up-down dropdown" >
+			                                    Descripcion
+			                                    <span class="caret"></span>
+			                                </span>
+			                                <br />
+			                                <input ng-model="description" type="text" class="form-control" ng-change="findModel()" />
+			                            </th>
+			                            
+			                            <th colspan="2">
+			                            	<span class="field-ref_profile.full_name caret-up-down dropdown">
+			                                    Categoria
+			                                    <span class="caret"></span>
+			                                </span>
+			                                <br />
+			                                <select class="form-control" ng-model="category" ng-options="x.denomination for x in categories" ng-change="findModel()">
+											  	<option selected="selected" value="">Seleccionar</option>
+											</select>
+			                            </th>
+			
+			                        </tr>
+			                    </thead>
 
-                        </tr>
-                    </thead>
-                    
-                    <tbody id="tbodyDetail">       
-
-                        <tr ng-repeat="pro in model.list">
-                            <td>{{pro.code}}</td>
-                            <td>{{pro.name}}</td>
-                            <td>{{pro.description}}</td>
-                            <td>{{pro.category.denomination}}</td>
-
-                            <td>
-                            	<div style="text-align: right;">
-	                            	<a href="{{relativePath}}/view/{{pro.idProduct}}/" class="btn btn-sm btn-info" title="Ver">
-	                                	<span class="glyphicon glyphicon-file"></span>
-	                            	</a>
-	
-	                                <a href="{{relativePath}}/edit/{{pro.idProduct}}" class="btn btn-sm btn-info" title="Editar">
-	                                    <span class="glyphicon glyphicon-pencil"></span>
-	                                </a>
-                                </div>
-                            </td>
-                        </tr>
-                        
-                    </tbody>
-                </table>				
+			                    <tbody id="tbodyDetail" >
+			
+			                        <tr ng-repeat="pro in model.list">
+			                            <td>{{pro.code}}</td>
+			                            <td>{{pro.name}}</td>
+			                            <td>{{pro.description}}</td>
+			                            <td>{{pro.category.denomination}}</td>
+			
+			                            <td>
+			                            	<div style="text-align: right;">
+				                            	<a href="{{relativePath}}/view/{{pro.idProduct}}/" class="btn btn-sm btn-info" title="Ver">
+				                                	<span class="glyphicon glyphicon-file"></span>
+				                            	</a>
 				
+				                                <a href="{{relativePath}}/edit/{{pro.idProduct}}" class="btn btn-sm btn-info" title="Editar">
+				                                    <span class="glyphicon glyphicon-pencil"></span>
+				                                </a>
+			                                </div>
+			                            </td>
+			                        </tr>
+			                        
+			                    </tbody>
+			                </table>
+		                </div>
+	                </div>
+                </div>
+
 				<paging-object></paging-object>
-				
+
             </div>
         </div>
     </div>

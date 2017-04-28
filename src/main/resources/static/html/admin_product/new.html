@@ -178,64 +178,66 @@
 	                                <relationated-product title="Buscar Productos" id-product="product.idProduct" list-relationated-products="listRelationatedProducts"></relationated-product>
 	                            </div>
 	
-	                            <div class="col-md-4" style="width:369px; height:300px; overflow: auto;">
-	                                <div class="form-group">
-                                        <label>Productos Relacionados</label>
+	                            <div class="col-md-4" style="height:300px; overflow: auto;">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="table-responsive">
+												<div class="form-group">
+													<label>Productos Relacionados</label>
 
-                                        <table class="table table-hover" id ="tableRelationatedProducts">
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        Código
-                                                    </th>
-                                                    <th>
-                                                        Nombre
-                                                    </th>
-                                                    <th>
-                                                        Acción
-                                                    </th>	
-                                                </tr>
-                                            </thead>
+													<table class="table table-hover"
+														id="tableRelationatedProducts">
+														<thead>
+															<tr>
+																<th>Código</th>
+																<th>Nombre</th>
+																<th>Acción</th>
+															</tr>
+														</thead>
 
-                                            <tbody>
-												<tr ng-repeat="list in listRelationatedProducts | orderBy: 'name'">
-													<td>
-														<div class="media">
-															<a href="{{relativePath+'/edit/'+list.idProduct}}">{{list.code}}</a>
-														</div>
-													</td>
+														<tbody>
+															<tr
+																ng-repeat="list in listRelationatedProducts | orderBy: 'name'">
+																<td>
+																	<div class="media">
+																		<a href="{{relativePath+'/edit/'+list.idProduct}}">{{list.code}}</a>
+																	</div>
+																</td>
 
-													<td>
-														<div class="media">{{list.name}}</div>
-													</td>
-													<td>
-														<div class="media">
-															<a href=""
-																ng-click="removeRelaProduct(list.idProductRelation);"
-																title="Pulse para eliminar de los Productos Relacionados">
-																<i class="fa fa-trash fa-2x"></i>
-															</a>
-														</div>
-													</td>
-												</tr>
-											</tbody>
-                                        </table>
-	                                </div>
-	                            </div>
-	                            
+																<td>
+																	<div class="media">{{list.name}}</div>
+																</td>
+																<td>
+																	<div class="media">
+																		<a href=""
+																			ng-click="removeRelaProduct(list.idProductRelation);"
+																			title="Pulse para eliminar de los Productos Relacionados">
+																			<i class="fa fa-trash fa-2x"></i>
+																		</a>
+																	</div>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
 	                            <div class="col-md-4">
 									<div class="form-group">
 								 		<label>Imagen de Muestra</label>
 										<input id="upload_image" type="file" name="files[]" multiple class="btn btn-primary form-control hidden" ng-model="archivo" ng-disabled="disabled" file-load>
 										<a class="btn  btn-primary trans-button btn-block" ng-click="OnUpload(this)"> 
 											<i class="fa fa-camera"></i> Cargar foto
-										</a>											
+										</a>
 									</div>
 								</div>
-								
+
 								<div class="col-md-4">
 									<div class="form-group">
-										<span ng-if="image" >											
+										<span ng-if="image" >
 											<img id="imgModel" ng-src={{image.url}} class="img-responsive center-block" width="400" height="400">
 										</span>	
 									</div>
@@ -243,12 +245,12 @@
 
 	                            <!--  <button type="submit" class="btn btn-primary btn-block" ng-disabled="form.$invalid">{{submitTitle}}</button>-->	                            
 	                            <button type="submit" class="btn btn-primary btn-block">{{submitTitle}}</button>
-	                            
+
 							</form>
                         </div>
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
 </div>

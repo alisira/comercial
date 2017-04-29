@@ -1,6 +1,6 @@
 'use strict';
 
-App.directive('fileLoad', function($http, ErrorService){	
+App.directive('fileLoad', function($http, ErrorService, $location, $anchorScroll){	
 	return {
 		restrict: 'A',
         link: function (scope, element, attributes) {
@@ -37,22 +37,35 @@ App.directive('fileLoad', function($http, ErrorService){
                 
                 $http.post('/file', formData, {
                     transformRequest: function(data, headersGetterFunction) {
+                    	//console.log(headersGetterFunction);
+                    	//console.log(data);
                         return data;
                     },
                     headers: { 'Content-Type': undefined }
                     }).then(
             			function(response){
             				//console.log(response);
-            				if (response.status != 200){
+            				if (response == undefined){
             					//Error de javascript element.context.files[0].name=null; resp:TypeError: Cannot assign to read only property 'name' of object '#<File>'            					
             					//return scope.error(response);
-            					ErrorService.set(response)
+            					ErrorService.setFormError('Hubo un problema al subir el archivo revise el formato y que no exceda de 1 mb')
+            					$location.hash();
+            	                $anchorScroll();
+            	                return false;
+            				}else if(response.status != 200){
+            					ErrorService.set(response);
+            					$location.hash();
+            	                $anchorScroll();
+            	                return false;
             				}else
             					return scope.loadImage(response);
             			},
             			function(errResponse){
-            				console.log(errResponse);
+            				//console.log(errResponse);
             				ErrorService.set(response)
+            				$location.hash();
+        	                $anchorScroll();
+        	                return false;
             				//return scope.error(errResponse);
             				//return $q.reject(errResponse);
             			}

@@ -32,25 +32,25 @@ public class FileSystemStorageService implements StorageService {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
             }
-            
+
     		LocalDateTime now = LocalDateTime.now();            
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmssSS");
             String formatDateTime = now.format(formatter);
-            
+
             String str = file.getOriginalFilename();
             String [] fileName = str.split("\\.");
-            
+
             String newFileName =  fileName[0].replace(' ','_') + "_" + formatDateTime + "." + fileName[1];
-            
+
             long resp =  Files.copy(file.getInputStream(), this.rootLocation.resolve(newFileName));            
-            
+
             if (resp > 0){
             	return newFileName;
             }else{
             	throw new StorageException("Error desconocido al guardar Archivo " + file.getOriginalFilename());
             }
-            
-        } catch (IOException e) {
+
+        }catch (IOException e) {
             throw new StorageException("Error al guardar Archivo " + file.getOriginalFilename(), e);
         }
     }
@@ -102,10 +102,10 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public void init() {
         try {
-            
-            if (!Files.exists(this.rootLocation))            
+
+            if (!Files.exists(this.rootLocation))
             	Files.createDirectory(this.rootLocation);
-            
+
         } catch (IOException e) {
             throw new StorageException("Could not initialize storage", e);
         }

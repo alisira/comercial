@@ -4,12 +4,14 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.comercial.model.Image;
+import com.comercial.model.Products;
 import com.comercial.service.ImageService;
 import com.comercial.storage.StorageException;
 import com.comercial.storage.StorageFileNotFoundException;
@@ -42,7 +44,7 @@ public class FileUploadController {
     }
 
     @RequestMapping(value="/file", method = RequestMethod.POST, produces = "application/json")
-    public @ResponseBody String UploadFile(@RequestParam(value="file", required=true) MultipartFile file, RedirectAttributes redirectAttributes) {
+    public @ResponseBody ResponseEntity UploadFile(@RequestParam(value="file", required=true) MultipartFile file, RedirectAttributes redirectAttributes) {
         
     	JSONObject jsonObject = null;
     	try {
@@ -57,10 +59,16 @@ public class FileUploadController {
     		jsonObject = new JSONObject(toParse);
         	
         } catch (StorageException e) {
+        	//return new ResponseEntity<Object>(jsonObject.toJSONString(), HttpStatus.OK);	
         	throw new RuntimeException("Failed to store file " + file.getOriginalFilename(), e);
-        }
-
-	    return jsonObject.toJSONString();
+        	
+        	//return ResponseEntity.notFound().build();
+        	
+        	
+        }    	
+    	
+    	return new ResponseEntity<Object>(jsonObject.toJSONString(), HttpStatus.OK);
+    	//return jsonObject.toJSONString();
         //redirectAttributes.addFlashAttribute("message", "You successfully uploaded " + file.getOriginalFilename() + "!");
         //return "redirect:/";
     }    

@@ -1,5 +1,7 @@
 package com.comercial.rest;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.autoconfigure.web.ErrorAttributes;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * Basic Controller which is called for unhandled errors
@@ -22,7 +26,9 @@ import java.util.Map;
 @Controller
 public class AppErrorController implements ErrorController{
 
-    /**
+	protected final Log logger = LogFactory.getLog(getClass());
+	
+    /** 
      * Error Attributes in the Application
      */
     private ErrorAttributes errorAttributes;
@@ -45,13 +51,12 @@ public class AppErrorController implements ErrorController{
     @RequestMapping(value = ERROR_PATH, produces = "text/html")
     public ModelAndView errorHtml(HttpServletRequest request) {
     	
-    	
-    	//return new ModelAndView("/error", getErrorAttributes(request, false));
-    	
-    	
+    	//return new ModelAndView("/error", getErrorAttributes(request, false));    	
     	String message = "Ha ocurrido un error";    	
     	Map<String, Object> model = new HashMap();
     	model.put("message", getErrorAttributes(request, false));
+    	
+    	logger.info(model.get("message"));
     	
         return new ModelAndView("/errors/error", model);
     }
@@ -66,7 +71,24 @@ public class AppErrorController implements ErrorController{
     public ResponseEntity<Map<String, Object>> error(HttpServletRequest request) {
         Map<String, Object> body = getErrorAttributes(request, getTraceParameter(request));
         HttpStatus status = getStatus(request);
-        //System.out.println("status:" + status);
+        
+        
+        Set<Entry<String, Object>> a = body.entrySet();
+        
+        //a.forEach(System.out::println);
+        
+        body.entrySet().forEach(p -> System.out.println(p.getKey() + " - " + p.getValue()));
+        
+        for (Entry<String, Object> s : a) {
+            //System.out.println(s.getKey() + " - " + s.getValue());
+            logger.info(s.getKey() + " - " + s.getValue());
+        }
+        
+        
+        
+        //System.out.println("status:" + status);        
+        //logger.info(body);
+        
         return new ResponseEntity<Map<String, Object>>(body, status);
     }
 

@@ -15,7 +15,7 @@ public class IndexController {
 	
 	@RequestMapping("/")
 	public String getIndexPage(){
-		return "/layout/backoffice";
+		return "layout/backoffice";
 	}
 	
 	

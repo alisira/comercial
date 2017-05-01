@@ -1,16 +1,15 @@
-<ul class="pagination pull-right">
-	<li id="pagination-prev">
-		<a href="#prev" class="prev hidden" ng-click="btnPrev()"> <span aria-hidden="true">«</span>
+<ul class="pagination pull-right" ng-if="numPage > 1">
+	<li ng-class="{ disabled : model.page == 1 }">
+		<a href="" class="prev"  ng-click="backPage()"> <span aria-hidden="true">«</span>
 		</a>
 	</li>
 	
-	<li ng-repeat="page in aryPagination " ng-class="{active:($index+1==model.page)}">
-      	<a ng-if="$index + 1  <= limitBorder.left || (numPage < limitBorder.right + limitBorder.left)" href="" ng-click="goToPage(page, $event)" ng-class="{next:1==1}" ng-click="btnNext()"><span aria-hidden="true">{{page}}</span></a>
-  		<a ng-if="$index + 1  > limitBorder.left && $index + 1  < (numPage - limitBorder.right + 1)" href="" class="next"> <span aria-hidden="true">.</span></a>
-  		<a ng-if="$index + 1  > (numPage - limitBorder.right + 1) && (numPage > limitBorder.right + limitBorder.left)" href="" ng-click="goToPage(page, $event)" class="next" ng-click="btnNext()"> <span aria-hidden="true">{{page}}</span></a>
+	<li ng-repeat="page in aryPagination " ng-class="{active:(page.active)}">
+      	<a ng-if="page.type =='number'" href="" ng-click="goToPage(page.indice, $event)" ng-click="btnNext()"><span aria-hidden="true">{{page.indice}}</span></a>
+  		<!--  <a ng-if="page.type =='button'" href="" class="next"> <span aria-hidden="true">...</span></a>-->
     </li>
 	
-	<li id="pagination-next">
-		<a href="#next" class="next hidden" ng-click="btnNext()"> <span aria-hidden="true">»</span></a>
+	<li ng-class="{ disabled : !(model.page * model.perPage < numPage * model.perPage) }">
+		<a href="" class="next" ng-click="nextPage()"> <span aria-hidden="true">»</span></a>
 	</li>
 </ul>

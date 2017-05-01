@@ -75,14 +75,13 @@ public class AppErrorController implements ErrorController{
         
         Set<Entry<String, Object>> a = body.entrySet();
         
-        //a.forEach(System.out::println);
+        //a.forEach(System.out::println);        
+        body.entrySet().forEach(p -> logger.info(p.getKey() + " - " + p.getValue()));
         
-        body.entrySet().forEach(p -> System.out.println(p.getKey() + " - " + p.getValue()));
-        
-        for (Entry<String, Object> s : a) {
+        /*for (Entry<String, Object> s : a) {
             //System.out.println(s.getKey() + " - " + s.getValue());
             logger.info(s.getKey() + " - " + s.getValue());
-        }
+        }*/
         
         
         

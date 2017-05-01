@@ -8,24 +8,88 @@ App.directive('pagingObject', function(){
     	templateUrl: 'html/directive/pagination.html',
     	link: function(scope,  element, attrs){
     		
+    		scope.init = 1;
+    		scope.longGroup = 9;
+    		
     		scope.pagination = function() {
 
-    			scope.limitBorder = {"left":12, "right":12};
-    			scope.numPage =  Math.ceil(scope.model.count / scope.model.perPage);
-    			
-    			if (scope.numPage > 1){
-    				element.find('.prev').removeClass('hidden');
-    				element.find('.next').removeClass('hidden');
-    			}else{
-    				element.find('.prev').addClass('hidden');
-    				element.find('.next').addClass('hidden');
-    			}
+    			scope.limitBorder = {"left":10, "right":10};
+    			scope.numPage =  Math.ceil(scope.model.count / scope.model.perPage);    			
     			
     			scope.aryPagination = [];
     			
     			for (var i=1;i<=scope.numPage;i++) {
     				scope.aryPagination.push(i);
     			}
+    			
+    			scope.aryPagination2 = [];
+    			var pagina = {};
+    			    			
+    			var init = (Math.ceil(scope.model.page / scope.longGroup) - 1) * scope.longGroup + 1;
+
+    			for (var i=init; i < init + scope.longGroup && i * scope.model.perPage <= scope.numPage * scope.model.perPage;i++) {    				
+    				scope.aryPagination.push({"indice": i, "type":"number", "active": i==scope.model.page?true:false});
+    			}    			
+    			
+    			
+    			/*for (var i=scope.init;i<=scope.numPage;i++) {
+    				
+    				//scope.aryPagination.push(i);
+    				if (i < 7 && scope.model.page < 7){
+    					if (scope.numPage < 10){
+    						scope.aryPagination2.push({"indice": i, "type":"number", "active": i==scope.model.page?true:false});
+    					}else{
+    						if ( i <  3 ){
+    							scope.aryPagination2.push({"indice": i, "type":"number", "active": i==scope.model.page?true:false});
+    						}else{
+    							if (i==3){
+    								scope.aryPagination2.push({"indice": i, "type":"button", "active": false});
+    							}else{
+    								continue;
+    							}		
+    						}	
+    					}
+    				}else{
+    					//console.log(i);
+    					
+    					if (scope.numPage - 7 > 7 ){
+    						
+    						var half = Math.round(scope.numPage / 2);
+        					
+    						var x = i;
+    						var a = half-3;
+    						var b = half+3;
+    						
+    						//console.log(half);
+    						
+        					if (i >= half-3  && i <= half+3){
+        						//scope.aryPagination2.push({"indice": i, "type":"number", "active": i==scope.model.page?true:false});
+        						//console.log('en rango:' + i);
+        						scope.aryPagination2.push({"indice": i, "type":"number", "active": i==scope.model.page?true:false});
+        					}else{
+        						
+        						
+        						if (i == scope.numPage - 2){
+        							scope.aryPagination2.push({"indice": i, "type":"button", "active": false});
+        						}else if (i > scope.numPage - 2){
+        							scope.aryPagination2.push({"indice": i, "type":"number", "active": i==scope.model.page?true:false});
+        						}else
+        							continue;
+        						
+        						
+        						//console.log('fuera de rango:' + i);
+        					}
+        					
+    					}
+    					
+    				}
+    				
+    			}*/
+    			
+    			
+    			
+    			
+    			
 
     		};
 
@@ -38,14 +102,39 @@ App.directive('pagingObject', function(){
             	scope.goToPageEvent = true;
         		scope.model.page = page;
         		scope.findModel();
+        		scope.pagination();
         		
             };
+            
+            scope.backPage = function() {
+            	
+            	if (scope.model.page > 1){
+            		scope.goToPageEvent = true; 
+            		scope.model.page--;
+            		scope.findModel();
+            		scope.pagination();
+            	}
+        		
+            };            
+            
+            scope.nextPage = function() {
+
+            	if (scope.model.page * scope.model.perPage < scope.numPage * scope.model.perPage){
+            		scope.goToPageEvent = true;
+            		scope.model.page++;
+            		scope.findModel();
+            		scope.pagination();
+            	}
+        		
+            };
+            
     		
             //Evento que observa el cambio en la variable pero q la primera vez tiene el mismo valor averiguar por que
     		scope.$watch('model.perPage', function(perPage, perPageOld) {
             	//console.log(perPage + '-' + perPageOld + '-' + scope.model.count);
                 if (perPage!= perPageOld) {
                 	scope.model.page = 1;
+                	//scope.model.pagePerGroup = 1;
                 }
             	
             	if (perPage > 0 && scope.model.count > 0) {

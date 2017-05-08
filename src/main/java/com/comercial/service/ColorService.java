@@ -54,13 +54,17 @@ public class ColorService {
 		}
 		
 	}
-	
-	public long count() {		
+
+	public long count() {
 		return colorRepository.count();
 	}
-	
+
+	public long count(@RequestParam Map<String,String> requestParams) {
+		return colorRepository.count(criteryConstructor(requestParams));
+	}
+
 	private BooleanExpression criteryConstructor(Map<String,String> requestParams){
-    	
+
     	QColor qColor = QColor.color;
 		BooleanExpression criterioFinal = null;
 		int con = 0;

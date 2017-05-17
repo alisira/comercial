@@ -97,6 +97,26 @@
 			<artifactId>querydsl-jpa</artifactId>
 			<version>4.1.4</version>
 		</dependency>
+    
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.5.11</version>
+		</dependency>
+	
+		<dependency>
+			<groupId>es.sandbox.test</groupId>
+			<artifactId>sandbox-test-support</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+	
+		<!-- https://mvnrepository.com/artifact/com.itextpdf.tool/xmlworker -->
+		<dependency>
+			<groupId>com.itextpdf.tool</groupId>
+			<artifactId>xmlworker</artifactId>
+			<version>5.5.11</version>
+		</dependency>
+		
 
 	</dependencies>
 

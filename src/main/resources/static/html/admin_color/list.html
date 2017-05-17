@@ -10,9 +10,14 @@
                 <div class="panel-heading panel-heading-custom">
                     <i class="fa fa-baby"></i>{{ appTitle }}
                     <div class="pull-right">
-                        <a class="btn btn-primary" href="{{relativePath +'/new'}}"  role="button">Nuevo</a>
+                        <a class="btn btn-primary" href="/#!/{{relativePath}}/new"  role="button">Nuevo</a>
                     </div>
-                </div>
+
+					<div class="form-group">
+						<a href="" ng-click="pdf()" title="">Probar <i	class="fa fa-check fa-2x"></i></a>
+					</div>
+
+				</div>
 
                 <div class="form-inline panel-filter panel-filter-custom">                
                     <div class="col-md-6">
@@ -67,11 +72,11 @@
 										</td>
 										<td>
 			                            	<div style="text-align: right;">
-				                            	<a href="{{relativePath}}/view/{{item.idColor}}/" class="btn btn-sm btn-info" title="Ver">
+				                            	<a href="/#!/{{relativePath}}/view/{{item.idColor}}" class="btn btn-sm btn-info" title="Ver">
 				                                	<span class="glyphicon glyphicon-file"></span>
 				                            	</a>
 				
-				                                <a href="{{relativePath}}/edit/{{item.idColor}}" class="btn btn-sm btn-info" title="Editar">
+				                                <a href="/#!/{{relativePath}}/edit/{{item.idColor}}" class="btn btn-sm btn-info" title="Editar">
 				                                    <span class="glyphicon glyphicon-pencil"></span>
 				                                </a>
 			                                </div>

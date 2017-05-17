@@ -72,6 +72,10 @@ public class StatusService {
 	        if (e.getKey().equals("denomination")){
 	        	criterio = qStatus.status.denomination.likeIgnoreCase("%" + (String)e.getValue() + "%");
 	        }
+	        
+	        if (e.getKey().equals("table_")){
+	        	criterio = qStatus.status.table.likeIgnoreCase("%" + (String)e.getValue() + "%");
+	        }
 
 	        if (criterio != null){
 	        	if (con == 0){

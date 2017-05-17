@@ -40,7 +40,7 @@ App.factory('StatusService', ['$http', '$q', function($http, $q){
 	
 	statusService.findAll = function(param){
 		
-		return $http.get(model + '/list' + encodeUrl(param)).then(
+		return $http.get(model +  encodeUrl(param)).then(
 				function(response){	
 					if (response.status == 500)
 						return $q.reject(response);

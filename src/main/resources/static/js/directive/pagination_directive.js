@@ -1,6 +1,6 @@
 'use strict';
 
-App.directive('pagingObject', function(){
+App.directive('pagingObject', [ function(){
 	
 	return {
     	restrict: 'AE',    	
@@ -162,4 +162,4 @@ App.directive('pagingObject', function(){
 
     	}
     }
-});
+}]);

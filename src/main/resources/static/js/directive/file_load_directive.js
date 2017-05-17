@@ -1,6 +1,6 @@
 'use strict';
 
-App.directive('fileLoad', function($http, ErrorService, $location, $anchorScroll){	
+App.directive('fileLoad',['$http', 'ErrorService', '$location', '$anchorScroll', function($http, ErrorService, $location, $anchorScroll){	
 	return {
 		restrict: 'A',
         link: function (scope, element, attributes) {
@@ -76,5 +76,5 @@ App.directive('fileLoad', function($http, ErrorService, $location, $anchorScroll
             
         }
     }    
-});
+}]);
 

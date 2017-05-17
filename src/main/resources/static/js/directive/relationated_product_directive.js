@@ -1,6 +1,6 @@
 'use strict';
 
-App.directive('relationatedProduct', function(ProductService){
+App.directive('relationatedProduct', ['ProductService', function(ProductService){
 	
 	return {
     	restrict: 'AE',
@@ -33,7 +33,9 @@ App.directive('relationatedProduct', function(ProductService){
     			        		function(response) {
     			        			scope.listSearchProducts = response;
     			        		},
-    			        		scope.error
+    			        		function(errorResponse) {
+    			        			console.log(errorResponse);
+    			        		}
     			        );	
     			}else{
     				scope.listSearchProducts = '';
@@ -64,4 +66,4 @@ App.directive('relationatedProduct', function(ProductService){
 
     	}
     }
-});
+}]);

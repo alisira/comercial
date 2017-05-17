@@ -1,6 +1,6 @@
 'use strict';
 
-App.directive('validateForm', function(ErrorService, $location, $anchorScroll){
+App.directive('validateForm',['ErrorService', '$location', '$anchorScroll', function(ErrorService, $location, $anchorScroll){
 	return {
     	restrict: 'A',
     	link: function(scope,  element, attrs){
@@ -42,5 +42,5 @@ App.directive('validateForm', function(ErrorService, $location, $anchorScroll){
             });
     	}
     }
-});
+}]);
 

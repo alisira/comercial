@@ -1,6 +1,6 @@
 'use strict';
 
-App.directive('selectPagination', function(){
+App.directive('selectPagination', [function(){
 	
 	var html =  '<select class="form-control" ng-model="model"><option value=5>5</option>';
 	html += '<option value=10>10</option>';
@@ -70,4 +70,4 @@ App.directive('selectPagination', function(){
     		
     	}
     }
-});
+}]);

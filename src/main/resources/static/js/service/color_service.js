@@ -38,12 +38,16 @@ App.factory('ColorService', ['$http', '$q', function($http, $q){
 	
 	colorService.findAll = function(param){
 
-		return $http.get(model + '/list' + encodeUrl(param)).then(
+		return $http.get(model + encodeUrl(param)).then(
 			function(response){
 				if (response.status == 500)
 					return $q.reject(response);
-				else
-					return response.data;
+				else					
+					//console.log(response.data.content);
+					if (response.data.content)        				
+						return response.data.content;
+        			else        				
+        				return response.data;
 			},
 			function(errResponse){
 				return $q.reject(errResponse);

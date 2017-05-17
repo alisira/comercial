@@ -51,7 +51,7 @@ public class Color implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_color")
-    private Integer idColor;
+    private Long idColor;
     @Basic(optional = false)
     @Column(name = "denomination")
     private String denomination;
@@ -81,21 +81,21 @@ public class Color implements Serializable {
     public Color() {
     }
 
-    public Color(Integer idColor) {
+    public Color(Long idColor) {
         this.idColor = idColor;
     }
 
-    public Color(Integer idColor, String denomination, short status) {
+    public Color(Long idColor, String denomination, short status) {
         this.idColor = idColor;
         this.denomination = denomination;
         this.status = status;
     }
 
-    public Integer getIdColor() {
+    public Long getIdColor() {
         return idColor;
     }
 
-    public void setIdColor(Integer idColor) {
+    public void setIdColor(Long idColor) {
         this.idColor = idColor;
     }
 

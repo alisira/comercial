@@ -67,7 +67,6 @@ public class ProductRestController {
 
 	}
 	
-	
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
 	//public @ResponseBody String product(@RequestParam(value ="page", defaultValue="") long page, @RequestParam(value ="perPage", defaultValue="") long perPage){@RequestParam Map<String,String> requestParams
     public @ResponseBody String product(@RequestParam Map<String,String> requestParams) {

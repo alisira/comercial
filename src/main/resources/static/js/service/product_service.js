@@ -85,7 +85,7 @@ App.factory('ProductService', ['$http', '$q','RelationatedProductService', funct
 	
 	productService.findAllWithArray = function(param){
 
-		//console.log(encodeUrl2(param));
+		//console.log(encodeUrlDetail(param));
 		
 		return $http.get(model, {params: encodeUrlDetail(param)}).then(
 				function(response){

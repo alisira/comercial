@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,7 +32,7 @@ public class CategoryRestController {
 		
 		long lista = categoryService.count();
 	    
-	    Map toParse = new HashMap();
+	    Map<String, Long> toParse = new HashMap<String, Long>();
 	    toParse.put("count", lista);
 		JSONObject jsonObject = new JSONObject(toParse);
 
@@ -41,7 +40,7 @@ public class CategoryRestController {
 
 	}
 
-    @RequestMapping(value = "/category/list", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/category", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody String getCategory(@RequestParam Map<String,String> requestParams) {
 
     	List<Category> list = categoryService.findAll(requestParams);

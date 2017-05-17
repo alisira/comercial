@@ -304,12 +304,8 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
     $scope.findColors = function() {
 
         var colorService = ColorService;
-        
-        var param =  {};
-		param.page = 0;
-		param.perPage = 0;
 
-        colorService.findAll(param)	
+        colorService.findAll({})	
 	        .then(
 	        		function(response) {
 	        			$scope.colors = response;

@@ -63,12 +63,18 @@ App.factory('activeRecordService', function($http, $q, ErrorService) {
         
     	this.findAll = function(param){
 
-    		return $http.get(this.model + '/list' + encodeUrl(param)).then(
+    		return $http.get(this.model +  encodeUrl(param)).then(
     			function(response){
-    				if (response.status == 500)
+    				if (response.status == 500){
     					return $q.reject(response);
-    				else
-    					return response.data;
+    				}else{
+    					//console.log(response.data.content);
+    					if (response.data.content)        				
+    						return response.data.content;
+            			else        				
+            				return response.data;
+    				}	
+    					
     			},
     			function(errResponse){
     				return $q.reject(errResponse);
@@ -97,6 +103,22 @@ App.factory('activeRecordService', function($http, $q, ErrorService) {
     			}
     		);
     	};
+    	
+    	
+    	this.save = function(data){
+    		//console.log(data);    		
+    		return $http.post(this.model, data)
+    		.then(
+    				function(response){
+    					console.log(response.data);
+    					return response.data;
+    				}, 
+    				function(errResponse){
+    					return $q.reject(errResponse);
+    				}
+    		);
+    	}
+    	
         
         
         this.findAll2 = function() {

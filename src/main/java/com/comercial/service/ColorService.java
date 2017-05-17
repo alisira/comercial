@@ -86,7 +86,7 @@ public class ColorService {
 	        }
 	        
 	        if (e.getKey().equals("status")){
-	        	criterio = qColor.status.eq((short)e.getValue());
+	        	criterio = qColor.idStatus.eq((short)e.getValue());
 	        }
 	        
 	        if (criterio != null){

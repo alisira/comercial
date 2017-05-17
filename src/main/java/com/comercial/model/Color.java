@@ -39,7 +39,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
     , @NamedQuery(name = "Color.findByDenomination", query = "SELECT c FROM Color c WHERE c.denomination = :denomination")
     , @NamedQuery(name = "Color.findByCreatedAt", query = "SELECT c FROM Color c WHERE c.createdAt = :createdAt")
     , @NamedQuery(name = "Color.findByUpdatedAt", query = "SELECT c FROM Color c WHERE c.updatedAt = :updatedAt")
-    , @NamedQuery(name = "Color.findByStatus", query = "SELECT c FROM Color c WHERE c.status = :status")
+    , @NamedQuery(name = "Color.findByStatus", query = "SELECT c FROM Color c WHERE c.idStatus = :status")
     , @NamedQuery(name = "Color.findByHex", query = "SELECT c FROM Color c WHERE c.hex = :hex")
     , @NamedQuery(name = "Color.findByClass1", query = "SELECT c FROM Color c WHERE c.class1 = :class1")
     , @NamedQuery(name = "Color.findByD", query = "SELECT c FROM Color c WHERE c.d = :d")
@@ -62,8 +62,8 @@ public class Color implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
     @Basic(optional = false)
-    @Column(name = "status")
-    private short status;
+    @Column(name = "id_status")
+    private short idStatus;
     @Column(name = "hex")
     private String hex;
     @Column(name = "class")
@@ -88,7 +88,7 @@ public class Color implements Serializable {
     public Color(Long idColor, String denomination, short status) {
         this.idColor = idColor;
         this.denomination = denomination;
-        this.status = status;
+        this.idStatus = status;
     }
 
     public Long getIdColor() {
@@ -123,15 +123,15 @@ public class Color implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public short getStatus() {
-        return status;
-    }
+    public short getIdStatus() {
+		return idStatus;
+	}
 
-    public void setStatus(short status) {
-        this.status = status;
-    }
+	public void setIdStatus(short idStatus) {
+		this.idStatus = idStatus;
+	}
 
-    public String getHex() {
+	public String getHex() {
         return hex;
     }
 

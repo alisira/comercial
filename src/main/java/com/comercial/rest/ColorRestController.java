@@ -3,13 +3,9 @@ package com.comercial.rest;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.comercial.model.Color;
-import com.comercial.model.Products;
-import com.comercial.model.RelationatedProduct;
 import com.comercial.service.ColorService;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -84,30 +78,20 @@ public class ColorRestController {
 	    return jsonObject.toJSONString();
 
 	}
+	
+    @RequestMapping(method = RequestMethod.PUT)
+    public String update(@RequestBody Color color, UriComponentsBuilder ucBuilder){
 
-    /*@RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody String listColor(@RequestParam Map<String,String> requestParams) {
+    	color.setUpdatedAt(new Date());
+    	Color colorRes = colorService.save(color);
 
-    	List<Color> list = colorService.findAll(requestParams).getContent();
-        
-    	ObjectMapper mapper = new ObjectMapper();
+		Map<String, Number> toParse = new HashMap<String, Number>();
+	    toParse.put("id", colorRes.getIdColor());	    
 
-    	String jsonInString = null;
-		try {
+		JSONObject jsonObject = new JSONObject(toParse);
 
-			jsonInString = mapper.writeValueAsString(list);
-
-		} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    	
-		return jsonInString ;
-
-    }*/	
+		return jsonObject.toJSONString();       
+    }
     
 	@RequestMapping(value = "/print", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody String print(@RequestParam Map<String,String> requestParams) throws IOException, DocumentException {

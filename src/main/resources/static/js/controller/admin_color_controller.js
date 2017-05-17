@@ -173,26 +173,13 @@ App.controller('AdminColorControllerEdit', function($scope, $location, $statePar
 
 		color.findAll({"idColor":id}).then(
     		function(response) {
-    			console.log(response);
-    			/*$scope.product = response;
-    			$scope.product.idColor = String(response.idColor.idColor);
-    			$scope.product.idEnviroment = String(response.idEnviroment.idEnviroment);
-    			$scope.product.idPurpose = String(response.idPurpose.idPurpose);
-    			$scope.product.idCategory = String(response.idCategory.idCategory);
-    			$scope.product.idStatus = String(response.idStatus);
-    			if (response.idImage != undefined){
-    				$scope.image.url =  FileService.storagePath() + response.idImage.imagefile;
-    				$scope.product.idImage = response.idImage.idImage;
-    			}
-
-    			$scope.listRelationatedProducts = response.relationatedProduct;
-    			*/
+    			
+    			$scope.color = response;
+    			$scope.color.idStatus = String(response.idStatus);
 
     		},
     		function(response) {
     			ErrorService.set(response);
-    			//Aqui redirigir;
-    			//console.log($location.path().split('/').slice(1,2)[0]+'/list');
     			$location.path($location.path().split('/').slice(1,2)[0]+'/list');
     		}
         );
@@ -217,21 +204,18 @@ App.controller('AdminColorControllerEdit', function($scope, $location, $statePar
 
     $scope.actionSaveForm = function() {
 
-    	$scope.product.idCategory =  parseInt($scope.product.idCategory);
-    	$scope.product.idColor = parseInt($scope.product.idColor);
-		$scope.product.idEnviroment = parseInt($scope.product.idEnviroment);
-		$scope.product.idPurpose = parseInt($scope.product.idPurpose);
-		$scope.product.idStatus = parseInt($scope.product.idStatus);
-		$scope.product.relationatedProduct =  $scope.listRelationatedProducts;
+		$scope.color.idStatus = parseInt($scope.color.idStatus);
 
-    	ProductService.updateProduct($scope.product).then(
+		var color = new Color();
+
+		color.update2($scope.color).then(
     		function(response) {
     			//console.log(response);
-    			$scope.findProductById($stateParams.id);
+    			$scope.findColorById($stateParams.id);
     			MessageService.set('Registro guardado satisfactoriamente');
     		},
     		function(errResponse){
-    			console.error('Error saving product');
+    			console.error('Error Guardando Color');
     		}
         );
     }

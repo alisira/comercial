@@ -68,11 +68,23 @@ App.factory('activeRecordService', function($http, $q, ErrorService) {
     				if (response.status == 500){
     					return $q.reject(response);
     				}else{
-    					//console.log(response.data.content);
+
     					if (response.data.content)        				
     						return response.data.content;
-            			else        				
-            				return response.data;
+            			else{
+                			if (Array.isArray(response.data)) {
+                				if (response.data.length == 1){
+                					return response.data[0];
+                				}else{
+                					return response.data;
+                				}
+                			}else{
+                				return response.data;
+                			}
+            				
+            				
+            			}        				
+            				
     				}	
     					
     			},
@@ -119,6 +131,19 @@ App.factory('activeRecordService', function($http, $q, ErrorService) {
     		);
     	}
     	
+    	this.update2 = function(param){
+    		return $http.put(this.model, param)
+    		.then(
+    				function(response){
+    					//console.log(response.data);
+    					return response.data;
+    				}, 
+    				function(errResponse){
+    					console.error('Registrando XX');
+    					return $q.reject(errResponse);
+    				}
+    		);
+    	}
         
         
         this.findAll2 = function() {

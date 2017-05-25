@@ -15,15 +15,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.jboss.resteasy.plugins.server.servlet.FilterDispatcher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -39,6 +43,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
 
+import com.comercial.dao.ColorDao;
 import com.comercial.storage.StorageProperties;
 import com.comercial.storage.StorageService;
 
@@ -53,10 +58,8 @@ public class UiApplication {
 
 	 @RequestMapping("/resource")
 	 public Map<String, Object> home() {
+		 
 		Map<String, Object> model = new HashMap<String, Object>();
-		
-		
-		
 		model.put("id", UUID.randomUUID().toString());
 		model.put("content", "Hello World");
 		return model;
@@ -65,13 +68,15 @@ public class UiApplication {
 	 public static void main(String[] args) {
 		
 		//EntityManagerFactory emf = Persistence.createEntityManagerFactory("FL_PU");
-		
+		 
 		SpringApplication.run(UiApplication.class, args);
+		
 	 }
 
 	 @Configuration
 	 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 	 protected static class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+		 
 		 @Override
 		 protected void configure(HttpSecurity http) throws Exception {
 			 // @formatter:off
@@ -146,6 +151,9 @@ public class UiApplication {
 
 	@Bean(name="passwordEncoder")
 	public PasswordEncoder passwordencoder(){
+		
+
+		
 		return new BCryptPasswordEncoder();
 	}	
 	 
@@ -155,5 +163,16 @@ public class UiApplication {
             storageService.init();
 		};
 	}
+	
+	@Bean
+	public FilterRegistrationBean filterRegistrationBean() {
+	    Map<String, String> initParams = new HashMap<>();
+	    initParams.put("javax.ws.rs.Application", RestEasyConfig.class.getCanonicalName());
+
+	    FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+	    registrationBean.setFilter(new FilterDispatcher());
+	    registrationBean.setInitParameters(initParams);
+	    return registrationBean;
+	} 
 	
 }

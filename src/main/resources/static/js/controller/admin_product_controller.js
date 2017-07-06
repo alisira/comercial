@@ -167,16 +167,21 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
 		
         var category = new Category();
         
-        category.findAll(0,0)	
+        var param =  {};
+		param.page = 0;
+		param.perPage = 0;
+		param.order = 'denomination';
+        
+        category.findAll(param)
 	        .then(
-	        		function(response) {
-	        			//console.log(response);
-	        			$scope.categories = response;
-	        		},
-	        		function(errResponse){
-	        			//console.error('Error getting products');
-	        			ErrorService.setFormError('No Se Pudo Obtener el listado de Categorias');
-	        		}
+        		function(response) {
+        			//console.log(response);
+        			$scope.categories = response;
+        		},
+        		function(errResponse){
+        			//console.error('Error getting products');
+        			ErrorService.setFormError('No Se Pudo Obtener el listado de Categorias');
+        		}
 	        );
        
     }

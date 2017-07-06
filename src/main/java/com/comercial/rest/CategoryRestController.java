@@ -43,7 +43,7 @@ public class CategoryRestController {
     @RequestMapping(value = "/category", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody String getCategory(@RequestParam Map<String,String> requestParams) {
 
-    	List<Category> list = categoryService.findAll(requestParams);
+    	Iterable<Category> list = categoryService.findAll(requestParams);
 
     	ObjectMapper mapper = new ObjectMapper();    	
     	String jsonInString = null;

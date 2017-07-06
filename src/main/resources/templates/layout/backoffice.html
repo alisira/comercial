@@ -24,31 +24,8 @@
 	<body id="app-layout" ng-app="myApp" class="ng-cloak" >
 	
 	    <div id="app-menu" ui-view="menu" class="menuView"></div>
-
-	    <div ng-if="errors" class="ng-cloak alert alert-danger animate-if" >
-			<button type="button" class="close" aria-label="Close" ng-click="closeErrors()">
-				<span aria-hidden="true">&times;</span>
-			</button>
-			<ul>
-				<li ng-repeat="error in errors" class="">
-					<div class="ng-cloak" ng-bind="error" ></div>
-				</li>
-			</ul>
-		</div>
 		
 		<div uib-alert="" ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
-		
-
-		<div ng-if="messages" class="ng-cloak alert alert-success animate-if" >
-			<button type="button" class="close" aria-label="Close" ng-click="closeMessages()">
-				<span aria-hidden="true">&times;</span>
-			</button>
-			<ul>
-				<li ng-repeat="message in messages">
-					<div class="ng-cloak" ng-bind="message" ></div>
-				</li>
-			</ul>
-		</div>
 
 		<div ui-view="mainView"></div>
 
@@ -80,6 +57,7 @@
 
 		<!-- Factories-->
 		<script src="js/factory/color_factory.js"></script>
+		<script src="js/factory/category_factory.js"></script>
 		<script src="js/factory/status_factory.js"></script>
 
 		<!-- Controllers-->

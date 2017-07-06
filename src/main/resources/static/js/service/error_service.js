@@ -42,6 +42,10 @@ App.factory('ErrorService', ['$rootScope','$timeout',  function($rootScope,$time
 	};
 	
 	
+	$rootScope.closeAlert = function(index) {
+		$rootScope.alerts.splice(index, 1);
+	};
+	
 	errorService.get = function(param){
 		return errors;
 	};

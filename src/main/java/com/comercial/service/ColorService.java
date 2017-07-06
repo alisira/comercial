@@ -48,13 +48,10 @@ public class ColorService {
 
 	public Iterable<Color> findAll(@RequestParam Map<String,String> requestParams) {
 
-		Pageable paged = pageConstructor(requestParams);
-
-		if (paged == null ){
-			return colorRepository.findAll(criteryConstructor(requestParams), QColor.color.denomination.asc());
-		}else{
-			return colorRepository.findAll(criteryConstructor(requestParams), paged);
-		}
+		//Pageable paged = ServiceUtil.pageConstructor(requestParams);
+		
+		return colorRepository.findAll(criteryConstructor(requestParams),  ServiceUtil.pageConstructor(requestParams));
+		
 	}
 
 	public long count() {
@@ -107,97 +104,5 @@ public class ColorService {
 
     }
 	
-	private Pageable pageConstructor(Map<String,String> requestParams){
-		
-	    int page= 0;
-	    int perPage= 0;
-		//detect type of requestParams (array or plan text)
-    	boolean typeParams= false;//true=array, false=plan text
-
-	    for (Integer i=0; i < requestParams.size();i++){
-	    	StringBuilder sb = new StringBuilder();
-	    	sb.append(i);
-	    	//System.out.println(requestParams.containsKey(sb.toString()));
-	    	if (requestParams.containsKey(sb.toString())){
-	    		typeParams = true;
-	    	}
-	    }
-
-	    //true=array, false=plan text
-	    if (typeParams){
-
-			Iterator it = requestParams.entrySet().iterator();
-	    	String[] xy =  new String[requestParams.size()];
-
-	    	//insert ?0=p&1=a&10=P&11=a&12=g&13=e&14=%3D&15=1&16=0&17=%26 into a array
-	    	while (it.hasNext()) {
-				Map.Entry e = (Map.Entry)it.next();
-		        xy[Integer.parseInt(e.getKey().toString())] = e.getValue().toString();
-			}
-
-	    	//convert xy into string page=1&perPage=10&code=a&conect=or&description=a&conect=or&name=a&
-	    	String strQuery = "";
-		    for (int i=0; i < xy.length;i++){
-		    	strQuery  += xy[i];
-		    }	    
-
-		    String[] arrayParam =  strQuery.split("&");
-	
-
-		    for (int i=0; i < arrayParam.length;i++){
-
-		    	String[] obj =  arrayParam[i].split("=");
-
-		        if (obj[0].toString().equals("page")){
-		        	page =  Integer.parseInt(obj[1].toString())-1;
-		        }
-
-		        if (obj[0].toString().equals("perPage")){
-		        	perPage =  Integer.parseInt(obj[1].toString());
-		        }
-
-		    }
-
-		    if (page <= 0){
-		    	page = 1;
-		    }
-
-		    if (perPage <= 0){
-		    	perPage = 10;
-		    }
-
-		    return new PageRequest(page-1, perPage, new Sort(Sort.Direction.ASC, "denomination"));
-	    }else{
-
-	    	if (requestParams.get("page") != null){
-	    		if (requestParams.get("page").matches("^[0-9]+$")) {
-	    			if (Integer.parseInt(requestParams.get("page")) <= 0){
-	    				page = 1;
-	    			}else{
-	    				page = Integer.parseInt(requestParams.get("page")); 
-	    			}
-
-	    			if (requestParams.get("perPage") != null){
-	    	    		if (requestParams.get("perPage").matches("^[0-9]+$") ){
-	    		    		if (Integer.parseInt(requestParams.get("perPage")) <= 0){
-	    		    			perPage = 10;
-	    		    		}else{
-	    		    			perPage = Integer.parseInt(requestParams.get("perPage")); 
-	    				    }
-	    		    	}
-	    	    	}
-	    		}
-	    	}
-
-	    	if (perPage == 0 || page == 0 ){
-	    		return null;
-	    	}else{
-	    		return new PageRequest(page-1, perPage,new Sort(Sort.Direction.ASC, "denomination"));
-	    	}
-
-	    }
-
-	}
-
 }
 

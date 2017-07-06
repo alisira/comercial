@@ -1,6 +1,6 @@
 'use strict';
 
-App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductService', 'CategoryService', '$timeout', function($scope, $location, ProductService, CategoryService, $timeout) {
+App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductService', 'Category', '$timeout', 'ErrorService', function($scope, $location, ProductService, Category, $timeout, ErrorService) {
 	var self = this;
 	$scope.appTitle = "Administrador de Productos";	
 	$scope.products = {"list":null};
@@ -19,17 +19,19 @@ App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductSer
 
 	$scope.findCategories = function() {
         
-        var param =  {};
+        var category =  new Category(); 
+		var param =  {};
 		param.page = 0;
 		param.perPage = 0;
 		
-        CategoryService.findAll(param)
+		category.findAll(param)
 	        .then(
         		function(response) {
+        			console.log(response);        			
         			$scope.categories = response;
-        		},
-        		$scope.error
+        		}
 	        )
+	        
      };
     
 	
@@ -86,7 +88,7 @@ App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductSer
 }]);
 
 
-App.controller('AdminProductControllerNew', function($scope, $location, ProductService, ColorService, EnviromentService, PurposeService, CategoryService, StatusService, $timeout, MessageService) {
+App.controller('AdminProductControllerNew', function($scope, $location, ProductService, Color, EnviromentService, PurposeService, Category, StatusService, $timeout, MessageService, ErrorService) {
 	$scope.submitTitle = 'Guardar';
 	$scope.appTitle = "Producto";
 	$scope.relativePath = '#!/' + $location.path().split('/').slice(1,2)[0];
@@ -106,38 +108,42 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
         //$scope.adminNewborn.birthdate = moment(new Date()).format('YYYY-MM-DD');
     };
     
-    $scope.findColors = function() {    	
-    	
-        var colorService = ColorService;
+    $scope.findColors = function() {
+
+        var color = new Color();
+        var param =  {};
+		param.page = 0;
+		param.perPage = 0;
+		param.order = 'denomination';
         
-        colorService.findAll(0,0)	
+        color.findAll(param)	
 	        .then(
 	        		function(response) {
 	        			$scope.colors = response;
 	        		},
 	        		function(errResponse){
-	        			console.error('Error getting colors');
+	        			ErrorService.setFormError('Error Obteniendo la lista de colores, favor comunicar al administrador');
 	        		}
 	        );
-       
+
     }
-    
+
 	$scope.findEnviroments = function() {
-		
+
         var enviromentService = EnviromentService;
-        
+
         enviromentService.findAll(0,0)	
 	        .then(
 	        		function(response) {
 	        			$scope.enviroments = response;
 	        		},
 	        		function(errResponse){
-	        			console.error('Error counting Enviroment');
+	        			ErrorService.setFormError('Error getting Enviroment');
 	        		}
 	        );
-       
+
     }
-	
+
 	$scope.findPurposes = function() {
 		
         var purposeService = PurposeService;
@@ -150,8 +156,8 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
 
 	        		},
 	        		function(errResponse){
-	        			//console.error('Error counting Purpose');
-	        			ErrorService.set('Error counting Purpose');
+	        			//console.error('Error getting Purpose');
+	        			ErrorService.setFormError('Error getting Purpose');
 	        		}
 	        );
        
@@ -159,18 +165,17 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
 	
 	$scope.findCategories = function() {
 		
-        var categoryService = CategoryService;
+        var category = new Category();
         
-        categoryService.findAll(0,0)	
+        category.findAll(0,0)	
 	        .then(
 	        		function(response) {
 	        			//console.log(response);
 	        			$scope.categories = response;
-	        			//$scope.count = permission.permisos;
 	        		},
 	        		function(errResponse){
-	        			//console.error('Error counting products');
-	        			ErrorService.set('Error counting Categories');
+	        			//console.error('Error getting products');
+	        			ErrorService.setFormError('No Se Pudo Obtener el listado de Categorias');
 	        		}
 	        );
        
@@ -188,7 +193,7 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
         			//$scope.count = permission.permisos;
         		},
         		function(errResponse){
-        			console.error('Error counting products');
+        			ErrorService.setFormError('Error getting products');
         		}
 	        );
        
@@ -211,7 +216,7 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
         		},
         		function(errResponse){
         			//console.error('Error saving product');
-        			ErrorService.set('Error Guardando el Producto favor revisar los datos o comunicarse con un administrador, gracias');
+        			ErrorService.setFormError('Error Guardando el Producto favor revisar los datos o comunicarse con un administrador, gracias');
         		}
         );
     }

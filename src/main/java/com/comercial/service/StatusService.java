@@ -24,12 +24,15 @@ public class StatusService {
 	private StatusRepository statusRepository;
 
 
-	public  StatusRepository save(Status entity) {
-		return statusRepository;
+	public  Status save(Status entity) {
+		
+		return statusRepository.save(entity);
 	}
 
 	public List<Status> findAll(@RequestParam Map<String,String> requestParams) {
 
+		System.out.println(requestParams);
+		
 		Sort sort = null;
 		try {
 

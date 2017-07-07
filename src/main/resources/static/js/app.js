@@ -1,6 +1,6 @@
 'use strict';
 
-var App = angular.module('myApp',['ngAnimate', 'ui.router']);
+var App = angular.module('myApp',['ngAnimate', 'ui.router', 'ngSanitize', 'ui.bootstrap']);
 
 
 App.config(function($httpProvider, $stateProvider, $urlRouterProvider){

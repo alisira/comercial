@@ -43,7 +43,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
 
-import com.comercial.dao.ColorDao;
 import com.comercial.storage.StorageProperties;
 import com.comercial.storage.StorageService;
 

@@ -269,7 +269,7 @@ public class ProductService implements ProductRepository  {
 		        if (obj[0].toString().equals("idCategory")){
 		        	if (obj.length > 1 && obj[1].toString().length() > 0){
 		        		Category cat = new Category();
-			    		cat.setIdCategory(Integer.parseInt(obj[1].toString()));	        	
+			    		cat.setIdCategory(Long.parseLong(obj[1].toString()));	        	
 			        	criterio = qpro.products.idCategory.eq(cat);	
 		        	}
 		        }
@@ -328,7 +328,7 @@ public class ProductService implements ProductRepository  {
 		        
 		        if (e.getKey().equals("idCategory")){
 		        	Category cat = new Category();
-		    		cat.setIdCategory(Integer.parseInt(e.getValue().toString()));	        	
+		    		cat.setIdCategory(Long.parseLong(e.getValue().toString()));	        	
 		        	criterio = qpro.products.idCategory.eq(cat);
 		        }
 		        

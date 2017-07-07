@@ -1,9 +1,7 @@
 package com.comercial.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,9 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.comercial.dto.CategoryDto;
-import com.comercial.dto.ColorDto;
 import com.comercial.model.Category;
-import com.comercial.model.Color;
 import com.comercial.model.QCategory;
 import com.comercial.repository.CategoryRepository;
 import com.comercial.service.interfaces.CategoryServiceInterface;

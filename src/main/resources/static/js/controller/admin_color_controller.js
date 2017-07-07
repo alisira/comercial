@@ -5,7 +5,7 @@ App.controller('AdminColorControllerList', ['$scope', '$location', 'Color', '$ht
 	$scope.appTitle = "Administrador de Colores";	
 	$scope.products = {"list":null};
 	$scope.relativePath = $location.path().split('/').slice(1,2)[0];
-	$scope.model =	{"perPage" : "10", "page":1, "count": 0};
+	$scope.model =	{"perPage" : "10", "page":1, "count": 0, "order":"denomination"};
 	var param =  {};
 
 	$scope.actionCount = function(param) {
@@ -31,16 +31,19 @@ App.controller('AdminColorControllerList', ['$scope', '$location', 'Color', '$ht
 			param.page =parseInt($scope.model.page);
 
 		param.perPage =parseInt($scope.model.perPage);
+		param.order = $scope.model.order;
 
-		color.findAll(param)
-	        .then(
-	        		function(response) {
-	        			//console.log(response);
-	        			$scope.model.list = response;
-	        			$scope.actionCount(param);
-	        		},
-	        		$scope.error
-	        	);
+		color.findAll(param).then(
+			function(response) {
+				//console.log(response);
+				$scope.model.list = response;
+				$scope.actionCount(param);
+			},
+			function(errResponse) {
+				//console.log(errResponse);		
+				//throw { message: 'error message' };
+			}
+		);
 	}
 	
 	
@@ -136,8 +139,11 @@ App.controller('AdminColorControllerNew', function($scope, $location, Color, Sta
         		function(errResponse){
         			if (errResponse.data)
         				ErrorService.set(errResponse);
-        			else
+        			else{
         				ErrorService.setFormError('Error Guardando el Color favor revisar los datos o comunicarse con un administrador, gracias');
+        				console.error(errResponse);
+        			}
+        				
         			/*console.error(errResponse);
         			console.error('Error saving Color');
         			ErrorService.set(errResponse);
@@ -175,6 +181,9 @@ App.controller('AdminColorControllerEdit', function($scope, $location, $statePar
     		function(response) {
     			
     			$scope.color = response;
+    			
+    			console.log(response);
+    			
     			$scope.color.idStatus = String(response.idStatus);
 
     		},
@@ -195,7 +204,7 @@ App.controller('AdminColorControllerEdit', function($scope, $location, $statePar
 		status.findAll(param)
 	        .then(
 	        		function(response) {
-	        			//console.log(response);
+	        			console.log(response);
 	        			$scope.statuses = response;
 	        		},
 	        		$scope.error
@@ -210,11 +219,12 @@ App.controller('AdminColorControllerEdit', function($scope, $location, $statePar
 
 		color.update2($scope.color).then(
     		function(response) {
-    			//console.log(response);
+    			console.log(response);
     			$scope.findColorById($stateParams.id);
     			MessageService.set('Registro guardado satisfactoriamente');
     		},
     		function(errResponse){
+    			console.error(errResponse);
     			console.error('Error Guardando Color');
     		}
         );

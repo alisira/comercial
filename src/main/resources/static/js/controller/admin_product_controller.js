@@ -27,7 +27,7 @@ App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductSer
 		
 		category.findAll(param).then(
     		function(response) {
-    			console.log(response);        			
+    			//console.log(response);        			
     			$scope.categories = response;
     		}
         )
@@ -35,7 +35,7 @@ App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductSer
      };
     
 	
-	$scope.findModel = function() {
+     $scope.findModel = function() {
 
 		param =  {};
 

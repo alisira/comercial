@@ -86,14 +86,14 @@ public class ServiceUtil extends BeanUtils{
 		    if (perPage <= 0){
 		    	perPage = 10;
 		    }
-		    
+
 		  //return new PageRequest(page-1, perPage, new Sort(Sort.Direction.ASC, "denomination"));
 		    if ( order != null){		    	
 		    	return new PageRequest(page-1, perPage, new Sort(Sort.Direction.ASC, order));
 		    }else{
 		    	return new PageRequest(page-1, perPage);	
 		    }
-		    
+
 	    }else{
 
 	    	if (requestParams.get("page") != null){
@@ -118,7 +118,7 @@ public class ServiceUtil extends BeanUtils{
 
 	    	if (perPage == 0 || page == 0 ){
 	    		return null;
-	    	}else{	    		
+	    	}else{
 		    	if (requestParams.get("order") != null){			    	
 			    	return new PageRequest(page-1, perPage,new Sort(Sort.Direction.ASC, requestParams.get("order")));
 			    }else{
@@ -127,5 +127,4 @@ public class ServiceUtil extends BeanUtils{
 	    	}
 	    }
 	}
-	
 }

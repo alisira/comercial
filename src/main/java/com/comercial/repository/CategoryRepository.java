@@ -1,10 +1,11 @@
 package com.comercial.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.CrudRepository;
 import com.comercial.model.Category;
 
-public interface CategoryRepository extends CrudRepository<Category, Long> , QueryDslPredicateExecutor<Category> {
+public interface CategoryRepository extends JpaRepository<Category, Long>, CrudRepository<Category, Long> , QueryDslPredicateExecutor<Category> {
 
 	/*Products findByName(String name);
 	Iterable<Products> findAll(Sort sort);

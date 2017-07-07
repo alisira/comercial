@@ -1,0 +1,52 @@
+<div class="container spark-screen">
+    <br/>
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/#!">Home</a></li>
+                <li><a href="/#!/{{relativePath}}/list">Listar</a></li>
+                <li class="active">Nuevo {{ appTitle }}</li>
+            </ol>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                        	<div class="form-group">
+                        		<a class="btn btn-primary" href="/#!/{{relativePath}}/new"  role="button">Nuevo</a>
+                        	</div>
+                        </div>
+
+                        <div class="panel-body">
+                        	<form ng-submit="actionSubmit()" name="form" class="form-horizontal" novalidate validate-form>
+	                            <div class="col-md-4">
+	                                <div class="form-group">
+	                                    <label>Denominación</label>
+	                                    <input type="text" placeholder="Ingrese la denominacion" class="form-control" ng-model="color.denomination"/>
+	                                </div>
+	                            </div>
+
+	                            <div class="col-md-4">
+	                                <div class="form-group">
+	                                    <label>Estatus</label>
+										<select class="form-control" ng-model="color.idStatus" validate-message="Estatus">
+											<option selected="selected" value="">Seleccionar</option>
+											<option selected="selected" ng-repeat="status in statuses" value="{{status.idStatus}}"  >{{status.denomination}}</option>
+										</select>
+	                                </div>
+	                            </div>
+
+	                            <div class="col-md-4">
+	                                <div style ="background-color: #{{hex}};" class="color-square form-group">
+	                                </div>
+	                            </div>
+	
+	                            <button type="submit" class="btn btn-primary btn-block">{{submitTitle}}</button>
+							</form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -57,7 +57,6 @@ public class UiApplication {
 
 	 @RequestMapping("/resource")
 	 public Map<String, Object> home() {
-		 
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("id", UUID.randomUUID().toString());
 		model.put("content", "Hello World");
@@ -65,9 +64,8 @@ public class UiApplication {
 	 }
 
 	 public static void main(String[] args) {
-		
-		//EntityManagerFactory emf = Persistence.createEntityManagerFactory("FL_PU");
-		 
+
+		//EntityManagerFactory emf = Persistence.createEntityManagerFactory("FL_PU");		 
 		SpringApplication.run(UiApplication.class, args);
 		
 	 }
@@ -121,13 +119,11 @@ public class UiApplication {
 		 };
 	 }
 
-
 	 private static CsrfTokenRepository csrfTokenRepository() {
 		 HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
 		 repository.setHeaderName("X-XSRF-TOKEN");
 		 return repository;
 	 }
-
 
 	 @RequestMapping("/token")
 	 public Map<String,String> token(HttpSession session, Principal user) {
@@ -139,39 +135,21 @@ public class UiApplication {
 		 return Collections.singletonMap("token", session.getId());
 	 }
 
-
-
 	 @Autowired
 	 public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-
 		 auth.userDetailsService(userDetailsService).passwordEncoder(passwordencoder());
 	 }
 
+	 @Bean(name="passwordEncoder")
+	 public PasswordEncoder passwordencoder(){
+		 return new BCryptPasswordEncoder();
+	 }	
 
-	@Bean(name="passwordEncoder")
-	public PasswordEncoder passwordencoder(){
-		
+	 @Bean
+	 CommandLineRunner initialize(StorageService storageService) {
+		 return (args) -> {            
+			 storageService.init();
+		 };
+	 }
 
-		
-		return new BCryptPasswordEncoder();
-	}	
-	 
-	@Bean
-	CommandLineRunner initialize(StorageService storageService) {
-		return (args) -> {            
-            storageService.init();
-		};
-	}
-	
-	@Bean
-	public FilterRegistrationBean filterRegistrationBean() {
-	    Map<String, String> initParams = new HashMap<>();
-	    initParams.put("javax.ws.rs.Application", RestEasyConfig.class.getCanonicalName());
-
-	    FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-	    registrationBean.setFilter(new FilterDispatcher());
-	    registrationBean.setInitParameters(initParams);
-	    return registrationBean;
-	} 
-	
 }

@@ -21,16 +21,16 @@ App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductSer
         
         var category =  new Category(); 
 		var param =  {};
-		param.page = 0;
-		param.perPage = 0;
+		param.page = 1;
+		param.perPage = 100;
+		param.order = 'denomination';
 		
-		category.findAll(param)
-	        .then(
-        		function(response) {
-        			console.log(response);        			
-        			$scope.categories = response;
-        		}
-	        )
+		category.findAll(param).then(
+    		function(response) {
+    			console.log(response);        			
+    			$scope.categories = response;
+    		}
+        )
 	        
      };
     
@@ -68,14 +68,13 @@ App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductSer
 		param.perPage =parseInt($scope.model.perPage);
 		//console.log(param);		
 
-		ProductService.findAll(param)
-	        .then(
-	        		function(response) {
-	        			$scope.model.list = response;
-	        			$scope.actionCount(param);
-	        		},
-	        		$scope.error
-	        );
+		ProductService.findAll(param).then(
+    		function(response) {
+    			$scope.model.list = response;
+    			$scope.actionCount(param);
+    		},
+    		$scope.error
+        );
 	}
 
     $scope.init = function() {
@@ -97,9 +96,8 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
     $scope.image = {};
     $scope.image.url = 'https://dummyimage.com/300x300.png&text=Seleccione%20Imagen';
 
-
     $scope.init = function() {
-        
+
         $scope.findColors();
         $scope.findEnviroments();
         $scope.findPurposes();
@@ -107,24 +105,19 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
         $scope.findStatus();
         //$scope.adminNewborn.birthdate = moment(new Date()).format('YYYY-MM-DD');
     };
-    
+
     $scope.findColors = function() {
 
         var color = new Color();
-        var param =  {};
-		param.page = 0;
-		param.perPage = 0;
-		param.order = 'denomination';
-        
-        color.findAll(param)	
-	        .then(
-	        		function(response) {
-	        			$scope.colors = response;
-	        		},
-	        		function(errResponse){
-	        			ErrorService.setFormError('Error Obteniendo la lista de colores, favor comunicar al administrador');
-	        		}
-	        );
+
+        color.findAll({'page':1, 'perPage':100, 'order':'denomination'}).then(
+    		function(response) {
+    			$scope.colors = response;
+    		},
+    		function(errResponse){
+    			ErrorService.setFormError('Error Obteniendo la lista de colores, favor comunicar al administrador');
+    		}
+        );
 
     }
 
@@ -190,17 +183,16 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
 		
         var statusService = StatusService;
         
-        statusService.findAll(0,0)	
-	        .then(
-        		function(response) {
-        			//console.log(response);
-        			$scope.statuses = response;
-        			//$scope.count = permission.permisos;
-        		},
-        		function(errResponse){
-        			ErrorService.setFormError('Error getting products');
-        		}
-	        );
+        statusService.findAll(0,0).then(
+    		function(response) {
+    			//console.log(response);
+    			$scope.statuses = response;
+    			//$scope.count = permission.permisos;
+    		},
+    		function(errResponse){
+    			ErrorService.setFormError('Error getting products');
+    		}
+        );
        
     }
 

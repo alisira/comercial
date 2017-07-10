@@ -29,7 +29,7 @@
 	                            <div class="col-md-4">
 	                                <div class="form-group">
 	                                    <label>Estatus</label>
-										<select class="form-control" ng-model="color.idStatus" validate-message="Estatus">
+										<select class="form-control" ng-model="color.idStatus" validate-message="Estatus" text-to-number>
 											<option selected="selected" value="">Seleccionar</option>
 											<option selected="selected" ng-repeat="status in statuses" value="{{status.idStatus}}"  >{{status.denomination}}</option>
 										</select>

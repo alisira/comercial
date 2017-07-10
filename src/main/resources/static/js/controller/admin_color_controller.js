@@ -121,35 +121,41 @@ App.controller('AdminColorControllerNew', function($scope, $location, Color, Sta
 	        	);
 
     }
+	
+	$scope.validateForm = function() {
+		$scope.formSubmitted = true;		
+	}
 
     $scope.actionSaveForm = function() {
 
     	var color = new Color();
+    	
+    	console.log($scope.color);
 
     	color.save($scope.color).then(
-        		function(response) {
-        			console.log(response);        			
-        			//console.log($scope.relativePath + '/edit/'+ response.id);
-        			$location.path($scope.relativePath + '/edit/'+ response.id);
-        			//$scope.statuses = response;
-        			//$scope.count = permission.permisos;
-        			MessageService.set('Registro guardado satisfactoriamente');
+    		function(response) {
+    			console.log(response);        			
+    			//console.log($scope.relativePath + '/edit/'+ response.id);
+    			$location.path($scope.relativePath + '/edit/'+ response.id);
+    			//$scope.statuses = response;
+    			//$scope.count = permission.permisos;
+    			MessageService.set('Registro guardado satisfactoriamente');
 
-        		},
-        		function(errResponse){
-        			if (errResponse.data)
-        				ErrorService.set(errResponse);
-        			else{
-        				ErrorService.setFormError('Error Guardando el Color favor revisar los datos o comunicarse con un administrador, gracias');
-        				console.error(errResponse);
-        			}
-        				
-        			/*console.error(errResponse);
-        			console.error('Error saving Color');
-        			ErrorService.set(errResponse);
-        			*/
-        			//
-        		}
+    		},
+    		function(errResponse){
+    			if (errResponse.data)
+    				ErrorService.set(errResponse);
+    			else{
+    				ErrorService.setFormError('Error Guardando el Color favor revisar los datos o comunicarse con un administrador, gracias');
+    				console.error(errResponse);
+    			}
+    				
+    			/*console.error(errResponse);
+    			console.error('Error saving Color');
+    			ErrorService.set(errResponse);
+    			*/
+    			//
+    		}
         );
     }
 
@@ -179,12 +185,9 @@ App.controller('AdminColorControllerEdit', function($scope, $location, $statePar
 
 		color.findAll({"idColor":id}).then(
     		function(response) {
-    			
-    			$scope.color = response;
-    			
-    			console.log(response);
-    			
-    			$scope.color.idStatus = String(response.idStatus);
+    			//console.log(response[0]);
+    			$scope.color = response[0];
+    			//$scope.color.idStatus = String(response[0].idStatus);
 
     		},
     		function(response) {
@@ -204,7 +207,7 @@ App.controller('AdminColorControllerEdit', function($scope, $location, $statePar
 		status.findAll(param)
 	        .then(
 	        		function(response) {
-	        			console.log(response);
+	        			//console.log(response);
 	        			$scope.statuses = response;
 	        		},
 	        		$scope.error

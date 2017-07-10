@@ -18,18 +18,27 @@
                         </div>
 
                         <div class="panel-body">
-                        	<form ng-submit="actionSubmit()" name="form" class="form-horizontal" novalidate validate-form>
+                        	<form ng-submit="actionSubmit()" name="form" class="form-horizontal" ng-model="actionSaveForm" form-submitted="formSubmitted" novalidate validate-form>
 	                            <div class="col-md-4">
 	                                <div class="form-group">
 	                                    <label>Denominación</label>
-	                                    <input type="text" placeholder="Ingrese la denominacion" class="form-control" ng-model="color.denomination"/>
+	                                    <input type="text" class="form-control" 
+	                                    	placeholder="Ingrese la denominación"
+	                                    	ng-model="color.denomination"
+	                                    	required
+	                                    	focus-on="denominacion"
+											validate-message="Denominación"/>
 	                                </div>
 	                            </div>
 
 	                            <div class="col-md-4">
 	                                <div class="form-group">
 	                                    <label>Estatus</label>
-										<select class="form-control" ng-model="color.idStatus" validate-message="Estatus">
+										<select class="form-control" 
+											ng-model="color.idStatus"
+											required
+											focus-on="status"
+											validate-message="Estatus">
 											<option selected="selected" value="">Seleccionar</option>
 											<option selected="selected" ng-repeat="status in statuses" value="{{status.idStatus}}"  >{{status.denomination}}</option>
 										</select>
@@ -42,6 +51,7 @@
 	                            </div>
 	
 	                            <button type="submit" class="btn btn-primary btn-block">{{submitTitle}}</button>
+	                            <button class="btn btn-default" type="button" ng-click="validateForm()" ng-hide="formSubmitted">Guardar</button>
 							</form>
                         </div>
                     </div>

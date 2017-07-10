@@ -72,19 +72,22 @@ App.factory('activeRecordService', function($http, $q, ErrorService) {
     					if (response.data.content)        				
     						return response.data.content;
             			else{
-                			if (Array.isArray(response.data)) {
+            				console.log(response.data)
+            				console.log('Revisa no debio haber pasado por aqui');
+            				return response.data;
+                			/*if (Array.isArray(response.data)) {
                 				if (response.data.length == 1){
-                					return response.data[0];
+                					return response.data;
                 				}else{
                 					return response.data;
                 				}
                 			}else{
                 				return response.data;
-                			}
-            				
-            				
-            			}        				
-            				
+                			}*/
+
+
+            			}       				
+
     				}	
     					
     			},

@@ -44,7 +44,7 @@ public class Status implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_status")
-    private Integer idStatus;
+    private Long idStatus;
     @Basic(optional = false)
     @Column(name = "denomination")
     private String denomination;
@@ -63,21 +63,21 @@ public class Status implements Serializable {
     public Status() {
     }
 
-    public Status(Integer idStatus) {
+    public Status(Long idStatus) {
         this.idStatus = idStatus;
     }
 
-    public Status(Integer idStatus, String denomination, String table) {
+    public Status(Long idStatus, String denomination, String table) {
         this.idStatus = idStatus;
         this.denomination = denomination;
         this.table = table;
     }
 
-    public Integer getIdStatus() {
+    public Long getIdStatus() {
         return idStatus;
     }
 
-    public void setIdStatus(Integer idStatus) {
+    public void setIdStatus(Long idStatus) {
         this.idStatus = idStatus;
     }
 

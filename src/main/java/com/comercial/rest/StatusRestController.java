@@ -42,22 +42,7 @@ public class StatusRestController {
 	@RequestMapping(method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody String listStatus(@RequestParam Map<String,String> requestParams) {
 
-		List<Status> lista = statusService.findAll(requestParams);
-
-    	ObjectMapper mapper = new ObjectMapper();
-
-    	String jsonInString = null;
-		try {
-
-			jsonInString = mapper.writeValueAsString(lista);
-
-		} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		String jsonInString = statusService.findAll(requestParams);
 
 		return jsonInString ;
 

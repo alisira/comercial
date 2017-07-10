@@ -2,7 +2,6 @@ package com.comercial.repository;
 
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.CrudRepository;
-import com.comercial.model.Purpose;
 import com.comercial.model.Status;
 
 public interface StatusRepository extends CrudRepository<Status, Long> , QueryDslPredicateExecutor<Status> {

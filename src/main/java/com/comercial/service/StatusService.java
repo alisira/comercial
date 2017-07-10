@@ -1,67 +1,99 @@
 package com.comercial.service;
 
+import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.comercial.model.Status;
+import com.comercial.dto.StatusDto;
 import com.comercial.model.QStatus;
 import com.comercial.repository.StatusRepository;
+import com.comercial.service.interfaces.StatusServiceInterface;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
 @Service("StatusService")
 @Transactional
-public class StatusService {
+public class StatusService implements StatusServiceInterface {
 
 	@Autowired
 	private StatusRepository statusRepository;
 
-
-	public  Status save(Status entity) {
+	@Override
+	public StatusDto findById(Long id) {
 		
-		return statusRepository.save(entity);
+		StatusDto statusDto = new StatusDto();
+
+		Status status = statusRepository.findOne(id);
+
+		if (status != null){
+			ServiceUtil.copyProperties(status, statusDto);
+			return statusDto;
+		}else{
+			return null;
+		}
 	}
+	
+	@Override
+	public  StatusDto save(StatusDto statusDto) {
+		//Falta el controlador de errores importante
 
-	public List<Status> findAll(@RequestParam Map<String,String> requestParams) {
+		Status status = new Status();
+		ServiceUtil.copyProperties(statusDto, status);		
 
-		System.out.println(requestParams);
-		
-		Sort sort = null;
-		try {
-
-			if (requestParams.get("page") != null && requestParams.get("perPage") != null){
-				if (Integer.parseInt(requestParams.get("page"))-1 > -1 && Integer.parseInt(requestParams.get("perPage")) > 0 ){
-					Pageable pageable = new PageRequest(Integer.parseInt(requestParams.get("page"))-1, Integer.parseInt(requestParams.get("perPage")),new Sort(Sort.Direction.ASC, "denomination"));
-					return statusRepository.findAll(criteryConstructor(requestParams), pageable).getContent();
-				}else{
-					//sort = new Sort(Sort.Direction.ASC, "idStatus").and(new Sort(Sort.Direction.DESC, "denomination"));
-					sort = new Sort(Sort.Direction.ASC, "denomination");
-					return (List<Status>) statusRepository.findAll(criteryConstructor(requestParams), sort);	
-				}
-			}else{
-				sort = new Sort(Sort.Direction.ASC, "denomination");
-				return (List<Status>) statusRepository.findAll(criteryConstructor(requestParams), sort);
-			}
-
-		}catch(NumberFormatException e) {
-			sort = new Sort(Sort.Direction.ASC, "denomination");
-			return (List<Status>) statusRepository.findAll(criteryConstructor(requestParams), sort);
+		if (status.getIdStatus() != null){
+			status = statusRepository.findOne(status.getIdStatus());
+			if (status != null){
+	        	String[] nullPropertyNames = ServiceUtil.getNullPropertyNames(statusDto);
+	            ServiceUtil.copyProperties(statusDto, status, nullPropertyNames);
+	        }else{
+	        	ServiceUtil.copyProperties(statusDto, status);
+	        	status.setIdStatus(null);
+	        }
 		}
 
+		Status statusFinal = statusRepository.save(status);
+		ServiceUtil.copyProperties(statusFinal, statusDto);
+
+		return statusDto;
+
+	}
+
+	public String findAll(@RequestParam Map<String,String> requestParams) {
+
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonInString = null;
+    	Page<Status> list = null;
+		try {
+
+			list = statusRepository.findAll(criteryConstructor(requestParams),  ServiceUtil.pageConstructor(requestParams));			
+			jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(list);
+
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return jsonInString;
+		
 	}
 
 	public long count() {
 		return statusRepository.count();
 	}
 
-	private BooleanExpression criteryConstructor(Map<String,String> requestParams){
+	public BooleanExpression criteryConstructor(Map<String,String> requestParams){
 
     	QStatus qStatus = QStatus.status;
 		BooleanExpression criterioFinal = null;
@@ -97,6 +129,15 @@ public class StatusService {
 		return criterioFinal;
 
     }
+	
+	public void deleteAll(){
+		statusRepository.deleteAll();
+	}
+
+	@Override
+	public long count(Map<String, String> requestParams) {
+		return statusRepository.count(criteryConstructor(requestParams));		
+	}	
 
 }
 

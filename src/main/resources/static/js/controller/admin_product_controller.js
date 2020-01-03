@@ -1,6 +1,6 @@
 'use strict';
 
-App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductService', 'Category', '$timeout', 'ErrorService', function($scope, $location, ProductService, Category, $timeout, ErrorService) {
+App.controller('AdminProductControllerList', ['$scope', '$location', 'ProductService', 'Category', '$timeout', 'ErrorService', function($scope, $location, ProductService, Category) {
 	var self = this;
 	$scope.appTitle = "Administrador de Productos";	
 	$scope.products = {"list":null};
@@ -252,7 +252,7 @@ App.controller('AdminProductControllerNew', function($scope, $location, ProductS
  * @param {stateParams} $stateParams
  * @param {ProductService} ProductService factory
  */
-App.controller('AdminProductControllerEdit', function($scope, $location, $stateParams, $timeout, ProductService, ColorService, EnviromentService, PurposeService, CategoryService, StatusService, ErrorService, FileService, MessageService ) {
+App.controller('AdminProductControllerEdit', function($scope, $location, $stateParams, $timeout, ProductService, ColorService, EnviromentService, PurposeService, Category, StatusService, ErrorService, FileService, MessageService) {
 	$scope.appTitle = "Administrador de Productos";
 	$scope.submitTitle = 'Guardar';
 	$scope.appTitle = "Producto";
@@ -277,7 +277,7 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
 
 		ProductService.findProductRelationated(id).then(
     		function(response) {
-    			//console.log(response);
+    			console.log(response);
     			$scope.product = response;
     			$scope.product.idColor = String(response.idColor.idColor);
     			$scope.product.idEnviroment = String(response.idEnviroment.idEnviroment);
@@ -291,12 +291,6 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
     				
     			$scope.listRelationatedProducts = response.relationatedProduct;
 
-    		},
-    		function(response) {
-    			ErrorService.set(response);
-    			//Aqui redirigir;
-    			//console.log($location.path().split('/').slice(1,2)[0]+'/list');
-    			$location.path($location.path().split('/').slice(1,2)[0]+'/list');
     		}
         );
     }
@@ -357,21 +351,18 @@ App.controller('AdminProductControllerEdit', function($scope, $location, $stateP
     }
 	
 	$scope.findCategories = function() {
-		
-        var categoryService = CategoryService;
         
-        var param =  {};
-		param.page = 0;
-		param.perPage = 0;
+        var category =  new Category(); 
+		var param =  {};
+		param.page = 1;
+		param.perPage = 100;
+		param.order = 'denomination';
 		
-        categoryService.findAll(param)
-        	.then(
-	        		function(response) {
-	        			$scope.categories = response;
-	        		},
-	        		$scope.error
-	        )
-    }
+		category.findAll(param).then(function(response) {
+    		$scope.categories = response;
+    	})
+	        
+     };
 	
 	$scope.findStatus = function() {
 		

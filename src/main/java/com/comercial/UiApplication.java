@@ -27,7 +27,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
+//import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -80,7 +80,7 @@ public class UiApplication {
 			 http
 			 .httpBasic().and()
 			 .authorizeRequests()
-			 .antMatchers("/", "/user", "/error", "/index.html", "/html/home.html", "/html/login.html", "/html/navigation.html", "/bootstrap/*/*", "/token"  ).permitAll()
+			 .antMatchers("/", "/user", "/error", "/index.html", "/html/home.html", "/html/login.html", "/html/navigation.html", "/bootstrap/*/*", "/token", "/bower_components/*/*"  ).permitAll()
 			 .anyRequest().authenticated()
 			 .and()
 			 .csrf()

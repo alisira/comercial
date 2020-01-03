@@ -84,7 +84,8 @@ public class CategoryService  implements CategoryServiceInterface {
 
 		return jsonInString;
 	}
-
+	
+	@Override
 	public BooleanExpression criteryConstructor(Map<String,String> requestParams){
 
     	QCategory qCategory = QCategory.category;

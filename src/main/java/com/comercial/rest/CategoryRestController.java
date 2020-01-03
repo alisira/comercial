@@ -14,6 +14,7 @@ import com.comercial.service.CategoryService;
 
 
 @RestController
+@RequestMapping(value = "/category")
 public class CategoryRestController {
 
 	@Autowired
@@ -32,7 +33,7 @@ public class CategoryRestController {
 
 	}
 
-    @RequestMapping(value = "/category", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody String getCategory(@RequestParam Map<String,String> requestParams) {    	    	
 
 		return categoryService.findAll(requestParams);

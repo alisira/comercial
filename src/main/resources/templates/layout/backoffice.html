@@ -8,7 +8,18 @@
 		<link href="bootstrap/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 		<link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		<link href="css/style_back.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
 		<link href="bootstrap/css/fonts-googleapis.css" rel="stylesheet" type="text/css" />
+		
+		
+		
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.13.5/css/ui.jqgrid.min.css" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+		
+		
+		
+		
+		
 		<style>
 			body {
 				font-family: 'Lato';
@@ -26,12 +37,37 @@
 	    <div id="app-menu" ui-view="menu" class="menuView"></div>
 		
 		<div uib-alert="" ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
+		
+		
+		
+		<div class="row">
+			<div class="col-md-12">
+				<div class="table-responsive">
+					<table id="grid-table"></table>
+					<div id="grid-pager"></div>
+				</div>
+			</div>
+		</div>
+		<button id="refrescaTabla"  > Refrescar Tabla</button>
+		
 
 		<div ui-view="mainView"></div>
+		
+		
+		<h1>Example using Nested Directives</h1>
+      <p class = "myclass">LESS enables customizable, 
+      manageable and reusable style sheet for web site.
+      </p>
 
-		<script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+
+		
+
+
+
+	<script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
   		<script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		<script src="js/angular.js"></script>
+		<script src="bower_components/angular/angular.min.js"></script>
+		<script src="bower_components/angular-mocks/angular-mocks.js"></script>		
     	<script src="js/angular-animate.js"></script>
     	<script src="js/angular-sanitize.js"></script>
 		<script src="js/angular-route.min.js"></script>
@@ -40,13 +76,19 @@
 		<script src="js/ui-bootstrap-tpls-2.5.0.js"></script>
 		<script src="js/moment.min.js"></script>
 		<script src="js/app.js"></script>
+		<script src="js/appComun.js"></script>
+		
+		
+		
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.13.5/js/jquery.jqgrid.min.js"></script>
+		
 
 		<!-- Services-->
 		<script src="js/service/user_service.js"></script>
 		<script src="js/service/error_service.js"></script>
 		<script src="js/service/message_service.js"></script>
 		<script src="js/service/product_service.js"></script>
-		<script src="js/service/category_service.js"></script>
 		<script src="js/service/color_service.js"></script>
 		<script src="js/service/enviroment_service.js"></script>
 		<script src="js/service/purpose_service.js"></script>

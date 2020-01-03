@@ -83,8 +83,8 @@ describe("App", function() {
 				}).respond(401);
 				$httpBackend.expectGET('login.html').respond(200);
 				controller.credentials = {
-					username : 'user',
-					password : 'foo'
+					username : 'naveen',
+					password : 'naveen'
 				};
 				controller.login();
 				$httpBackend.flush();

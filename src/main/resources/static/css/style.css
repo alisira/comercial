@@ -1,0 +1,23 @@
+.myclass {
+  color: #FF8000;
+}
+.myclass1 {
+  color: #5882FA;
+}
+.myclass2 {
+  color: #FF0000;
+}
+.div1 {
+  background-color: #ca428b;
+}
+.div2 {
+  background-color: #ca428b;
+}
+h2 {
+  background: #2ECCFA;
+}
+.myclass {
+  background: url("@images less/images/less_variables/birds.jpg");
+  width: 800px;
+  height: 500px;
+}

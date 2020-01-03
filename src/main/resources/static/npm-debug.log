@@ -1,0 +1,209 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'install', '-g', 'karma-cli' ]
+2 info using npm@3.5.2
+3 info using node@v4.2.6
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readGlobalPackageData
+7 silly fetchPackageMetaData karma-cli
+8 silly fetchNamedPackageData karma-cli
+9 silly mapToRegistry name karma-cli
+10 silly mapToRegistry using default registry
+11 silly mapToRegistry registry https://registry.npmjs.org/
+12 silly mapToRegistry uri https://registry.npmjs.org/karma-cli
+13 verbose get https://registry.npmjs.org/karma-cli not expired, no request
+14 silly install normalizeTree
+15 silly loadCurrentTree Finishing
+16 silly loadIdealTree Starting
+17 silly install loadIdealTree
+18 silly cloneCurrentTree Starting
+19 silly install cloneCurrentTreeToIdealTree
+20 silly cloneCurrentTree Finishing
+21 silly loadShrinkwrap Starting
+22 silly install loadShrinkwrap
+23 silly loadShrinkwrap Finishing
+24 silly loadAllDepsIntoIdealTree Starting
+25 silly install loadAllDepsIntoIdealTree
+26 silly resolveWithNewModule karma-cli@1.0.1 checking installable status
+27 silly cache add args [ 'karma-cli', null ]
+28 verbose cache add spec karma-cli
+29 silly cache add parsed spec Result {
+29 silly cache add   raw: 'karma-cli',
+29 silly cache add   scope: null,
+29 silly cache add   name: 'karma-cli',
+29 silly cache add   rawSpec: '',
+29 silly cache add   spec: 'latest',
+29 silly cache add   type: 'tag' }
+30 silly addNamed karma-cli@latest
+31 verbose addNamed "latest" is being treated as a dist-tag for karma-cli
+32 info addNameTag [ 'karma-cli', 'latest' ]
+33 silly mapToRegistry name karma-cli
+34 silly mapToRegistry using default registry
+35 silly mapToRegistry registry https://registry.npmjs.org/
+36 silly mapToRegistry uri https://registry.npmjs.org/karma-cli
+37 verbose addNameTag registry:https://registry.npmjs.org/karma-cli not in flight; fetching
+38 verbose get https://registry.npmjs.org/karma-cli not expired, no request
+39 silly addNameTag next cb for karma-cli with tag latest
+40 silly addNamed karma-cli@1.0.1
+41 verbose addNamed "1.0.1" is a plain semver version for karma-cli
+42 silly cache afterAdd karma-cli@1.0.1
+43 verbose afterAdd /home/asira/.npm/karma-cli/1.0.1/package/package.json not in flight; writing
+44 verbose afterAdd /home/asira/.npm/karma-cli/1.0.1/package/package.json written
+45 silly fetchNamedPackageData resolve
+46 silly mapToRegistry name resolve
+47 silly mapToRegistry using default registry
+48 silly mapToRegistry registry https://registry.npmjs.org/
+49 silly mapToRegistry uri https://registry.npmjs.org/resolve
+50 verbose get https://registry.npmjs.org/resolve not expired, no request
+51 silly resolveWithNewModule resolve@1.5.0 checking installable status
+52 silly cache add args [ 'resolve@^1.1.6', null ]
+53 verbose cache add spec resolve@^1.1.6
+54 silly cache add parsed spec Result {
+54 silly cache add   raw: 'resolve@^1.1.6',
+54 silly cache add   scope: null,
+54 silly cache add   name: 'resolve',
+54 silly cache add   rawSpec: '^1.1.6',
+54 silly cache add   spec: '>=1.1.6 <2.0.0',
+54 silly cache add   type: 'range' }
+55 silly addNamed resolve@>=1.1.6 <2.0.0
+56 verbose addNamed ">=1.1.6 <2.0.0" is a valid semver range for resolve
+57 silly addNameRange { name: 'resolve', range: '>=1.1.6 <2.0.0', hasData: false }
+58 silly mapToRegistry name resolve
+59 silly mapToRegistry using default registry
+60 silly mapToRegistry registry https://registry.npmjs.org/
+61 silly mapToRegistry uri https://registry.npmjs.org/resolve
+62 verbose addNameRange registry:https://registry.npmjs.org/resolve not in flight; fetching
+63 verbose get https://registry.npmjs.org/resolve not expired, no request
+64 silly addNameRange number 2 { name: 'resolve', range: '>=1.1.6 <2.0.0', hasData: true }
+65 silly addNameRange versions [ 'resolve',
+65 silly addNameRange   [ '0.0.0',
+65 silly addNameRange     '0.0.1',
+65 silly addNameRange     '0.0.2',
+65 silly addNameRange     '0.0.3',
+65 silly addNameRange     '0.0.4',
+65 silly addNameRange     '0.1.0',
+65 silly addNameRange     '0.1.2',
+65 silly addNameRange     '0.1.3',
+65 silly addNameRange     '0.2.0',
+65 silly addNameRange     '0.2.1',
+65 silly addNameRange     '0.2.2',
+65 silly addNameRange     '0.2.3',
+65 silly addNameRange     '0.2.4',
+65 silly addNameRange     '0.2.5',
+65 silly addNameRange     '0.2.6',
+65 silly addNameRange     '0.2.7',
+65 silly addNameRange     '0.2.8',
+65 silly addNameRange     '0.3.0',
+65 silly addNameRange     '0.3.1',
+65 silly addNameRange     '0.4.0',
+65 silly addNameRange     '0.4.1',
+65 silly addNameRange     '0.4.2',
+65 silly addNameRange     '0.4.3',
+65 silly addNameRange     '0.5.0',
+65 silly addNameRange     '0.5.1',
+65 silly addNameRange     '0.6.0',
+65 silly addNameRange     '0.6.1',
+65 silly addNameRange     '0.6.2',
+65 silly addNameRange     '0.6.3',
+65 silly addNameRange     '0.7.0',
+65 silly addNameRange     '0.7.1',
+65 silly addNameRange     '0.7.2',
+65 silly addNameRange     '0.7.3',
+65 silly addNameRange     '0.7.4',
+65 silly addNameRange     '1.0.0',
+65 silly addNameRange     '1.1.0',
+65 silly addNameRange     '1.1.2',
+65 silly addNameRange     '1.1.3',
+65 silly addNameRange     '1.1.4',
+65 silly addNameRange     '1.1.5',
+65 silly addNameRange     '1.1.6',
+65 silly addNameRange     '1.1.7',
+65 silly addNameRange     '1.2.0',
+65 silly addNameRange     '1.3.0',
+65 silly addNameRange     '1.3.1',
+65 silly addNameRange     '1.2.1',
+65 silly addNameRange     '1.3.2',
+65 silly addNameRange     '1.3.3',
+65 silly addNameRange     '1.4.0',
+65 silly addNameRange     '1.5.0' ] ]
+66 silly addNamed resolve@1.5.0
+67 verbose addNamed "1.5.0" is a plain semver version for resolve
+68 silly cache afterAdd resolve@1.5.0
+69 verbose afterAdd /home/asira/.npm/resolve/1.5.0/package/package.json not in flight; writing
+70 verbose afterAdd /home/asira/.npm/resolve/1.5.0/package/package.json written
+71 silly fetchNamedPackageData path-parse
+72 silly mapToRegistry name path-parse
+73 silly mapToRegistry using default registry
+74 silly mapToRegistry registry https://registry.npmjs.org/
+75 silly mapToRegistry uri https://registry.npmjs.org/path-parse
+76 verbose get https://registry.npmjs.org/path-parse not expired, no request
+77 silly resolveWithNewModule path-parse@1.0.5 checking installable status
+78 silly cache add args [ 'path-parse@^1.0.5', null ]
+79 verbose cache add spec path-parse@^1.0.5
+80 silly cache add parsed spec Result {
+80 silly cache add   raw: 'path-parse@^1.0.5',
+80 silly cache add   scope: null,
+80 silly cache add   name: 'path-parse',
+80 silly cache add   rawSpec: '^1.0.5',
+80 silly cache add   spec: '>=1.0.5 <2.0.0',
+80 silly cache add   type: 'range' }
+81 silly addNamed path-parse@>=1.0.5 <2.0.0
+82 verbose addNamed ">=1.0.5 <2.0.0" is a valid semver range for path-parse
+83 silly addNameRange { name: 'path-parse', range: '>=1.0.5 <2.0.0', hasData: false }
+84 silly mapToRegistry name path-parse
+85 silly mapToRegistry using default registry
+86 silly mapToRegistry registry https://registry.npmjs.org/
+87 silly mapToRegistry uri https://registry.npmjs.org/path-parse
+88 verbose addNameRange registry:https://registry.npmjs.org/path-parse not in flight; fetching
+89 verbose get https://registry.npmjs.org/path-parse not expired, no request
+90 silly addNameRange number 2 { name: 'path-parse', range: '>=1.0.5 <2.0.0', hasData: true }
+91 silly addNameRange versions [ 'path-parse',
+91 silly addNameRange   [ '1.0.0', '1.0.1', '1.0.2', '1.0.3', '1.0.4', '1.0.5' ] ]
+92 silly addNamed path-parse@1.0.5
+93 verbose addNamed "1.0.5" is a plain semver version for path-parse
+94 silly cache afterAdd path-parse@1.0.5
+95 verbose afterAdd /home/asira/.npm/path-parse/1.0.5/package/package.json not in flight; writing
+96 verbose afterAdd /home/asira/.npm/path-parse/1.0.5/package/package.json written
+97 silly loadAllDepsIntoIdealTree Finishing
+98 silly idealTree:prePrune lib
+98 silly idealTree:prePrune └─┬ karma-cli@1.0.1
+98 silly idealTree:prePrune   ├── path-parse@1.0.5
+98 silly idealTree:prePrune   └── resolve@1.5.0
+99 silly loadIdealTree Finishing
+100 silly currentTree lib
+100 silly currentTree └─┬ karma-cli@1.0.1
+100 silly currentTree   ├── path-parse@1.0.5
+100 silly currentTree   └── resolve@1.5.0
+101 silly idealTree lib
+101 silly idealTree └─┬ karma-cli@1.0.1
+101 silly idealTree   ├── path-parse@1.0.5
+101 silly idealTree   └── resolve@1.5.0
+102 silly generateActionsToTake Starting
+103 silly install generateActionsToTake
+104 warn checkPermissions Missing write access to /usr/local/lib/node_modules/karma-cli
+105 warn checkPermissions Missing write access to /usr/local/lib/node_modules
+106 silly rollbackFailedOptional Starting
+107 silly rollbackFailedOptional Finishing
+108 silly runTopLevelLifecycles Starting
+109 silly runTopLevelLifecycles Finishing
+110 silly install printInstalled
+111 verbose stack Error: EACCES: permission denied, access '/usr/local/lib/node_modules/karma-cli'
+111 verbose stack     at Error (native)
+112 verbose cwd /home/asira/workspace/comercial/src/main/resources/static
+113 error Linux 4.4.0-116-generic
+114 error argv "/usr/bin/nodejs" "/usr/bin/npm" "install" "-g" "karma-cli"
+115 error node v4.2.6
+116 error npm  v3.5.2
+117 error path /usr/local/lib/node_modules/karma-cli
+118 error code EACCES
+119 error errno -13
+120 error syscall access
+121 error Error: EACCES: permission denied, access '/usr/local/lib/node_modules/karma-cli'
+121 error     at Error (native)
+121 error  { [Error: EACCES: permission denied, access '/usr/local/lib/node_modules/karma-cli']
+121 error   errno: -13,
+121 error   code: 'EACCES',
+121 error   syscall: 'access',
+121 error   path: '/usr/local/lib/node_modules/karma-cli' }
+122 error Please try running this command again as root/Administrator.
+123 verbose exit [ -13, true ]

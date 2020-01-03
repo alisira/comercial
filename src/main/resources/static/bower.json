@@ -1,0 +1,34 @@
+{
+  "name": "comercial",
+  "homepage": "https://github.com/alisira/comercial",
+  "authors": [
+    "Ali Sira <alisirar@gmail.com>"
+  ],
+  "description": "Sistema de Prueba Comercial",
+  "main": "app.js",
+  "license": "MIT",
+  "dependencies": {
+    "angular": "~1.6.x",
+    "angular-routing": "*",
+    "angular-animate": "*",
+    "angular-sanitize": "*",
+    "angular-touch": "*",
+    "angular-ui-router": "*",
+    "ngDialog": "*",
+    "requirejs": "*",
+    "bootstrap": "3.3.7",
+    "jquery": "^3.3.1",
+    "moment": "momentjs#^2.21.0",
+    "angular-bootstrap": "^2.5.0",
+    "karma-jasmine": "^1.1.1",
+    "angular-mocks": "^1.6.9",
+    "less": "^3.0.0"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

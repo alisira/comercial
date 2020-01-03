@@ -1,0 +1,28 @@
+@import "myfile.less";
+
+.myclass2 {
+   color: #FF0000;
+}
+
+@color1: #ca428b;
+.div1 {
+   background-color : @color1;
+}
+
+.div2 {
+   background-color : @color1;
+}
+
+@selector: h2;
+
+@{selector} {
+   background: #2ECCFA;
+}
+
+@images: "http://www.tutorialspoint.com";
+
+.myclass {
+   background : url("@images less/images/less_variables/birds.jpg");
+   width:800px;
+   height:500px;
+}

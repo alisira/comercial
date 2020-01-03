@@ -1,0 +1,258 @@
+<div class="container spark-screen">
+    <br/>
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/#!">Home</a></li>
+                <li><a href="{{relativePath}}/list">Listar</a></li>
+                <li class="active">Editar {{ appTitle }}</li>
+            </ol>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+
+                        <div class="panel-heading">
+                        	<div class="form-group">
+                        		<a class="btn btn-primary" href="{{relativePath}}/new"  role="button">Nuevo</a>
+                        	</div>
+                        </div>
+
+                        <div class="panel-body">
+                            <form ng-submit="actionSubmit()" name="form" class="form-horizontal" novalidate validate-form>
+	                            <div class="col-md-4">
+	                                <div class="form-group">
+	                                    <label>Código</label>
+	                                    <input type="text" placeholder="Ingrese un código alfanumérico" class="form-control" ng-model="product.code"  validate-name="Código de Producto" required/>
+	                                    <span style="color:red" ng-show="form.code.$dirty && form.code.$invalid">
+											<span ng-show="form.code.$error.required">Username is required.</span>
+										</span>
+	                                </div>
+	                            </div>
+	
+	                            <div class="col-md-4">
+	                                <div class="form-group">
+	                                    <label>Nombre</label>
+	                                    <input type="text" placeholder="Ingrese el nombre" class="form-control" ng-model="product.name" validate-name="nombre" required/>
+	                                </div>
+	                            </div>
+	
+	                            <div class="col-md-4">
+	                                <div class="form-group">
+	                                    <label>Descripción</label>
+	                                    <textarea rows="5" cols="50" validate-name="descripción" placeholder="Ingrese una amplia descripción" class="form-control" ng-model="product.description"></textarea>
+	                                </div>
+	                            </div>
+	
+	                            <div class="col-md-4">
+	                                <div class="form-group">
+	                                   <label>Código de Color</label>
+	                                    <select class="form-control" ng-model="product.idColor" validate-name="Código de Color" required>
+											<option selected="selected" value="">Seleccionar</option>
+											<option selected="selected" ng-repeat="color in colors" value="{{color.idColor}}"  >{{color.denomination}}</option>
+										</select>
+									</div>									
+	                            </div>
+	
+	                            <div class="col-md-4">
+	                                <div class="form-group">
+	                                    <label>Precio x M&sup2;</label>
+	                                    <input type="number" min="0" step="any" name="price" placeholder="Ingrese el precio" class="form-control"  ng-model="product.price" validate-name="Precio x M&sup2" required/>
+	                                </div>
+	                            </div>
+	                            
+	                            <div class="col-md-4">
+	                                <div class="form-group">
+	                                    <label>Precio Muestra</label>
+	                                    <input type="number" min="0" step="any" name="price_sample" placeholder="Ingrese el precio de la Muestra" class="form-control"  ng-model="product.priceSample"/>
+	                                </div>
+	                            </div>
+	
+	                            <div class="col-md-4">
+	                                <div class="form-group">
+	                                    <label>Medida (M&sup2;/Caja)</label>
+	                                    <input type="number" min="0" step="any" name="measure" placeholder="Ingrese la medida" class="form-control" ng-model="product.measure" validate-name="Medida (M&sup2;/Caja)" required/>
+	                                </div>
+	                            </div>
+	
+	                            <div class="col-md-4">
+	                                <div class="form-group">
+	                                    <label>Stock M&sup2;</label>
+	                                    <input type="number" name="stock" min="0" step="any" placeholder="Ingrese el stock actual"  class="form-control" ng-model="product.stock" validate-name="Stock M&sup2;" required/>
+	                                </div>
+	                            </div>
+
+	                             <div class="col-md-4">
+	                                <div class="form-group">
+	                                    <label>Palmetas por Caja </label>
+	                                    <input type="number" name="item_box" min="0" placeholder="Ingrese las palmetas por caja"  class="form-control" ng-model="product.itemBox" />
+	                                </div>
+	                            </div>
+
+	                            <div class="col-md-4">
+	                                <div class="form-group">
+	                                    <label>Kilogramos por Caja</label>
+	                                    <input type="number" name="kg_meter" min="0" step="any" placeholder="Ingrese Kilogramos por metro"  class="form-control" ng-model="product.kgMeter" />
+	                                </div>
+	                            </div>
+
+	                            <div class="col-md-4">
+	                                <div class="form-group">
+	                                    <label>Ambiente:</label>
+										<select class="form-control" ng-model="product.idEnviroment" validate-name="Código de Ambiente" required>
+											<option selected="selected" value="" >Seleccionar</option>
+											<option selected="selected" ng-repeat="enviroment in enviroments" value="{{enviroment.idEnviroment}}"  >{{enviroment.denomination}}</option>
+										</select>										
+	                                </div>
+	                            </div>
+
+	                            <div class="col-md-4">
+	                                <div class="form-group">
+	                                    <label>Material</label>                                    
+	                                    <select class="form-control" ng-model="product.material" validate-name="Material" required>
+										  	<option value="">Seleccionar</option>
+										  	<option value="porcelanato">Porcelanato</option>
+										  	<option value="ceramica">Ceramica</option>									  	
+										</select>
+	                                </div>
+	                            </div>
+
+	                            <div class="col-md-4">
+	                                <div class="form-group">
+	                                    <label>Acabado</label>                                    
+	                                    <select class="form-control" ng-model="product.finish" validate-name="Acabado" required>
+										  	<option value="">Seleccionar</option>
+										  	<option value="obscuro">Obscuro</option>
+										  	<option value="claro">Claro</option>
+										  	<option value="fino">Fino</option>
+										</select>
+	                                </div>
+	                            </div>
+
+	                            <div class="col-md-4">
+	                                <div class="form-group">
+	                                    <label>Purpose</label>
+	                                    <select class="form-control" ng-model="product.idPurpose" validate-name="Propósito" required>
+	                                    	<option selected="selected" value="">Seleccionar</option>
+											<option selected="selected" ng-repeat="purpose in purposes" value="{{purpose.idPurpose}}"  >{{purpose.denomination}}</option>											
+										</select>
+	                                </div>
+	                            </div>
+
+	                            <div class="col-md-4">
+	                                <div class="form-group">
+	                                    <label>Tamaño</label>
+	                                    <input type="text" name="size" placeholder="Ingrese Tamaño"  class="form-control" ng-model="product.size" />
+	                                </div>
+	                            </div>
+
+	                            <div class="col-md-4">
+	                                <div class="form-group">
+	                                    <label>Categoría:</label>
+										<select class="form-control" ng-model="product.idCategory" validate-name="Categoría" required>
+											<option selected="selected" value="">Seleccionar</option>
+											<option selected="selected" ng-repeat="category in categories" value="{{category.idCategory}}"  >{{category.denomination}}</option>
+										</select>
+
+	                                </div>
+	                            </div>
+	
+	                            <div class="col-md-4">
+	                                <div class="form-group">
+	                                    <label>Estatus</label>
+										<select class="form-control" ng-model="product.idStatus" validate-name="Estatus" required>
+											<option selected="selected" value="">Seleccionar</option>
+											<option selected="selected" ng-repeat="status in statuses" value="{{status.idStatus}}"  >{{status.denomination}}</option>											
+										</select>
+	                                </div>
+	                            </div>
+
+	                            <div class="col-md-4">
+	                                <div class="form-group" data-toggle="modal" data-target="#myModal">
+	                                    <label>Buscar Productos</label>
+										<button class="btn btn-primary btn-block" type="button">
+											Haga click aqui para buscar 
+											<span class="glyphicon glyphicon-search"> </span>
+											<i class="fa fa-refreshh fa-spin"></i>
+										</button>										
+	                                </div>
+	                                <relationated-product title="Buscar Productos" id-product="product.idProduct" list-relationated-products="listRelationatedProducts"></relationated-product>
+	                            </div>
+
+	                            <div class="col-md-4" style="height:300px; overflow: auto;">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="table-responsive">
+
+												<div class="form-group">
+													<label>Productos Relacionados</label>
+
+													<table class="table table-hover">
+														<thead>
+															<tr>
+																<th>Código</th>
+																<th>Nombre</th>
+																<th>Acción</th>
+															</tr>
+														</thead>
+
+														<tbody>
+															<tr
+																ng-repeat="list in listRelationatedProducts | orderBy: 'name'">
+																<td>
+																	<div class="media">
+																		<a href="{{relativePath+'/edit/'+list.idProduct}}">{{list.code}}</a>
+																	</div>
+																</td>
+
+																<td>
+																	<div class="media">{{list.name}}</div>
+																</td>
+																<td>
+																	<div class="media">
+																		<a href=""
+																			ng-click="removeRelaProduct(list.idProductRelation);"
+																			title="Pulse para eliminar de los Productos Relacionados">
+																			<i class="fa fa-trash fa-2x"></i>
+																		</a>
+																	</div>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+
+	                            <div class="col-md-4">
+									<div class="form-group">
+								 		<label>Imagen de Muestra</label>
+										<input id="upload_image" type="file" name="files[]" multiple class="btn btn-primary form-control hidden" ng-model="archivo" ng-disabled="disabled" file-load>
+										<a class="btn  btn-primary trans-button btn-block" ng-click="OnUpload(this)"> 
+											<i class="fa fa-camera"></i> Cargar foto
+										</a>
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<span ng-if="image">
+											<img id="imgModel" ng-src={{image.url}} class="img-responsive center-block" width="400" height="400">
+										</span>	
+									</div>
+								</div>
+
+								<!--  <button type="submit" class="btn btn-primary btn-block" ng-disabled="form.$invalid">{{submitTitle}}</button>-->	                            
+	                            <button type="submit" class="btn btn-primary btn-block">{{submitTitle}}</button>
+
+							</form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
